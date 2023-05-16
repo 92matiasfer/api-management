@@ -3,7 +3,7 @@ package uy.com.stronghold.apimanagement.models;
 public class Box {
 
 	private int id;
-	private String nombre;
+	private String name;
 	private int calculationType;
 	
 	
@@ -13,11 +13,11 @@ public class Box {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public int getCalculationType() {
 		return calculationType;
@@ -26,10 +26,10 @@ public class Box {
 		this.calculationType = calculationType;
 	}
 	
-	public Box(int id, String nombre, int calculationType) {
+	public Box(int id, String name, int calculationType) {
 		super();
 		this.id = id;
-		this.nombre = nombre;
+		this.name = name;
 		this.calculationType = calculationType;
 	}
 	
