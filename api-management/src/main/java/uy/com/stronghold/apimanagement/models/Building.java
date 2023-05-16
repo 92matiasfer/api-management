@@ -4,6 +4,7 @@ public class Building {
 
 	private int id;
 	private String name;
+	private String address;
 	
 	
 	
@@ -22,14 +23,23 @@ public class Building {
 		this.name = name;
 	}
 	
+		
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	
 	public Building() {
 		super();
 	}
-	public Building(int id, String name) {
+
+	public Building(int id, String name, String address) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.address = address;
 	}
 	
 	
