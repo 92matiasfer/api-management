@@ -1,10 +1,12 @@
 package uy.com.stronghold.apimanagement.models;
 
 public class Surcharge {
+	
 	private int id;
 	private String description;
 	private float percentage;
 	private int dayDeadline;
+	
 	public int getId() {
 		return id;
 	}
@@ -37,6 +39,12 @@ public class Surcharge {
 		this.percentage = percentage;
 		this.dayDeadline = dayDeadline;
 	}
+	
+	public Surcharge() {
+		super();
+	}
+	
+	
 	
 	
 	
