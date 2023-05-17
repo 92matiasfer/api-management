@@ -8,15 +8,23 @@ public class Unit {
 	private Building building;
 	private String number;
 	private float coefficient;
+	private float area; 
 	private UnitType unitType;
+	private Person person;	
 	
 	
-	
-	
-	
-	
-	
-	
+	public float getArea() {
+		return area;
+	}
+	public void setArea(float area) {
+		this.area = area;
+	}
+	public Person getPerson() {
+		return person;
+	}
+	public void setPerson(Person person) {
+		this.person = person;
+	}
 	public int getId() {
 		return id;
 	}
@@ -51,13 +59,18 @@ public class Unit {
 	public Unit() {
 		super();
 	}
-	public Unit(int id, Building building, String number, float coefficient, UnitType unitType) {
+	public Unit(int id, Building building, String number, float coefficient, float area, UnitType unitType,
+			Person person) {
 		super();
 		this.id = id;
 		this.building = building;
 		this.number = number;
 		this.coefficient = coefficient;
+		this.area = area;
 		this.unitType = unitType;
+		this.person = person;
 	}
+
+	
 	
 }
