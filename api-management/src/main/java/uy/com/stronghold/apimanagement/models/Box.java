@@ -6,7 +6,7 @@ public class Box {
 	private String name;
 	private int calculationType;
 	
-	
+
 	public int getId() {
 		return id;
 	}
@@ -32,11 +32,5 @@ public class Box {
 		this.name = name;
 		this.calculationType = calculationType;
 	}
-	
-	
-	
-	private int id;
-	private String name;
-	
 	
 }
