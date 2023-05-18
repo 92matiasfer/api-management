@@ -4,7 +4,8 @@ public class Box {
 
 	private int id;
 	private String name;
-	private int calculationType;
+	private CalculationMethod calculationMethod;
+	private Building building;
 	
 
 	public int getId() {
@@ -19,18 +20,32 @@ public class Box {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getCalculationType() {
-		return calculationType;
+
+	public CalculationMethod getCalculationMethod() {
+		return calculationMethod;
 	}
-	public void setCalculationType(int calculationType) {
-		this.calculationType = calculationType;
+	public void setCalculationMethod(CalculationMethod calculationMethod) {
+		this.calculationMethod = calculationMethod;
+	}
+	public Building getBuilding() {
+		return building;
+	}
+	public void setBuilding(Building building) {
+		this.building = building;
 	}
 	
-	public Box(int id, String name, int calculationType) {
+
+	
+	public Box(int id, String name, CalculationMethod calculationMethod, Building building) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.calculationType = calculationType;
+		this.calculationMethod = calculationMethod;
+		this.building = building;
+	}
+
+	public Box() {
+		super();
 	}
 	
 }
