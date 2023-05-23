@@ -1,11 +1,24 @@
 package uy.com.stronghold.apimanagement.models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity(name = "person")
+@Table(name = "person", schema = "juncal_management")
 public class Person {
 	
+	@Id
+	@Column(name = "id")
 	private int id;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "ci")
 	private String ci;
+	@Column(name = "phone")
 	private String phone;
+	@Column(name = "email")
 	private String email;
 	
 		

@@ -1,13 +1,31 @@
 package uy.com.stronghold.apimanagement.models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity(name = "settlementMonth")
+@Table(name = "settlementMonth", schema = "juncal_management")
 public class SettlementMonth {
 	
+	@Id
+	@Column(name = "id")
 	private int id;
+	@Column(name = "year")
 	private int year;
+	@Column(name = "month")
 	private int month;
+	@Column(name = "previousBalance")
 	private float previousBalance;
+	@Column(name = "currentBalance")
 	private float currentBalance;
-	private Building bulding;
+	@ManyToOne
+	@JoinColumn(name = "id_building")
+	private Building building;
 	
 	public int getId() {
 		return id;
@@ -40,22 +58,23 @@ public class SettlementMonth {
 		this.currentBalance = currentBalance;
 	}
 
-	public Building getBulding() {
-		return bulding;
+	public Building getBuilding() {
+		return building;
 	}
-	public void setBulding(Building bulding) {
-		this.bulding = bulding;
+	public void setBuilding(Building building) {
+		this.building = building;
 	}
 	
 	
-	public SettlementMonth(int id, int year, int month, float previousBalance, float currentBalance, Building bulding) {
+	public SettlementMonth(int id, int year, int month, float previousBalance, 
+			float currentBalance, Building building) {
 		super();
 		this.id = id;
 		this.year = year;
 		this.month = month;
 		this.previousBalance = previousBalance;
 		this.currentBalance = currentBalance;
-		this.bulding = bulding;
+		this.building = building;
 	}
 	
 	public SettlementMonth() {

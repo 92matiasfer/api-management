@@ -7,7 +7,7 @@ public class Box {
 	private CalculationMethod calculationMethod;
 	private Building building;
 	
-	
+
 	public int getId() {
 		return id;
 	}
@@ -43,17 +43,9 @@ public class Box {
 		this.calculationMethod = calculationMethod;
 		this.building = building;
 	}
-	
+
 	public Box() {
 		super();
 	}
-	
-	
-
-	
-	
-	
-	
-	
 	
 }
