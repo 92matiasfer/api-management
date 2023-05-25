@@ -21,9 +21,12 @@ import uy.com.stronghold.apimanagement.models.Building;
 @RestController
 public interface IBuildingController {
 
-	@GetMapping(value={"/buildings", "/buildings/{id}"})
-	public ResponseEntity<Object> getBuildings(@PathVariable("id") Optional<String> idParam,
-			@RequestParam("name") Optional<String> nameParam,
+	@GetMapping(value="/buildings/{id}")
+	public ResponseEntity<Object> getBuilding(@PathVariable("id") Optional<String> idParam,
+			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
+	
+	@GetMapping(value="/buildings")
+	public ResponseEntity<Object> getBuildings(@RequestParam("name") Optional<String> nameParam, 
 			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
 	
 	@PostMapping(value="/buildings")
