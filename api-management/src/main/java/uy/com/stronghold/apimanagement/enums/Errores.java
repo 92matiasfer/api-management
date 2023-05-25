@@ -12,6 +12,7 @@ public enum Errores implements ErroresInterface {
 	TYPE_INVALID(2, "3", "El tipo ingresado no es valido.", HttpStatus.BAD_REQUEST),
 	INTEGER_INVALID(14, "14", "Información ingresada para campo numérico no valido.", HttpStatus.BAD_REQUEST),
 	
+	BUILDING_NOT_FOUND(1, "1", "Edificio no encontrado", HttpStatus.NOT_FOUND),
 	REGISTRO_NOT_FOUND(12, "4", "El registro no existe", HttpStatus.NOT_FOUND);
 	
 

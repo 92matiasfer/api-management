@@ -11,8 +11,10 @@ import uy.com.stronghold.apimanagement.models.Building;
 @Repository
 public interface IBuildingRepository extends JpaRepository<Building, Long> {
 
+
+	@Query("SELECT b FROM building b WHERE b.id = :id")
+	Building getBuilding(int id);
 	
-	@Query("SELECT b FROM building b WHERE (:id IS NULL OR b.id = :id) "
-			+ "AND (:name IS NULL OR b.name = :name)")
-	List<Building> getBuildings(int id, String name);
+	@Query("SELECT b FROM building b WHERE (:name IS NULL OR b.name = :name)")
+	List<Building> getBuildings(String name);
 }

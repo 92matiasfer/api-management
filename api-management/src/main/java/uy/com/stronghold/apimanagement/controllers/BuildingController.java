@@ -1,11 +1,13 @@
 package uy.com.stronghold.apimanagement.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -26,22 +28,41 @@ public class BuildingController implements IBuildingController {
 	
 
 	@Override
-	public ResponseEntity<Object> getBuildings(Optional<String> idParam, Optional<String> nameParam,
+	public ResponseEntity<Object> getBuilding(Optional<String> idParam, 
 			HttpHeaders headers, HttpServletRequest request) throws ValidationException {
 		
 		//Normalizo y valido la entrada de los datos
 		int id = validation.getInteger(idParam);
-		String name = validation.normalizeInput(nameParam);
 		
-		List<Building> buildings = apiManagementServiceImp.getBuildings(id, name);
+		Building building = apiManagementServiceImp.getBuilding(id);
 		
-		return new ResponseEntity<Object>(buildings, HttpStatus.OK);
+		return new ResponseEntity<Object>(building, HttpStatus.OK);
 
+	}
+	
+	@Override
+	public ResponseEntity<Object> getBuildings(Optional<String> nameParam,
+			HttpHeaders headers, HttpServletRequest request) throws ValidationException {
+		List<Building> buildings = new ArrayList<>();
+		try {
+			//Normalizo y valido la entrada de los datos
+			String name = validation.normalizeInput(nameParam);
+			buildings = apiManagementServiceImp.getBuildings(name);
+		} catch (ValidationException e) {
+			System.out.println("ValidationException en controller");
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Object>(buildings, e.geterror().getHttpStatus());
+		} catch (Exception ex) {
+			System.out.println("Exception en controller");
+			System.out.println(ex.getMessage());
+			return new ResponseEntity<Object>(buildings, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Object>(buildings, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<Object> saveBuilding(Building building, HttpHeaders headers, HttpServletRequest request) throws ValidationException {
-		// TODO Auto-generated method stub
+	
 		return null;
 	}
 
