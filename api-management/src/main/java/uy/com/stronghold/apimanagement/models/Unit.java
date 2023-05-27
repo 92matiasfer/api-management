@@ -25,7 +25,7 @@ public class Unit {
 	private float coefficient;
     @Column(name = "area")
 	private float area; 
-	private UnitType unitType;
+//	private UnitType unitType;
 //	@JoinColumn(name = "id_person")
 //	private Person person;	
 	
@@ -66,24 +66,24 @@ public class Unit {
 	public void setCoefficient(float coefficient) {
 		this.coefficient = coefficient;
 	}
-	public UnitType getUnitType() {
-		return unitType;
-	}
-	public void setUnitType(UnitType unitType) {
-		this.unitType = unitType;
-	}
+//	public UnitType getUnitType() {
+//		return unitType;
+//	}
+//	public void setUnitType(UnitType unitType) {
+//		this.unitType = unitType;
+//	}
 	
 	public Unit() {
 		super();
 	}
-	public Unit(int id, Building building, String number, float coefficient, float area, UnitType unitType) {
+	public Unit(int id, Building building, String number, float coefficient, float area) {
 		super();
 		this.id = id;
 		this.building = building;
 		this.number = number;
 		this.coefficient = coefficient;
 		this.area = area;
-		this.unitType = unitType;
+//		this.unitType = unitType;
 //		this.person = person;
 	}
 

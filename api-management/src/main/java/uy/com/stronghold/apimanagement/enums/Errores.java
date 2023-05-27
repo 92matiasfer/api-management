@@ -7,6 +7,7 @@ import uy.com.stronghold.apimanagement.exceptions.ErroresInterface;
 public enum Errores implements ErroresInterface {
 
 	ERROR_INTERNO(1, "1", "Error Interno", HttpStatus.INTERNAL_SERVER_ERROR), 
+	ERROR_SAVE_BUILDING(1, "1", "El edificio no se ha podido guardar correctamente", HttpStatus.INTERNAL_SERVER_ERROR),
 	
 	CAMPOS_NULL(2, "2", "Campos nulos o vacíos. Debe ingresar algun valor.", HttpStatus.BAD_REQUEST),
 	TYPE_INVALID(2, "3", "El tipo ingresado no es valido.", HttpStatus.BAD_REQUEST),
