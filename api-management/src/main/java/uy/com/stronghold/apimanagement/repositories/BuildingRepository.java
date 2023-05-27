@@ -20,4 +20,12 @@ public class BuildingRepository {
 	public List<Building> getBuildings(String name) {
 		return buildingRepository.getBuildings(name);
 	}
+
+	public Building saveBuilding(Building building) {
+		return buildingRepository.save(building);
+	}
+
+	public void deleteBuilding(Building building) {
+		buildingRepository.delete(building);
+	}
 }

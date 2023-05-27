@@ -3,6 +3,8 @@ package uy.com.stronghold.apimanagement.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,7 +30,8 @@ public class Building {
 	@Column(name = "total_meters")
 	private float totalMeters;
 	@OneToMany(mappedBy = "building")
-	private List<Unit> units = new ArrayList<>();
+	private List<Unit> units;
+	@JsonIgnore
 	@OneToMany(mappedBy = "building")
 	private List<SettlementMonth> settlementMonths = new ArrayList<>();
 
