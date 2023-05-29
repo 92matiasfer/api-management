@@ -6,6 +6,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import uy.com.stronghold.apimanagement.enums.Errores;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
+import uy.com.stronghold.apimanagement.models.Building;
 
 import java.util.Map;
 import java.util.Optional;
@@ -105,5 +106,15 @@ public class ValidationUtil {
 		} catch (NumberFormatException nfe){
 			return false;
 		}
+	}
+
+
+	public void validateSaveBuilding(Building building) throws ValidationException {
+		if(building == null) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateUpdateBuilding(Building building) throws ValidationException {
+		if(building == null || building.getId() <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
 	}
 }

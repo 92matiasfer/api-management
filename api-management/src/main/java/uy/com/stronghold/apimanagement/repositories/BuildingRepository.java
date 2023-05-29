@@ -13,7 +13,19 @@ public class BuildingRepository {
 	@Autowired
 	private IBuildingRepository buildingRepository;
 
-	public List<Building> getBuildings(int id, String name) {
-		return buildingRepository.getBuildings(id, name);
+	public Building getBuilding(int id) {
+		return buildingRepository.getBuilding(id);
+	}
+	
+	public List<Building> getBuildings(String name) {
+		return buildingRepository.getBuildings(name);
+	}
+
+	public Building saveBuilding(Building building) {
+		return buildingRepository.save(building);
+	}
+
+	public void deleteBuilding(Building building) {
+		buildingRepository.delete(building);
 	}
 }
