@@ -16,14 +16,14 @@ import uy.com.stronghold.apimanagement.enums.Errores;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Building;
 import uy.com.stronghold.apimanagement.repositories.BuildingRepository;
-import uy.com.stronghold.apimanagement.resources.ApiManagementServiceImp;
+import uy.com.stronghold.apimanagement.resources.ApiManagementImp;
 import uy.com.stronghold.apimanagement.utils.ValidationUtil;
 
 @Controller
 public class BuildingController implements IBuildingController {
 
 	@Autowired
-	ApiManagementServiceImp apiManagementServiceImp;
+	ApiManagementImp apiManagementServiceImp;
 	@Autowired
 	ValidationUtil validation;
 	
