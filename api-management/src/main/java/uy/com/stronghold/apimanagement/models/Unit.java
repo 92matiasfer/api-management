@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import uy.com.stronghold.apimanagement.enums.UnitType;
 
@@ -25,9 +26,10 @@ public class Unit {
 	private float coefficient;
     @Column(name = "area")
 	private float area; 
-//	private UnitType unitType;
-//	@JoinColumn(name = "id_person")
-//	private Person person;	
+	private UnitType unitType;
+	@OneToOne
+	@JoinColumn(name = "id_person")
+	private Person person;	
 	
 	
 	public float getArea() {
@@ -36,12 +38,12 @@ public class Unit {
 	public void setArea(float area) {
 		this.area = area;
 	}
-//	public Person getPerson() {
-//		return person;
-//	}
-//	public void setPerson(Person person) {
-//		this.person = person;
-//	}
+	public Person getPerson() {
+		return person;
+	}
+	public void setPerson(Person person) {
+		this.person = person;
+	}
 	public int getId() {
 		return id;
 	}
@@ -66,25 +68,25 @@ public class Unit {
 	public void setCoefficient(float coefficient) {
 		this.coefficient = coefficient;
 	}
-//	public UnitType getUnitType() {
-//		return unitType;
-//	}
-//	public void setUnitType(UnitType unitType) {
-//		this.unitType = unitType;
-//	}
+	public UnitType getUnitType() {
+		return unitType;
+	}
+	public void setUnitType(UnitType unitType) {
+		this.unitType = unitType;
+	}
 	
 	public Unit() {
 		super();
 	}
-	public Unit(int id, Building building, String number, float coefficient, float area) {
+	public Unit(int id, Building building, String number, float coefficient, float area, UnitType unitType, Person person) {
 		super();
 		this.id = id;
 		this.building = building;
 		this.number = number;
 		this.coefficient = coefficient;
 		this.area = area;
-//		this.unitType = unitType;
-//		this.person = person;
+		this.unitType = unitType;
+		this.person = person;
 	}
 
 	
