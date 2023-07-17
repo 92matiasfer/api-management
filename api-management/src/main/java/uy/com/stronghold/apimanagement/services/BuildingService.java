@@ -3,12 +3,14 @@ package uy.com.stronghold.apimanagement.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import uy.com.stronghold.apimanagement.enums.Errores;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Building;
 import uy.com.stronghold.apimanagement.repositories.BuildingRepository;
 
+@Service
 public class BuildingService implements IBuildingService {
 
 	@Autowired
@@ -40,7 +42,4 @@ public class BuildingService implements IBuildingService {
 		repository.deleteBuilding(building);
 	}
 
-	
-	
-	
 }

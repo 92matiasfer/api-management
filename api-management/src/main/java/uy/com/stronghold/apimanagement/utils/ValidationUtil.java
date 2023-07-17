@@ -5,6 +5,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
 import uy.com.stronghold.apimanagement.enums.Errores;
+import uy.com.stronghold.apimanagement.enums.UnitType;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Building;
 
@@ -116,5 +117,24 @@ public class ValidationUtil {
 
 	public void validateUpdateBuilding(Building building) throws ValidationException {
 		if(building == null || building.getId() <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public UnitType getUnitType(Optional<String> unitTypeParam) throws ValidationException {
+		String unitType = unitTypeParam.orElse("");
+		return getUnitType(unitType);
+	}
+
+
+	private UnitType getUnitType(String unitType) throws ValidationException {
+		if(unitType.equalsIgnoreCase(UnitType.renter.toString())) {
+			return UnitType.renter;
+		} else if(unitType.equalsIgnoreCase(UnitType.owner.toString())) {
+			return UnitType.owner;
+		} else if(unitType.equalsIgnoreCase(UnitType.both.toString())) {
+			return UnitType.both;
+		} else {
+			throw new ValidationException(Errores.UNIT_TYPE_INVALID);
+		}
 	}
 }
