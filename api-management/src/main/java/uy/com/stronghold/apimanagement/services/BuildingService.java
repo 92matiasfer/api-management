@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import uy.com.stronghold.apimanagement.enums.Errores;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Building;
-import uy.com.stronghold.apimanagement.repositories.BuildingRepository;
+import uy.com.stronghold.apimanagement.repositories.IBuildingRepository;
 
 @Service
 public class BuildingService implements IBuildingService {
 
 	@Autowired
-	private BuildingRepository repository;
+	private IBuildingRepository repository;
 	
 	@Override
 	public Building getBuilding(int id) throws ValidationException {
@@ -33,13 +33,19 @@ public class BuildingService implements IBuildingService {
 
 	@Override
 	public void saveBuilding(Building building) throws ValidationException {
-		Building newBuilding =  repository.saveBuilding(building);
-		if(newBuilding == null) throw new ValidationException(Errores.BUILDING_NOT_FOUND);
+		if(repository.save(building) == null) throw new ValidationException(Errores.ERROR_SAVE_BUILDING);
+	}
+	
+	@Override
+	public void updateBuilding(Building building) throws ValidationException {
+		if(repository.save(building) == null) throw new ValidationException(Errores.ERROR_UPDATE_BUILDING);
 	}
 
 	@Override
 	public void deleteBuilding(Building building) {
-		repository.deleteBuilding(building);
+		repository.delete(building);
 	}
+
+	
 
 }

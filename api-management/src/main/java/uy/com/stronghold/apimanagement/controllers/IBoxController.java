@@ -18,31 +18,36 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
-import uy.com.stronghold.apimanagement.models.Unit;
+import uy.com.stronghold.apimanagement.models.Box;
+
+
 
 @RestController
-public interface IUnitController {
+public interface IBoxController {
 
-	@GetMapping(value="/units/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getUnit(@PathVariable("id") Optional<String> idParam,
+	@GetMapping(value="/boxes/{id}")
+	public ResponseEntity<Object> getBox(@PathVariable("id") Optional<String> idParam,
+			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
+
+	@GetMapping(value="/boxes")
+	public ResponseEntity<Object> getBoxes(@RequestParam("name") Optional<String> nameParam, 
+			@RequestParam("idBuilding") Optional<String> idBuildingParam,
 			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
 	
-	@GetMapping(value="/units", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getUnits(@RequestParam("number") Optional<String> numberParam, 
-			@RequestParam("idBuilding") Optional<String> idBuildingParam, 
-			@RequestParam("unitType") Optional<String> unitTypeParam,
+	@PostMapping(value="/boxes", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> saveBox(@RequestBody Box box,
 			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
-	
-	@PostMapping(value="/units", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> saveUnit(@RequestBody Unit unit,
+
+	@PutMapping(value="/boxes")
+	public ResponseEntity<Object> updateBox(@RequestBody Box box,
 			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
-	
-	@PutMapping(value="/units", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateUnit(@RequestBody Unit unit,
+
+	@DeleteMapping(value="/boxes/{id}")
+	public ResponseEntity<Object> deleteBox(@PathVariable("id") Optional<String> idParam,
 			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
-	
-	@DeleteMapping(value="/units/{id}")
-	public ResponseEntity<Object> deleteUnit(@PathVariable("id") Optional<String> idParam,
-			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
-	
+
+
+
+
+
 }

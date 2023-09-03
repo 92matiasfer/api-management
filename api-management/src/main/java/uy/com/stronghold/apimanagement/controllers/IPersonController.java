@@ -18,31 +18,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
-import uy.com.stronghold.apimanagement.models.Unit;
+import uy.com.stronghold.apimanagement.models.Person;
 
 @RestController
-public interface IUnitController {
+public interface IPersonController {
 
-	@GetMapping(value="/units/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getUnit(@PathVariable("id") Optional<String> idParam,
+	@GetMapping(value="/persons/{id}")
+	public ResponseEntity<Object> getPerson(@PathVariable("id") Optional<String> idParam,
+			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
+
+	@GetMapping(value="/persons")
+	public ResponseEntity<Object> getPersons(@RequestParam("name") Optional<String> nameParam, 
 			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
 	
-	@GetMapping(value="/units", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getUnits(@RequestParam("number") Optional<String> numberParam, 
-			@RequestParam("idBuilding") Optional<String> idBuildingParam, 
-			@RequestParam("unitType") Optional<String> unitTypeParam,
+	@PostMapping(value="/persons", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> savePerson(@RequestBody Person person,
 			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
 	
-	@PostMapping(value="/units", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> saveUnit(@RequestBody Unit unit,
+	@PutMapping(value="/persons", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> updatePerson(@RequestBody Person person,
 			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
 	
-	@PutMapping(value="/units", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateUnit(@RequestBody Unit unit,
+	@DeleteMapping(value="/persons/{id}")
+	public ResponseEntity<Object> deletePerson(@PathVariable("id") Optional<String> idParam,
 			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
 	
-	@DeleteMapping(value="/units/{id}")
-	public ResponseEntity<Object> deleteUnit(@PathVariable("id") Optional<String> idParam,
-			@RequestHeader HttpHeaders headers, HttpServletRequest request) throws ValidationException;
 	
 }
