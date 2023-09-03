@@ -3,14 +3,24 @@ package uy.com.stronghold.apimanagement.utils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerMapping;
 
-import jakarta.servlet.http.HttpServletRequest;
 import uy.com.stronghold.apimanagement.enums.Errores;
+import uy.com.stronghold.apimanagement.enums.TransactionType;
 import uy.com.stronghold.apimanagement.enums.UnitType;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
+import uy.com.stronghold.apimanagement.models.Box;
 import uy.com.stronghold.apimanagement.models.Building;
+import uy.com.stronghold.apimanagement.models.Person;
+import uy.com.stronghold.apimanagement.models.SettlementMonth;
+import uy.com.stronghold.apimanagement.models.Supplier;
+import uy.com.stronghold.apimanagement.models.SupplierTransaction;
+import uy.com.stronghold.apimanagement.models.Unit;
+import uy.com.stronghold.apimanagement.models.UnitTransaction;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
@@ -114,11 +124,17 @@ public class ValidationUtil {
 		if(building == null) throw new ValidationException(Errores.CAMPOS_NULL);
 	}
 
-
 	public void validateUpdateBuilding(Building building) throws ValidationException {
 		if(building == null || building.getId() <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
 	}
 
+	public void validateSaveUnit(Unit unit) throws ValidationException {
+		if(unit == null) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+	
+	public void validateUpdateUnit(Unit unit) throws ValidationException {
+		if(unit == null || unit.getId()  <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
 
 	public UnitType getUnitType(Optional<String> unitTypeParam) throws ValidationException {
 		String unitType = unitTypeParam.orElse("");
@@ -137,4 +153,86 @@ public class ValidationUtil {
 			throw new ValidationException(Errores.UNIT_TYPE_INVALID);
 		}
 	}
+
+
+	public SettlementMonth getSettlementMonth(Optional<String> idSettlementMonthParam) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public TransactionType getTransactionType(Optional<String> typeParam) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Date getDate(Optional<String> dateFromParam) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public void validateSaveUnitTransaction(UnitTransaction transaction) throws ValidationException {
+		if(transaction == null) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateSaveSupplierTransaction(SupplierTransaction transaction) throws ValidationException {
+		if(transaction == null) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateUpdateUnitTransaction(UnitTransaction transaction) throws ValidationException {
+		if(transaction == null || transaction.getId()  <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateUpdateSupplierTransaction(SupplierTransaction transaction) throws ValidationException {
+		if(transaction == null || transaction.getId()  <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateSaveBox(Box box) throws ValidationException {
+		if(box == null) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateUpdateBox(Box box) throws ValidationException {
+		if(box == null || box.getId()  <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateSaveSupplier(Supplier supplier) throws ValidationException {
+		if(supplier == null) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateUpdateSupplier(Supplier supplier) throws ValidationException {
+		if(supplier == null || supplier.getId()  <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateSavePerson(Person person) throws ValidationException {
+		if(person == null) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateUpdatePerson(Person person) throws ValidationException {
+		if(person == null || person.getId()  <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateSaveSettlementMonths(SettlementMonth settlementMonth) throws ValidationException {
+		if(settlementMonth == null) throw new ValidationException(Errores.CAMPOS_NULL);
+	}
+
+
+	public void validateUpdateSettlementMonths(SettlementMonth settlementMonth) throws ValidationException {
+		if(settlementMonth == null || settlementMonth.getId()  <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
+	} 
+
+
+
+	
 }

@@ -13,5 +13,5 @@ public interface IApiManagementImp {
 
 	public void saveBuilding(Building building) throws ValidationException;
 
-	public void deleteBuilding(Building building);
+	public void deleteBuilding(Building building) throws ValidationException;
 }
