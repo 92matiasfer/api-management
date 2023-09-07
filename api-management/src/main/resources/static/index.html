@@ -1,0 +1,3000 @@
+<html>
+	<head>
+	    <title>Administración Juncal</title>
+	    <meta name="viewport" content="minimal-ui, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	    <meta name="apple-mobile-web-app-capable" content="yes"/>
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	    <meta name="msapplication-tap-highlight" content="no" />
+	    <meta name="format-detection" content="telephone=no" />
+	
+		<link rel="stylesheet" href="mobileui/mui.min.css" type="text/css">
+	    <link rel="stylesheet" href="custom/custom.css" type="text/css">
+	    <link rel="stylesheet" href="keen/keen-ui.min.css">
+	    
+	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	    
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="pwa/vue.js"></script>
+	    <script src="phonegap.js"></script>		
+	 	<script src="vendors/fastclick.min.js" type="text/javascript"></script>    	 	
+	    	
+	    <script src="vendors/jquery.min.js" type="text/javascript"></script>
+	    <script src="vendors/jquery.animate-enhanced.js" type="text/javascript"></script>
+		<script src="vendors/jqwait/jquery.wait.min.js" type="text/javascript"></script>   
+	    <script src="vendors/iscroll-min.js" type="text/javascript"></script>
+	    
+		<script src="mobileui/mui.min.js" type="text/javascript"></script>
+		<script src="custom/data.js"></script>
+	    <script src="custom/serviceClient.js" type="text/javascript"></script>
+		
+	</head>
+	<body>
+		<div id="app" style="display: none;">	
+		<div id="mui-screen" class="mui-viewport" :class="{colpaseleft:isLeftPanelCollapsed,colpaseright:isRightPanelCollapsed }">
+			<div id="login-page" class="mui-page mui-scrollable">
+				<div class="title-login">
+<!-- 					<h2>Administración Juncal</h2> -->
+				</div>
+				<div class="login-form">
+					<div class="textbox-login">
+						<ui-textbox 
+							placeholder="Usuario"
+							:invalid="login.invalidName"
+							error="Nombre de usuario incorrecto"
+							v-model="login.userName"	
+						></ui-textbox>
+						<ui-textbox
+							placeholder="Contraseña"
+							type="password"
+							:invalid="login.invalidPassword"
+							error="Contraseña incorrecta"
+							v-model="login.password"
+						></ui-textbox>
+					</div>
+					<div align="center">
+						<div class="button-login"> 
+							<ui-button 
+								color="primary" 
+								@click="goLogin"
+								>Ingresar
+							</ui-button>
+							<ui-button 							
+								class="button-texto-blanco"
+								@click="recuperarContrasena"
+								>Recuperar contraseña
+							</ui-button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="left-panel" v-show="showLeftPanel" class="mui-panel mui-left-panel">
+				<div class="mui-panel-header">
+<!-- 					<div class='mui-panel-title'>Menu</div> -->
+				</div>
+				<div class="mui-panel-body">
+					<div id='menuoptions'>
+						<ui-menu 
+							has-icons 
+							color="primary"
+							:options="menuOptions"  
+							@select="selectItemLeftPanel">
+						</ui-menu>
+					</div>
+				</div>
+			</div>	
+			<div id="mui-screen-page" class="mui-page">
+				<div class="mui-page-header">
+					<div class="icon-header">
+						<ui-icon-button 
+						 	icon="menu"
+						 	color="primary"
+						 	type="secondary" 
+						 	@click="hideLeftMenu">
+						</ui-icon-button>
+					</div>
+					<div class="icon-header">
+						<ui-icon-button 
+						 	icon="keyboard_arrow_left"
+						 	color="primary"
+						 	type="secondary" 
+						 	@click="volverPagina">
+						</ui-icon-button>
+					</div>
+					<div :class="isLeftPanelCollapsed?'title-header':'title-header ocultar-menu'" align="center">
+						<p>Administracón Juncal</p>
+					</div>
+					<div class="logaut-header" align="left">
+						<div style="display: inline-block;">
+							<span>{{usuario.usuario}}</span>
+						</div>
+						<div style="display: inline-block; cursor: pointer;" class="align-v" >
+							<ui-icon-button
+	                            has-dropdown
+	                            icon="keyboard_arrow_down"
+	                            ref="dropdownButton1"
+	                            size="normal"
+	                            type="secondary"
+	                        >
+	                            <ui-menu
+	                                contain-focus
+	                                has-icons
+	                                slot="dropdown"
+	                                :options="opcionesUsuario"
+	                                @select="selectItemUsuario"
+	                                @close="$refs.dropdownButton1.closeDropdown()"
+	                            ></ui-menu>
+	                        </ui-icon-button>
+                        </div>
+<!-- 						<ui-button  -->
+<!-- 							class="bnt-secondary-blue" -->
+<!-- 							type="secondary" -->
+<!-- 							color="primary"  -->
+<!-- 							size="small" -->
+<!-- 							@click="goLogaut" -->
+<!-- 							>Salir -->
+<!-- 						</ui-button> -->
+					</div>
+				</div>
+				<div class="mui-page-body">
+				<!-- 			El resto va aqui -->
+					<div id="mui-viewport" class="mui-viewport">	
+						<div id="home-page" class="mui-page mui-scrollable"> 
+<!-- 							<div slot="header"> -->
+<!-- 								<h3>Test</h3> -->
+<!-- 							</div> -->
+							<p style="text-align: center; margin-top: 50px; font-size: 26px;">Hola <strong style="color: #2196f3;">{{usuario.nombre}}</strong>. Bienvenido al sistema <strong style="color: #2196f3;">Administración Juncal</strong></p>
+							<div align="center">
+								<i class="material-icons" style="color: #2196f3; font-size: 120px;">
+									account_balance										
+								</i>
+							</div>
+						</div>
+						<div id="listado-edificios-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Edificios</h3>
+							</div>
+							<div class="table table-emp" style="margin-bottom: 80px;">
+								<div class="heading">
+									<div class="cell">
+										<p>Nombre</p>
+									</div>
+									<div class="cell">
+										<p>Dirección</p>
+									</div>
+									<div class="cell">
+										<p>Barrio</p>
+									</div>
+									<div class="cell" style="width: 6%;">
+										<p>&nbsp;</p>
+									</div>
+								</div>
+								<div class="row-cebra" v-for="edificio in edificios" @click="verEdificio(edificio)" style="cursor: pointer;">
+									<div class="cell border-button">
+										<p>{{edificio.nombre}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{edificio.direccion}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{edificio.barrio}}</p>
+									</div>
+									<div class="cell border-button align-v key-sel" align="center">
+										<i class="material-icons">
+											keyboard_arrow_right										
+										</i>
+									</div>
+								</div>
+							</div>
+							</div>
+						</div>
+						<div id="form-reestablecer-Contrasena" class="mui-page mui-scrollable">
+							<div class="title-login">
+			 					<h2>Administración Juncal</h2>
+							</div>
+							<div class="login-form">
+								<div slot="header">
+									<h3>Reestablecer contraseña</h3>
+								</div>
+								<div class="textbox-login">
+									<ui-textbox 
+						                label="Ingrese su usuario" 
+										v-model="usuarioRes.usuario"
+									></ui-textbox>	
+								</div>
+								<div align="center" style="margin-top: 25px;">
+									<ui-button 
+										color="primary" 
+										@click="reestablecercontrasena"
+										>Enviar contraseña
+									</ui-button>
+								</div>	
+							</div>
+						</div>
+						<div id="edificio-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>{{edificio.nombre}}</h3>
+							</div>
+							<div class="list-card-option">
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;">
+											attach_money
+										</div>
+										<h4 class="title-card-aux">Ingresar Pago</h4>
+									</div>	
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Ingreso de pagos a proveedores o pagos por concepto de gastos comunes o fondo de reserva</p>
+									</div>	
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="mostrarFormIngresoPago"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+<!-- 								<div class="card-option-aux"> -->
+<!-- 									<div class="div-title-card-aux align-v"> -->
+<!-- 										<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;"> -->
+<!-- 											domain_verification -->
+<!-- 										</div> -->
+<!-- 										<h4 class="title-card">Cerrar mes</h4> -->
+<!-- 									</div> -->
+<!-- 									<div class=card-contenido> -->
+<!-- 										<p style="min-height: 43%;">Cerrar el estado de cuenta del mes seleccionado</p> -->
+<!-- 									</div> -->
+<!-- 									<div class="button-card" style="cursor: pointer;"> -->
+<!-- 										<ui-button  -->
+<!-- 											color="primary"  -->
+<!-- 											@click="mostrarFormCerrarLiquidacion" -->
+<!-- 											>Ingresar -->
+<!-- 										</ui-button> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;">
+											domain_verification
+										</div>
+										<h4 class="title-card">Cerrar Mes</h4>
+									</div>
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Cierre del mes seleccionado. Dado los pagos realizados durante el mes se calcular los importes a abonar en el mes siguiente</p>
+									</div>
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="mostrarFormLiquidacion"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;">
+											list_alt
+										</div>
+										<h4 class="title-card">Estado de cuenta</h4>
+									</div>
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Detalle del estado de cuenta del mes corriente</p>
+									</div>
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verEstadoCuenta"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;">
+											people_alt
+										</div>
+										<h4 class="title-card">Copropietarios</h4>
+									</div>
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Listado de los copropietarios</p>
+									</div>
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verListadoCopropietarios"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;">
+											business
+										</div>
+										<h4 class="title-card">Unidades</h4>
+									</div>
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Detalle de las unidades del edificio</p>
+									</div>
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verFormularioUnidades"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;">
+											notification_important
+										</div>
+										<h4 class="title-card">Notificaciones</h4>
+									</div>
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Avisos de reparaciones, reuniones u otros avisos de interes</p>
+									</div>
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click=""
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;">
+											settings
+										</div>
+										<h4 class="title-card">Detalle</h4>
+									</div>
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Detalle y edición de la informanción asociada al edificio seleccionado</p>
+									</div>
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="mostrarDetalle"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="lista-copropietarios-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Copropietarios</h3>
+							</div>
+							<div class="table table-emp">
+								<div class="heading">
+									<div class="cell" style="width: 35%;">
+										<p>Usuario</p>
+									</div>
+									<div class="cell" style="width: 10%;">
+										<p>Apto.</p>
+									</div>
+									<div class="cell" style="width: 25%;">
+										<p>Nombre</p>
+									</div>
+									<div class="cell" style="width: 25%;">
+										<p>Apellido</p>
+									</div>
+									<div class="cell" style="width: 5%;">
+										<p>&nbsp;</p>
+									</div>
+								</div>
+								<div class="row-cebra" v-for="(usuario, index) in listaCopropietarios" @click="verDetalleCop(usuario)" style="cursor: pointer;">
+									<div class="cell border-button">
+										<p>{{usuario.usuario}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{usuario.nroApto}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{usuario.nombre}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{usuario.apellido}}</p>
+									</div>
+									<div class="cell border-button align-v key-sel" align="center">
+										<i class="material-icons">
+											keyboard_arrow_right										
+										</i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="fomulario-unidades-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Unidades</h3>
+							</div>
+							<div align="right" style="margin-top: 15px; margin-bottom: 15px;">
+								<ui-button 
+									icon="add"
+									icon-position="left"
+									class="button-texto-blanco"
+									@click="verFormNuevaUnidad"
+									>Nueva unidad
+								</ui-button>
+							</div>
+							
+							<div class="table table-emp">
+								<div class="heading">
+									<div class="cell">
+										<p>Apto.</p>
+									</div>
+									<div class="cell">
+										<p>Tipo unidad</p>
+									</div>
+									<div class="cell" style="width: 6%;">
+										<p>Coeeficiente</p>
+									</div>
+									<div class="cell" style="width: 6%;">
+										<p>Habilitado</p>
+									</div>
+									<div class="cell" style="width: 6%;">
+										<p>Referencia</p>
+									</div>
+									<div class="cell" style="width: 6%;">
+										<p>&nbsp;</p>
+									</div>
+									<div class="cell" style="width: 6%;">
+										<p>&nbsp;</p>
+									</div>
+								</div>
+								<div class="row-cebra" v-for="(unidad, index) in unidades" style="cursor: pointer;">
+									<div class="cell border-button">
+										<p>{{unidad.nroApartamento}}</p>
+									</div>
+									<div class="cell border-button">
+										<p v-if="unidad.tipoUnidad=='I'">Inquilino</p>
+										<p v-if="unidad.tipoUnidad=='P'">Propietario</p>
+										<p v-if="unidad.tipoUnidad=='A'">Ambos</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{unidad.coeficiente}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{unidad.habilitadoTxt}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>N°&nbsp;{{unidad.id}}</p>
+									</div>
+									<div class="cell border-button align-v">
+										<ui-icon-button 
+										 	icon="edit"
+										 	color="primary"
+										 	type="secondary" 
+										 	@click="verDetalleUnidad(unidad)">
+										</ui-icon-button>
+									</div>
+									<div class="cell border-button align-v">
+										<ui-icon-button 
+										 	icon="remove"
+										 	color="primary"
+										 	type="secondary" 
+										 	@click="eliminarUnidad(unidad)">
+										</ui-icon-button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="form-pagos-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3 >{{edificio.nombre}}</h3>
+							</div>
+							<ui-tabs @tab-change="restablecerFormPagos" fullwidth>
+				                <ui-tab>
+				                    <div slot="header" class="my-custom-tab-header">
+				                       <span>Gastos</span>
+				                    </div>
+									<div>
+										<fieldset class="fieldset-form-ingreso">
+											<ui-select
+								                label="Seleccione una unidad"
+								                :options="edificio.unidades"
+								                 @change="cargarMontos"
+								                v-model="nuevaTransaccion.unidad"
+								            ></ui-select>
+								             <ui-select
+								                label="Seleccionar mes"
+								                :options="mesesLiquidacionEdificio"
+								                :invalid="nuevaTransaccion.mesLiquidacion.value == 0 && nuevaTransaccion.invalidMesLiquidacion"
+								                @change="cargarMontos"
+								                v-model="nuevaTransaccion.mesLiquidacion"
+								            ></ui-select>
+								            <div class="form-dos">
+												<ui-textbox
+													class="col-md-6"
+													label="Monto"
+													type="number"
+													@blur="chequearMontoIngresado"
+													:invalid="nuevaTransaccion.invalidMonto && (nuevaTransaccion.monto == 0 ||nuevaTransaccion.monto < 0)"
+													v-model="nuevaTransaccion.monto"	
+												></ui-textbox>
+												<ui-textbox
+													label="Monto total a pagar"
+													disabled
+													class="col-md-6 textbox-fondo-blue"
+													v-model="nuevaTransaccion.saldoActual">												
+												</ui-textbox>
+											</div>
+											<div class="form-dos">
+												<div class="col-md-6">
+													<div style="float: right;">		
+														<ui-icon-button 
+														 	icon="edit"
+														 	color="primary"
+														 	type="secondary" 
+														 	@click="editarPagosTransaccion">
+														</ui-icon-button>									
+													</div>
+													<ui-textbox
+														label="Gastos comunes"
+														:disabled="!nuevaTransaccion.dejareditarpagos"
+														v-model="nuevaTransaccion.gastosComunes"	
+													></ui-textbox>
+												</div>
+												<ui-textbox
+													label="Monto a pagar "
+													disabled
+													class="col-md-6 textbox-fondo-blue"
+													v-model="nuevaTransaccion.debePagarGC">												
+												</ui-textbox>
+											</div>
+											<div class="form-dos">		
+												<div class="col-md-6">
+													<div style="float: right;">		
+														<ui-icon-button 
+														 	icon="edit"
+														 	color="primary"
+														 	type="secondary" 
+														 	@click="editarPagosTransaccion">
+														</ui-icon-button>									
+													</div>		
+													<ui-textbox
+														label="Fondo de reserva"
+														:disabled="!nuevaTransaccion.dejareditarpagos"
+														v-model="nuevaTransaccion.fondoReserva"	
+													></ui-textbox>
+												</div>
+												<ui-textbox
+													label="Monto a pagar "
+													disabled
+													class="col-md-6 textbox-fondo-blue"
+													v-model="nuevaTransaccion.debePagarFR">												
+												</ui-textbox>
+											</div>
+											<div v-if="edificio.pagaCalefaccion==1" class="form-dos">		
+												<div class="col-md-6">
+													<div style="float: right;">		
+														<ui-icon-button 
+														 	icon="edit"
+														 	color="primary"
+														 	type="secondary" 
+														 	@click="editarPagosTransaccion">
+														</ui-icon-button>									
+													</div>		
+													<ui-textbox
+														label="Fondo de Calefacción"
+														:disabled="!nuevaTransaccion.dejareditarpagos"
+														v-model="nuevaTransaccion.fondoCalefaccion"	
+													></ui-textbox>
+												</div>
+												<ui-textbox
+													label="Monto a pagar "
+													disabled
+													class="col-md-6 textbox-fondo-blue"
+													v-model="nuevaTransaccion.debePagarFC">												
+												</ui-textbox>
+											</div>
+											<div v-if="edificio.pagaObras==1" class="form-dos">		
+												<div class="col-md-6">
+													<div style="float: right;">		
+														<ui-icon-button 
+														 	icon="edit"
+														 	color="primary"
+														 	type="secondary" 
+														 	@click="editarPagosTransaccion">
+														</ui-icon-button>									
+													</div>		
+													<ui-textbox
+														label="Fondo de Obras"
+														:disabled="!nuevaTransaccion.dejareditarpagos"
+														v-model="nuevaTransaccion.fondoObras"	
+													></ui-textbox>
+												</div>
+												<ui-textbox
+													label="Monto a pagar "
+													disabled
+													class="col-md-6 textbox-fondo-blue"
+													v-model="nuevaTransaccion.debePagarFO">												
+												</ui-textbox>
+											</div>
+											<div v-if="edificio.pagaCochera==1" class="form-dos">		
+												<div class="col-md-6">
+													<div style="float: right;">		
+														<ui-icon-button 
+														 	icon="edit"
+														 	color="primary"
+														 	type="secondary" 
+														 	@click="editarPagosTransaccion">
+														</ui-icon-button>									
+													</div>		
+													<ui-textbox
+														label="Fondo de Calefacción"
+														:disabled="!nuevaTransaccion.dejareditarpagos"
+														v-model="nuevaTransaccion.fondoCochera"	
+													></ui-textbox>
+												</div>
+												<ui-textbox
+													label="Monto a pagar "
+													disabled
+													class="col-md-6 textbox-fondo-blue"
+													v-model="nuevaTransaccion.debePagarCH">												
+												</ui-textbox>
+											</div>
+											<div v-if="nuevaTransaccion.habilitarRecargo">
+												<ui-checkbox 
+													v-model="nuevaTransaccion.cobrarRecargo"
+													@change="sumarRecargo">
+													Cobrar recargo
+												</ui-checkbox>
+											</div>
+								             <ui-datepicker
+								                icon="events"
+								                orientation="landscape"
+								                :lang="calendarioEsp"
+								                :invalid="nuevaTransaccion.fecha == null && nuevaTransaccion.invalidFecha"
+								                picker-type="modal"
+								               	@input="controlarFechaPago"
+								                v-model="nuevaTransaccion.fecha"
+								            	>Fecha
+											</ui-datepicker>
+											<ui-textbox
+												label="Obsevaciones"
+												v-model="nuevaTransaccion.observacion"
+											></ui-textbox>
+										</fieldset>
+										<div align="right" class="button-m" style="margin-top: 25px;">
+											<ui-button 
+												class="button-texto-blanco"
+												@click="restablecerFormPagos"
+												>Restablecer
+											</ui-button>
+								            <ui-button 
+												color="primary" 
+												@click="guardarTransaccion(1)"
+												>Confirmar
+											</ui-button>
+										</div>
+									</div>
+				                </ui-tab>
+				                <ui-tab>
+				                    <div slot="header" class="my-custom-tab-header">
+				                        <span>Proveedores</span>
+									</div>
+									<div>
+										<fieldset class="fieldset-form-ingreso">
+										 	<ui-select
+								                label="Seleccione el tipo de caja"
+								                :options="tiposCajas"
+								                :invalid="nuevaTransaccion.invalidCaja && nuevaTransaccion.tipoCaja.value == 0"
+								                v-model="nuevaTransaccion.tipoCaja"
+								            ></ui-select>
+											<div class="align-v" style="float: right; margin-left: 30px; margin-top: 15px;">
+												 <ui-icon-button 
+												 	icon="add"
+												 	color="primary"
+												 	type="secondary" 
+												 	@click="verFormularioNuevoProveedor">
+												</ui-icon-button>
+											</div>
+											 <ui-select
+								                label="Seleccione un proveedor"
+								                has-search
+								                :options="proveedores"
+								                :invalid="nuevaTransaccion.invalidProveedor && nuevaTransaccion.proveedor.value == 0"
+								                v-model="nuevaTransaccion.proveedor"
+								            ></ui-select>
+											<ui-textbox
+												label="Monto"
+												type="number"
+												:invalid="nuevaTransaccion.invalidMonto && (nuevaTransaccion.monto == 0 ||nuevaTransaccion.monto < 0)"
+												v-model="nuevaTransaccion.monto"	
+											></ui-textbox>
+								            <ui-select
+								                label="Seleccionr mes"
+								                :invalid="nuevaTransaccion.mesLiquidacion.value == 0 && nuevaTransaccion.invalidMesLiquidacion"
+								                :options="mesesLiquidacion"
+								                v-model="nuevaTransaccion.mesLiquidacion"
+								            ></ui-select>
+								            <ui-textbox
+												label="Nro. Factura"
+												v-model="nuevaTransaccion.nroFactura"	
+											></ui-textbox>
+								             <ui-datepicker
+								                icon="events"
+								                picker-type="modal"
+								                :invalid="nuevaTransaccion.fecha == null && nuevaTransaccion.invalidFecha"
+								                :lang="calendarioEsp"
+								                v-model="nuevaTransaccion.fecha"
+								            	>Fecha
+											</ui-datepicker>
+											<ui-textbox
+												label="Obsevaciones"
+												v-model="nuevaTransaccion.observacion"
+											></ui-textbox>
+										</fieldset>
+										<div align="right" class="button-m" style="margin-top: 25px;">
+											<ui-button 
+												class="button-texto-blanco"
+												@click=""
+												>Restablecer
+											</ui-button>
+								            <ui-button 
+												color="primary" 
+												@click="guardarTransaccion(2)"
+												>Confirmar
+											</ui-button>
+										</div>
+									</div>
+				                </ui-tab>
+				            </ui-tabs>
+						</div>
+						<div id="detalle-edificio-page" class="mui-page mui-scrollable">
+							<div class="list-card-option">
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<h4 class="title-card-aux">Modificar Edificio</h4>
+									</div>	
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Modificar la información del edificio</p>
+									</div>	
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verFormModificarEdificio"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<h4 class="title-card-aux">Monto fijados</h4>
+									</div>	
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Ingreso y detalle de los monmtos fijados para el edificio</p>
+									</div>	
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verMontosAnuales"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<h4 class="title-card-aux">Tipos de pago</h4>
+									</div>	
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Detalle de los tipos de pagos asignados para el edificio</p>
+									</div>	
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verTiposPagos"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="historial-montos-page" class="mui-page mui-scrollable"> 
+							<div slot="header">
+								<h3>Montos ingresados</h3>
+							</div>
+							<div align="right" style="margin-top: 15px; margin-bottom: 15px;">
+								<ui-button 
+									icon="add"
+									icon-position="left"
+									class="button-texto-blanco"
+									@click="verFormNuevoMontoFijo"
+									>Ingesar nuevo 
+								</ui-button>
+							</div>
+							<div class="table-scroll">
+								<div class="table table-emp">
+									<div class="heading">
+										<div class="cell">
+											<p>Año</p>
+										</div>
+										<div class="cell">
+											<p>Gastos comunes</p>
+										</div>
+										<div class="cell">
+											<p>Fondo reserva</p>
+										</div>
+										<div v-if="edificio.pagaCochera==1" class="cell">
+											<p>Cocheras</p>
+										</div>
+										<div v-if="edificio.pagaCalefaccion==1" class="cell">
+											<p>Fondo Calefaccion</p>
+										</div>
+										<div v-if="edificio.pagaObras==1" class="cell">
+											<p>Fondo obras</p>
+										</div>
+										<div class="cell">
+											<p>Ult. Actualización</p>
+										</div>
+										<div class="cell" style="width: 10%;">
+											<p>&nbsp;</p>
+										</div>
+									</div>
+									<div v-if="existeMontos"  v-for="(monto, index) in montosFijados" @click="VerDetalleMontoFijado(monto)" class="row-cebra pointer">
+										<div class="cell border-button">
+											<p>{{monto.anio}}</p>
+										</div>
+										<div  class="cell border-button">
+											<p>{{monto.montoGC}}</p>
+										</div>
+										<div class="cell border-button">
+											<p>{{monto.montoFR}}</p>
+										</div>
+										<div  v-if="edificio.pagaCochera==1" class="cell border-button">
+											<p>{{monto.montoCH}}</p>
+										</div>
+										<div v-if="edificio.pagaCalefaccion==1" class="cell border-button">
+											<p>{{monto.montoFC}}</p>
+										</div>
+										<div v-if="edificio.pagaObras==1" class="cell border-button">
+											<p>{{monto.montoFO}}</p>
+										</div>
+										<div class="cell border-button">
+											<p>{{monto.total}}</p>
+										</div>
+										<div class="cell border-button align-v key-sel" style="width: 10px;" align="center">
+											<i class="material-icons">
+												keyboard_arrow_right										
+											</i>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div v-if="!existeMontos" style="text-align: center;">
+								<h4>No existen registros previos</h4>
+							</div>
+						</div>
+						<div id="usuarios-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Usuarios</h3>
+							</div>
+							<div align="right" style="margin-top: 15px; margin-bottom: 15px;">
+								<ui-button 
+									icon="add"
+									icon-position="left"
+									class="button-texto-blanco"
+									@click="mostrarFormularioNuevoUsuario"
+									>Nuevo Usuario
+								</ui-button>
+							</div>
+							<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+								<div class="form-dos">
+									 <div class="col-md-6">													
+									     <ui-select
+									     	label="Edificio"
+							                :options="edificios"
+							                v-model="selUsuario.edificio"  
+							            ></ui-select>
+						            </div>
+									<div class="col-md-6">	
+							            <ui-textbox
+							            	label="Nombre del usuario"
+							            	v-model="selUsuario.nombre"
+							            ></ui-textbox>
+									</div>
+								</div>
+								<div>
+									<ui-radio-group
+										style="width: 285px; margin: 10px auto;"
+						                name="groupCajas"
+						                :options="tiposUsuarios"
+						                v-model="selUsuario.tipo">
+						            </ui-radio-group>
+					            </div>
+							</fieldset>
+							<div v-if="usuario.rol=='Administrador'"  align="right" class="button-m" style="margin-top: 25px; margin-bottom: 25px; margin-right: 20px;">
+								<ui-button 
+									class="button-texto-blanco"
+									@click="limpiarFormUsuarios"
+									>Restablecer
+								</ui-button>
+					            <ui-button 
+									color="primary" 
+									@click="obtenerUsuarios"
+									>Confirmar
+								</ui-button>
+							</div>
+							<div class="table-scroll-l">
+						        <div class="table table-1000">
+									<div class="heading">
+										<div class="cell">
+											<p>Usuario</p>
+										</div>
+										<div class="cell">
+											<p>Nombre</p>
+										</div>
+										<div class="cell">
+											<p>Apellido</p>
+										</div>
+										<div class="cell">
+											<p>Edificio</p>
+										</div>
+										<div class="cell">
+											<p>&nbsp;</p>
+										</div>
+									</div>
+									<div class="row-cebra" v-for="(usuario, index) in usuarios" @click="verUsuario(usuario)" style="cursor: pointer;">
+										<div class="cell border-button">
+											<p>{{usuario.usuario}}</p>
+										</div>
+										<div class="cell border-button">
+											<p>{{usuario.nombre}}</p>
+										</div>
+										<div class="cell border-button">
+											<p>{{usuario.apellido}}</p>
+										</div>
+										<div class="cell border-button">
+											<p>{{usuario.nombreEdificio}}</p>
+										</div>
+										<div class="cell border-button align-v key-sel" align="center">
+											<i class="material-icons">
+												keyboard_arrow_right										
+											</i>
+										</div>
+									</div>
+								</div>		
+							</div>					
+						</div>
+						<div id="fomulario-usuario-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Nuevo usuario</h3>
+							</div>
+							<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+								<div class="form-dos">
+									<div class="col-md-6">
+										<ui-textbox
+							                label="Email (Nombre de usuario)"
+							                :invalid="nuevoUsuario.usuario.length == 0 && nuevoUsuario.invalidUsuario"
+							                type="email"
+							                v-model="nuevoUsuario.usuario"
+								        ></ui-textbox>
+							        </div>
+							        <div class="col-md-6">
+										<ui-textbox
+							                label="Mail alternativo (Opcional)"
+							                v-model="nuevoUsuario.mail2"
+								        ></ui-textbox>
+							        </div>
+								</div>
+								<div class="form-dos">
+									 <div class="col-md-6">
+										<ui-textbox
+							                label="Nombre"
+							                :invalid="nuevoUsuario.nombre.length == 0 && nuevoUsuario.invalidNombre"
+							                v-model="nuevoUsuario.nombre"
+								        ></ui-textbox>
+							        </div>
+									<div class="col-md-6">
+										<ui-textbox
+							                label="Apellido"
+							                :invalid="nuevoUsuario.apellido.length == 0 && nuevoUsuario.invalidApellido"
+							                v-model="nuevoUsuario.apellido"
+								        ></ui-textbox>
+							        </div>
+								</div>
+								<div class="form-dos">
+									 <div class="col-md-6">													
+									     <ui-select
+									     	label="Edificio"
+							                :options="edificios"
+							                :invalid="nuevoUsuario.edificio.value == 0 && nuevoUsuario.invalidEdificio"
+							                @select="cargarUnidadesSelect('nuevo-usuario')"
+							                v-model="nuevoUsuario.edificio"  
+							            ></ui-select>
+						            </div>
+									<div class="col-md-6">	
+							            <ui-select
+											label="Unidad"
+											:invalid="nuevoUsuario.unidad.value == 0 && nuevoUsuario.invalidUnidad"
+											:disabled="nuevoUsuario.edificio.value==0"
+							                :options="unidadesLista"
+							                v-model="nuevoUsuario.unidad"  
+							            ></ui-select>
+									</div>
+								</div>
+								<div class="form-dos">
+									 <div class="col-md-6">
+										<ui-textbox
+							                label="Telefono"
+							                v-model="nuevoUsuario.telefono"
+								        ></ui-textbox>
+							        </div>
+									<div class="col-md-6">
+										<ui-textbox
+							                label="Observaciones"
+							                v-model="nuevoUsuario.observaciones"
+								        ></ui-textbox>
+							        </div>
+								</div>
+							</fieldset>
+							<div v-if="usuario.rol=='Administrador'"  align="right" class="button-m" style="margin-top: 25px; margin-bottom: 25px; margin-right: 20px;">
+								<ui-button 
+									class="button-texto-blanco"
+									@click="limpiarFormNuevoUsuario"
+									>Restablecer
+								</ui-button>
+					            <ui-button 
+									color="primary" 
+									@click="ingresarNuevoUsuario"
+									>Confirmar
+								</ui-button>
+							</div>
+						</div>
+						<div id="pagos-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Pagos</h3>
+							</div>
+							<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+								<div style="margin-top: 25px;">
+									<div v-if="usuario.rol=='Administrador'" class="form-dos">
+										<div class="col-md-6">													
+										     <ui-select
+										     	label="Edificio"
+								                :options="edificios"
+								                @select="cargarUnidadesSelect('filtros-pagos')"
+								                v-model="filtrosPagos.edificio"  
+								            ></ui-select>
+							            </div>
+							            <div class="col-md-6">	
+								            <ui-select
+												label="Unidad"
+												:disabled="filtrosPagos.edificio.id==0 || filtrosPagos.tipoTransaccion.value==2"
+								                :options="unidadesLista"
+								                v-model="filtrosPagos.unidad"  
+								            ></ui-select>
+										</div>
+									</div>
+									<div v-if="usuario.rol=='Administrador'" class="form-dos">	
+										<div class="col-md-6">	
+											<ui-select
+												label="Tipo de pago"
+								                :options="tipoTransacciones"
+								                v-model="filtrosPagos.tipoTransaccion"  
+								            ></ui-select>
+							            </div>
+							            <div class="col-md-6">	
+								            <ui-select
+								            	label="Proveedor"
+								            	:disabled="filtrosPagos.tipoTransaccion.value==1"
+								                :options="proveedores"
+								                v-model="filtrosPagos.proveedor"  
+								            ></ui-select>
+							            </div>
+									</div>
+									<div class="form-dos">	
+										<div class="col-md-6">	
+								             <ui-datepicker
+								                orientation="landscape"
+								                :lang="calendarioEsp"
+								                picker-type="modal"
+								                v-model="filtrosPagos.fechaInicio"
+								            	>Fecha Inicio
+											</ui-datepicker>
+										</div>
+										<div class="col-md-6">	
+											 <ui-datepicker
+								                orientation="landscape"
+								                :lang="calendarioEsp"
+								                picker-type="modal"
+								                v-model="filtrosPagos.fechaFin"
+								            	>Fecha Fin
+											</ui-datepicker>
+										</div>
+									</div>
+									<div v-if="filtrosPagos.tipoTransaccion.value==1">
+										<ui-checkbox 
+											v-model="filtrosPagos.enRedCobranza">
+											Pagos realizados en RedPagos
+										</ui-checkbox>
+									</div>
+									<div align="right" class="button-m">
+										 <ui-button 
+							            	class="button-texto-blanco"
+											@click="limpiarFiltrosPagos"
+											>Restablecer
+										</ui-button>
+										 <ui-button 
+											color="primary" 
+											@click="verTransacciones()"
+											>Buscar
+										</ui-button>
+									</div>
+								</div>
+							</fieldset>
+							<div class="table table-emp" style="margin-top: 10px;" v-if="existenTransacciones">
+								<div class="heading">
+									<div class="cell" style="width: 30%;">
+										<p>Edificio</p>
+									</div>
+									<div class="cell" v-if="tablaTransacciones.unidad && usuario.rol=='Administrador'"> 
+										<p>Unidad</p>
+									</div>
+									<div class="cell" v-if="tablaTransacciones.proveedor && usuario.rol=='Administrador'"> 
+										<p>Proveedor</p> 
+									</div>
+									<div class="cell">
+										<p>Fecha</p>
+									</div>
+									<div class="cell">
+										<p>Mes</p>
+									</div>
+									<div class="cell">
+										<p>Año</p>
+									</div>
+									
+<!-- 									
+<!-- 									<div class="cell" v-if="tablaTransacciones.proveedor && usuario.rol=='Adminsitrador'" > -->
+<!-- 										<p>Proveedor</p> -->
+<!-- 									</div> -->
+<!-- 									<div class="cell" v-if="tablaTransacciones.proveedor && usuario.rol=='Adminsitrador'" > -->
+<!-- 										<p>Proveedor</p> -->
+<!-- 									</div> -->
+									<div class="cell">
+										<p>Pago</p>
+									</div>
+<!-- 									<div class="cell" style="width: 6%;"> -->
+<!-- 										<p>&nbsp;</p> -->
+<!-- 									</div> -->
+									
+<!-- 									<div class="cell" style="width: 18%;"> -->
+<!-- 										<p>Número Factura</p> -->
+<!-- 									</div> -->
+								</div>
+								<div class="row-cebra" v-for="transaccion in transacciones">
+									<div class="cell border-button">
+										<p>{{transaccion.edificioString}}</p>
+									</div>
+									<div class="cell border-button" v-if="tablaTransacciones.unidad && usuario.rol=='Administrador'">
+										<p>{{transaccion.unidadString}}</p>
+									</div>
+									<div class="cell border-button" v-if="tablaTransacciones.proveedor && usuario.rol=='Administrador'">
+										<p>{{transaccion.proveedorString}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{transaccion.fecha}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{transaccion.mesString}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{transaccion.anioString}}</p>
+									</div>
+									<div class="cell border-button">
+										<p>{{transaccion.monto}}</p>
+									</div>
+<!-- 									<div class="cell border-button align-v key-sel" align="center"> -->
+<!-- 										<i class="material-icons"> -->
+<!-- 											keyboard_arrow_right										 -->
+<!-- 										</i> -->
+<!-- 									</div> -->
+									
+<!-- 									<div class="cell border-button" v-if="tablaTransacciones.unidad"> -->
+<!-- 										<p v-if="transaccion.idUnidad">{{transaccion.idUnidad.nroApartamento}}&nbsp;{{transaccion.idUnidad.tipoUnidad}}</p> -->
+<!-- 									</div> -->
+<!-- 									<div class="cell border-button" v-if="tablaTransacciones.proveedor"> -->
+<!-- 										<p v-if="transaccion.proveedor">{{transaccion.proveedor.nombre}}</p> -->
+<!-- 									</div> -->
+<!-- 									<div class="cell border-button"> -->
+<!-- 										<p>{{transaccion.monto}}</p> -->
+<!-- 									</div> -->
+									
+<!-- 									<div class="cell border-button"> -->
+<!-- 										<p>{{transaccion.nroFactura}}</p> -->
+<!-- 									</div> -->
+								</div>
+							</div>
+							<div v-if="!existenTransacciones" style="text-align: center; color: #2196f3;">
+								<h4>No existen registros de pagos realizados</h4>
+							</div>
+						</div>
+						<div id="contacto-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Contacto</h3>
+							</div>
+							<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+								<div :class="usuario.rol=='Administrador'?'form-dos':''">											
+<!-- 								     <ui-select -->
+<!-- 								     	:class="usuario.rol=='Administrador'?'col-md-6':''" -->
+<!-- 								     	label="Tipo de Contacto" -->
+<!-- 						                :options="tiposContacto" -->
+<!-- 						                v-model="contacto.tipoContacto"   -->
+<!-- 						            ></ui-select> -->
+									<div v-if="usuario.rol=='Administrador'" class="col-md-6">													
+									     <ui-select
+									     	label="Edificio"
+							                :options="edificios"
+							                @select="cargarUnidadesSelect('nuevoMsj')"
+							                v-model="contacto.edificio"  
+							            ></ui-select>
+						            </div>
+						            <div v-if="usuario.rol=='Administrador'" class="col-md-6">	
+								            <ui-select
+												label="Unidad"
+												:disabled="contacto.edificio.id==0"
+								                :options="unidadesLista"
+								                v-model="contacto.unidad"  
+								            ></ui-select>
+										</div>
+<!-- 						            <div v-if="usuario.rol=='Copropietario'" class="col-md-6">													 -->
+<!-- 									     <ui-select -->
+<!-- 									     	disabled -->
+<!-- 									     	label="Edificio" -->
+<!-- 							                :options="edificios" -->
+<!-- 							                v-model="usuario.nombreEdificio"   -->
+<!-- 							            ></ui-select> -->
+<!-- 						            </div> -->
+							    </div>
+								<div class="form-dos">	
+<!-- 									<div class="col-md-6"> -->
+<!-- 							            <ui-textbox -->
+<!-- 							                label="Nombre y apellido" -->
+<!-- 							                placeholder="Ingrese su nombre y apellido" -->
+<!-- 							                v-model="contacto.nombre" -->
+<!-- 							            ></ui-textbox> -->
+<!-- 							       	</div> -->
+									<div class="col-md-6">
+										<ui-textbox
+							                label="Email"
+							                placeholder="Ingrese su email"
+							                type="email"
+							                v-model="usuario.email"
+								        ></ui-textbox>
+							        </div>
+							        <div class="col-md-6">
+								    	<ui-textbox
+							                label="Teléfono de contacto"
+							                placeholder="Ingrese su teléfono"
+							                v-model="usuario.telefono"
+								        ></ui-textbox>
+								    </div>
+								</div>
+								<ui-textbox
+									enforce-maxlength
+									help="Máximo 256 caracteres"
+									label="Mensaje"
+									placeholder="Introduzca aqui el mensaje"
+									:multi-line="true"
+									:maxlength="256"
+									v-model="contacto.mensaje"
+								></ui-textbox>
+								<div align="right" class="button-m" style="margin-top: 25px;">
+									<ui-button 
+										class="button-texto-blanco"
+										@click=""
+										>Restablecer
+									</ui-button>
+						            <ui-button 
+										color="primary" 
+										@click="guardarContacto"
+										>Enviar
+									</ui-button>
+								</div>
+							</fieldset>
+						</div>
+						<div id="estado-cuenta-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Estado de cuenta</h3>
+							</div>
+							<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+<!-- 								<ui-select -->
+<!-- 							         label="Seleccionr edificio" -->
+<!-- 							         :options="edificios" -->
+<!-- 							         v-model="estadoCuenta.edificio" -->
+<!-- 							     ></ui-select> -->
+								<ui-select
+							         label="Seleccionr mes"
+							         :options="mesesLiquidacion"
+							         v-model="estadoCuenta.mesLiquidacion"
+							     ></ui-select>
+							     <div align="right" class="button-m" style="margin-top: 20px;">
+									 <ui-button 
+						            	class="button-texto-blanco"
+										@click="limpiarFormEstadoCuenta"
+										>Limpiar
+									</ui-button>
+									 <ui-button 
+										color="primary" 
+										@click="obtenerEstadoCuenta"
+										>Buscar
+									</ui-button>
+								</div>
+							</fieldset>
+							<div v-show="estadoCuenta.mostrarPagos">
+								<h4 style="text-align: center; color: #2196f3;">Detalle pagos del mes</h4>
+								<div class="table-scroll">
+								<div class="table" style="width: 100%; text-align: center;">
+									<div class="heading row-10">
+										<div class="cell">
+											<p>Apto.</p>
+										</div>
+										<div class="cell">
+											<p>Saldo Anterior</p>											
+										</div>
+										<div class="cell">
+											<p>Gastos Comunes</p>
+										</div>
+										<div class="cell">
+											<p>Fondo Reserva</p>											
+										</div>
+										<div class="cell" v-if="edificio.pagaObras==1">
+											<p>Fondo Obras</p>
+										</div>
+										<div class="cell" v-if="edificio.pagaCalefaccion==1">
+											<p>Gastos Calefacción</p>
+										</div>
+										<div class="cell" v-if="edificio.pagaCochera==1">
+											<p>Gastos Cochera</p>
+										</div>
+										<div class="cell">
+											<p>Recargo</p>											
+										</div>
+										<div class="cell">
+											<p>Pago Realizado</p>											
+										</div>
+										<div class="cell">
+											<p>Pago gs. Comunes</p>											
+										</div>
+										<div class="cell">
+											<p>Pago Fdo. Reserva</p>											
+										</div>
+										<div class="cell" v-if="edificio.pagaObras==1">
+											<p>Pago Fnd. Obras</p>
+										</div>
+										<div class="cell" v-if="edificio.pagaCalefaccion==1">
+											<p>Pago Fnd. Calefacción</p>
+										</div>
+										<div class="cell" v-if="edificio.pagaCochera==1">
+											<p>Paga Fnd. Cochera</p>
+										</div>
+										<div class="cell">
+											<p>Saldo Actual</p>											
+										</div>
+										<div class="cell">
+											<p>Red Pagos</p>											
+										</div>
+									</div>
+									<div class="row-cebra row-10" v-for="(pago, index) in estadoCuenta.pagoCopropietario.pagosCopropietarios">
+										<div class="cell">
+											<p>{{pago.nroUnidad}}</p>
+										</div>
+										<div class="cell">
+											<p>{{pago.saldoAnterior}}</p>											
+										</div>
+										<div class="cell">
+											<p>{{pago.debePagarGC}}</p>
+										</div>
+										<div class="cell">
+											<p>{{pago.debePagarFR}}</p>										
+										</div>
+										<div class="cell" v-if="edificio.pagaObras==1">
+											<p>{{pago.debePagarFO}}</p>
+										</div>
+										<div class="cell" v-if="edificio.pagaCalefaccion==1">
+											<p>{{pago.debePagarFC}}</p>
+										</div>
+										<div class="cell" v-if="edificio.pagaCochera==1">
+											<p>{{pago.debePagarCH}}</p>
+										</div>
+										<div class="cell">
+											<p>{{pago.debePagarRecargo}}</p>
+										</div>
+										<div class="cell">
+											<p>{{pago.totalAbonado}}</p>											
+										</div>
+										<div class="cell">
+											<p>{{pago.totalAbonadoGC}}</p>										
+										</div>
+										<div class="cell">
+											<p>{{pago.totalAbonadoFR}}</p>									
+										</div>
+										<div class="cell" v-if="edificio.pagaObras==1">
+											<p>{{pago.totalAbonadoFO}}</p>										
+										</div>
+										<div class="cell" v-if="edificio.pagaCalefaccion==1">
+											<p>{{pago.totalAbonadoFC}}</p>									
+										</div>
+										<div class="cell" v-if="edificio.pagaCochera==1">
+											<p>{{pago.totalAbonadoCH}}</p>										
+										</div>
+										<div class="cell">
+											<p>{{pago.saldoActual}}</p>														
+										</div>
+										<div class="cell">
+											<p>Nº&nbsp;{{pago.idUnidad}}</p>											
+										</div>
+									</div>
+									<div class="row-cebra row-10">
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>Totales</p>
+										</div>
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.pagoCopropietario.totalSaldoAnterior}}</p>															
+										</div>
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalDebenPagarGC}}</p>									
+										</div>
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalDebenPagarFR}}</p>	
+										</div>
+										<div class="cell" v-if="edificio.pagaObras==1" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalDebenPagarFO}}</p>									
+										</div>
+										<div class="cell" v-if="edificio.pagaCalefaccion==1" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalDebenPagarFC}}</p>	
+										</div>
+										<div class="cell" v-if="edificio.pagaCochera==1" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalDebenPagarCH}}</p>									
+										</div>
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.pagoCopropietario.totalAPagarRecargo}}</p>											
+										</div>
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.pagoCopropietario.totalAbonado}}</p>											
+										</div> 
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalIngresosGC}}</p>												
+										</div>
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalIngresosFR}}</p>																
+										</div>
+										<div class="cell" v-if="edificio.pagaObras==1" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalIngresosFO}}</p>												
+										</div>
+										<div class="cell" v-if="edificio.pagaCalefaccion==1"style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalIngresosFC}}</p>																
+										</div>
+										<div class="cell" v-if="edificio.pagaCochera==1" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.totales.totalIngresosCH}}</p>												
+										</div>
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>{{estadoCuenta.pagoCopropietario.totalSaldoActual}}</p>														
+										</div>
+										<div class="cell" style="border-top: 2px solid #8199ad; border-bottom: 2px solid #8199ad;">
+											<p>&nbsp;</p>											
+										</div>
+									</div>
+								</div>
+								</div>
+								<div class="form-dos">	
+									<div class="col-md-6">	
+										<h4 style="text-align: center; color: #2196f3;">Detalle gastos comunes</h4>
+										<div class="table" style="width: 100%;">
+											<div class="heading row-10">
+												<div class="cell" style="width: 21%;">
+													<p>Fecha</p>
+												</div>
+												<div class="cell">
+													<p>Concepto</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>Importe</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10" v-for="(proveedor, index) in estadoCuenta.pagoProveedor.pagosProveedores" v-if="proveedor.tipoCaja==1">
+												<div class="cell">
+													<p>{{proveedor.fecha}}</p>
+												</div>
+												<div class="cell">
+													<p>{{proveedor.proveedor.nombre}}</p>
+												</div>
+												<div class="cell">
+													<p>{{proveedor.monto}}</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10">
+												<div class="cell border-top-button">
+													<p>&nbsp;</p>
+												</div>
+												<div class="cell border-top-button">
+													<p><strong>Total Gastos Comunes del mes:</strong></p>
+												</div>
+												<div class="cell border-top-button">
+													<p><strong>{{estadoCuenta.pagoProveedor.totalPagosGC}}</strong></p>
+												</div>
+											</div>
+										</div>
+										<div class="table" style="width: 100%; margin-top: 10px;">
+											<div class="heading row-10">
+												<div class="cell">
+													<p>Detalle caja Gastos Comunes</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>&nbsp;</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Saldo del mes anterior</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.mesLiquidacion.saldoAnteriorGC}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Ingresos por gastos comunes</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.pagoCopropietario.totalPagosCopGC}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Gastos comunes del mes</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.pagoProveedor.totalPagosGC}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell border-top-button">
+													<p><strong>Saldo disponible gs. Comunes</strong></p>
+												</div>
+												<div class="cell border-top-button" style="width: 19%;">
+													<p><strong>{{estadoCuenta.totalMesGC}}</strong></p>
+												</div>
+											</div>	
+										</div>
+									</div>
+									<div class="col-md-6">	
+										<h4 style="text-align: center; color: #2196f3;">Detalle Fondo de Reserva</h4>
+										<div class="table" style="width: 100%;">
+											<div class="heading row-10">
+												<div class="cell" style="width: 21%;">
+													<p>Fecha</p>
+												</div>
+												<div class="cell">
+													<p>Concepto</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>Importe</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10" v-for="(proveedor, index) in estadoCuenta.pagoProveedor.pagosProveedores" v-if="proveedor.tipoCaja==2">
+												<div class="cell">
+													<p>{{proveedor.fecha}}</p>
+												</div>
+												<div class="cell">
+													<p>{{proveedor.proveedor.nombre}}</p>
+												</div>
+												<div class="cell">
+													<p>{{proveedor.monto}}</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10">
+												<div class="cell border-top-button">
+													<p>&nbsp;</p>
+												</div>
+												<div class="cell border-top-button">
+													<p><strong>Total Fondo Reserva del mes:</strong></p>
+												</div>
+												<div class="cell border-top-button">
+													<p><strong>{{estadoCuenta.pagoProveedor.totalPagosFR}}</strong></p>
+												</div>
+											</div>
+										</div>
+										<div class="table" style="width: 100%; margin-top: 10px;">
+											<div class="heading row-10">
+												<div class="cell">
+													<p>Detalle caja Fondo de Reserva</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>&nbsp;</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Saldo del mes anterior</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.mesLiquidacion.saldoAnteriorFR}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Ingresos por Fondo de Reserva</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.pagoCopropietario.totalPagosCopFR}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Gastos extraidos</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.pagoProveedor.totalPagosFR}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell border-top-button">
+													<p><strong>Saldo disponible Fondo Reserva:</strong></p>
+												</div>
+												<div class="cell border-top-button" style="width: 19%;">
+													<p><strong>{{estadoCuenta.totalMesFR}}</strong></p>
+												</div>
+											</div>	
+										</div>
+									</div>
+									<div class="col-md-6" v-if="edificio.pagaObras==1">	
+										<h4 style="text-align: center; color: #2196f3;">Detalle Fondo de Obras</h4>
+										<div class="table" style="width: 100%;">
+											<div class="heading row-10">
+												<div class="cell" style="width: 21%;">
+													<p>Fecha</p>
+												</div>
+												<div class="cell">
+													<p>Concepto</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>Importe</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10" v-for="(proveedor, index) in estadoCuenta.pagoProveedor.pagosProveedores" v-if="proveedor.tipoCaja==3">
+												<div class="cell">
+													<p>{{proveedor.fecha}}</p>
+												</div>
+												<div class="cell">
+													<p>{{proveedor.proveedor.nombre}}</p>
+												</div>
+												<div class="cell">
+													<p>{{proveedor.monto}}</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10">
+												<div class="cell border-top-button">
+													<p>&nbsp;</p>
+												</div>
+												<div class="cell border-top-button">
+													<p><strong>Total Fondo Obras del mes:</strong></p>
+												</div>
+												<div class="cell border-top-button">
+													<p><strong>{{estadoCuenta.mesLiquidacion.egresosMesFO}}</strong></p>
+												</div>
+											</div>
+										</div>
+										<div class="table" style="width: 100%; margin-top: 10px;">
+											<div class="heading row-10">
+												<div class="cell">
+													<p>Detalle caja Fondo Obras</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>&nbsp;</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Saldo del mes anterior</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.mesLiquidacion.saldoAnteriorFO}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Ingresos por Fondo Obras</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.mesLiquidacion.ingresoTotalFO}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Gastos extraidos</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.mesLiquidacion.egresosMesFO}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell border-top-button">
+													<p><strong>Saldo disponible Fondo Obras:</strong></p>
+												</div>
+												<div class="cell border-top-button" style="width: 19%;">
+													<p><strong>{{estadoCuenta.mesLiquidacion.saldoMesFO}}</strong></p>
+												</div>
+											</div>	
+										</div>
+									</div>
+									<div class="col-md-6" v-if="edificio.pagaCochera==1">	
+										<h4 style="text-align: center; color: #2196f3;">Detalle Fondo de Cocheras</h4>
+										<div class="table" style="width: 100%;">
+											<div class="heading row-10">
+												<div class="cell" style="width: 21%;">
+													<p>Fecha</p>
+												</div>
+												<div class="cell">
+													<p>Concepto</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>Importe</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10" v-for="(proveedor, index) in estadoCuenta.pagoProveedor.pagosProveedores" v-if="proveedor.tipoCaja==5">
+												<div class="cell">
+													<p>{{proveedor.fecha}}</p>
+												</div>
+												<div class="cell">
+													<p>{{proveedor.proveedor.nombre}}</p>
+												</div>
+												<div class="cell">
+													<p>{{proveedor.monto}}</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10">
+												<div class="cell border-top-button">
+													<p>&nbsp;</p>
+												</div>
+												<div class="cell border-top-button">
+													<p><strong>Total Fondo Cocheras del mes:</strong></p>
+												</div>
+												<div class="cell border-top-button">
+													<p><strong>{{estadoCuenta.mesLiquidacion.egresosMesCH}}</strong></p>
+												</div>
+											</div>
+										</div>
+										<div class="table" style="width: 100%; margin-top: 10px;">
+											<div class="heading row-10">
+												<div class="cell">
+													<p>Detalle caja Fondo de Cocheras</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>&nbsp;</p>
+												</div>
+											</div>
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Saldo del mes anterior</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.mesLiquidacion.saldoAnteriorCH}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Ingresos por Fondo de Obras</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.mesLiquidacion.ingresoTotalCH}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell">
+													<p>Gastos extraidos</p>
+												</div>
+												<div class="cell" style="width: 19%;">
+													<p>{{estadoCuenta.mesLiquidacion.egresosMesCH}}</p>
+												</div>
+											</div>	
+											<div class="row-cebra row-10">
+												<div class="cell border-top-button">
+													<p><strong>Saldo disponible Fondo Cocheras:</strong></p>
+												</div>
+												<div class="cell border-top-button" style="width: 19%;">
+													<p><strong>{{estadoCuenta.mesLiquidacion.saldoMesCH}}</strong></p>
+												</div>
+											</div>	
+										</div>
+									</div>
+								</div>
+								<div align="right">
+									<ui-button 
+										class="button-texto-blanco"
+										@click="descargarEstadoCuenta"
+										>Exportar a PDF
+									</ui-button>
+								</div>
+							</div>
+						</div>
+						<div id="mensajes-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Mensajes</h3>
+							</div>
+							<ui-tabs fullwidth>
+								<ui-tab>
+									<div slot="header" class="my-custom-tab-header">
+				                       <span>Recibidos</span>
+				                    </div>
+				                    <fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+										<div style="margin-top: 25px;">
+											<div :class="usuario.rol=='Administrador'?'form-dos':''">
+												<div v-if="usuario.rol=='Administrador'" class="col-md-6">													
+												     <ui-select
+												     	label="Edificio"
+										                :options="edificios"
+										                @select="cargarUnidadesSelect('mensajes')"
+										                v-model="selMensaje.edificio"  
+										            ></ui-select>
+									            </div>
+									            <div :class="usuario.rol=='Administrador'?'col-md-6':''">													
+												     <ui-select
+												     	label="Leeido"
+										                :options="opciopnesMsj"
+										                v-model="selMensaje.leeido"  
+										            ></ui-select>
+									            </div>
+											</div>
+											<div class="form-dos">	
+												<div class="col-md-6">	
+										             <ui-datepicker
+										                orientation="landscape"
+										                :lang="calendarioEsp"
+										                picker-type="modal"
+										                v-model="selMensaje.fechaInicio"
+										            	>Fecha Inicio
+													</ui-datepicker>
+												</div>
+												<div class="col-md-6">	
+													 <ui-datepicker
+										                orientation="landscape"
+										                :lang="calendarioEsp"
+										                picker-type="modal"
+										                v-model="selMensaje.fechaFin"
+										            	>Fecha Fin
+													</ui-datepicker>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+									<div  align="right" class="button-m" style="margin-top: 25px; margin-bottom: 25px; margin-right: 20px;">
+										<ui-button 
+											class="button-texto-blanco"
+											@click="limpiarMensajes"
+											>Restablecer
+										</ui-button>
+							            <ui-button 
+											color="primary" 
+											@click="obtenerMensajes('recibidos')"
+											>Confirmar
+										</ui-button>
+									</div>
+									<div v-if="existeMsjRec" class="buzon-msj">
+					           			<div class="table-scroll-xl">
+						           			<div class="table table-1300">
+												<div class="heading">
+													<div class="cell" style="width: 15%;">
+														<p>Usuario</p>
+													</div>
+													<div class="cell" style="width: 15%;">
+														<p>Edificio</p>
+													</div>
+													<div class="cell" style="width: 5%;">
+														<p>Apto.</p>
+													</div>
+													<div class="cell" style="width: 40%;">
+														<p>Fecha</p>
+													</div>
+													<div class="cell">
+														<p>Mensaje</p>
+													</div>
+													<div class="cell" style="width: 6%;">
+														<p>&nbsp;</p>
+													</div>
+												</div>
+												<div :class="mensaje.leeido==1?'row-leeido row-cebra':'row-cebra'" v-for="mensaje in mensajesRecibidos" style="cursor: pointer;" @click="verMensaje(mensaje)">
+													<div class="cell border-button">
+														<p>{{mensaje.nombreUsuario}}</p>
+													</div>
+													<div class="cell border-button">
+														<p>{{mensaje.nomEdificio}}</p>
+													</div>
+													<div class="cell border-button">
+														<p>{{mensaje.nroApto}}</p>
+													</div>
+													<div class="cell border-button" >
+														<p>{{mensaje.fecha}}</p>
+													</div>
+													<div class="cell cell-susp border-button">
+														<p class="text-susp">{{mensaje.texto}}</p>
+													</div>
+													<div class="cell border-button align-v key-sel" align="center">
+														<i class="material-icons">
+															keyboard_arrow_right										
+														</i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div v-if="!existeMsjRec" style="text-align: center;">
+										<h4>No tienen ningun mensaje en este momento</h4>
+									</div>
+								</ui-tab>
+				                <ui-tab>
+				                    <div slot="header" class="my-custom-tab-header">
+				                       <span>Enviados</span>
+				                    </div>
+				                    <fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+										<div style="margin-top: 25px;">
+											<div v-if="usuario.rol=='Administrador'">										
+											     <ui-select
+											     	label="Edificio"
+									                :options="edificios"
+									                @select="cargarUnidadesSelect('mensajes')"
+									                v-model="selMensaje.edificio"  
+									            ></ui-select>
+											</div>
+											<div class="form-dos">	
+												<div class="col-md-6">	
+										             <ui-datepicker
+										                orientation="landscape"
+										                :lang="calendarioEsp"
+										                picker-type="modal"
+										                v-model="selMensaje.fechaInicio"
+										            	>Fecha Inicio
+													</ui-datepicker>
+												</div>
+												<div class="col-md-6">	
+													 <ui-datepicker
+										                orientation="landscape"
+										                :lang="calendarioEsp"
+										                picker-type="modal"
+										                v-model="selMensaje.fechaFin"
+										            	>Fecha Fin
+													</ui-datepicker>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+									<div  align="right" class="button-m" style="margin-top: 25px; margin-bottom: 25px; margin-right: 20px;">
+										<ui-button 
+											class="button-texto-blanco"
+											@click="limpiarMensajes"
+											>Restablecer
+										</ui-button>
+							            <ui-button 
+											color="primary" 
+											@click="obtenerMensajes('enviados')"
+											>Confirmar
+										</ui-button>
+									</div>
+									<div v-if="existenMsjEnv" class="buzon-msj">
+										<div class="table-scroll-xl">
+						           			<div class="table table-1300">
+												<div class="heading">
+													<div class="cell" style="width: 15%;">
+														<p>Usuario</p>
+													</div>
+													<div class="cell" style="width: 15%;">
+														<p>Edificio</p>
+													</div>
+													<div class="cell" style="width: 5%;">
+														<p>Apto.</p>
+													</div>
+													<div class="cell" style="width: 30%;">
+														<p>Fecha</p>
+													</div>
+													<div class="cell" style="width: 12%;">
+														<p>Mensaje</p>
+													</div>
+													<div class="cell" style="width: 6%;">
+														<p>&nbsp;</p>
+													</div>
+												</div>
+												<div :class="mensaje.leeido==1?'row-leeido row-cebra':'row-cebra'" v-for="mensaje in mensajesEnviados" style="cursor: pointer;" @click="verMensaje(mensaje)">
+													<div class="cell border-button">
+														<p>{{mensaje.nombreUsuario}}</p>
+													</div>
+													<div class="cell border-button">
+														<p>{{mensaje.nomEdificio}}</p>
+													</div>
+													<div class="cell border-button">
+														<p>{{mensaje.nroApto}}</p>
+													</div>
+													<div class="cell border-button">
+														<p>{{mensaje.fecha}}</p>
+													</div>
+													<div class="cell cell-susp border-button">
+														<p class="text-susp">{{mensaje.texto}}</p>
+													</div>
+													<div class="cell border-button align-v key-sel" align="center">
+														<i class="material-icons">
+															keyboard_arrow_right										
+														</i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div v-if="!existenMsjEnv" style="text-align: center;">
+										<h4>No tienen ningun mensaje en este momento</h4>
+									</div>
+								</ui-tab>
+							</div>
+						<div v-show="usuario.tipo=='A'" id="archivos-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Archivos</h3>
+							</div>
+							<div class="list-card-option">
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<h4 class="title-card-aux">Subir archvio de pago</h4>
+									</div>	
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Subir archivo con pagos realizados por copropietarios para procesarlos en el sistema</p>
+									</div>	
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verFormNuevoArchivoPago"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<h4 class="title-card-aux">Subir archivo a repositorio</h4>
+									</div>	
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Subir archivo al repositorio de un edificio</p>
+									</div>	
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verFormNuevaArchivo"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<h4 class="title-card-aux">Documentos</h4>
+									</div>	
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Ver archivos subidos en el sistema</p>
+									</div>	
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verMisArchivos"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="mis-archivos-page" class="mui-page mui-scrollable">
+							<div slot="header">
+								<h3>Documentos Disponibles</h3>
+							</div>
+							<fieldset v-if="usuario.rol=='Administrador'" class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+								<div style="margin-top: 25px;">												
+								     <ui-select
+								     	label="Edificio"
+						                :options="edificios"
+						                v-model="selDocumento.edificio"  
+						            ></ui-select>
+									<div class="form-dos">	
+										<div class="col-md-6">	
+								             <ui-datepicker
+								                orientation="landscape"
+								                :lang="calendarioEsp"
+								                picker-type="modal"
+								                v-model="selDocumento.fechaInicio"
+								            	>Fecha Inicio
+											</ui-datepicker>
+										</div>
+										<div class="col-md-6">	
+											 <ui-datepicker
+								                orientation="landscape"
+								                :lang="calendarioEsp"
+								                picker-type="modal"
+								                v-model="selDocumento.fechaFin"
+								            	>Fecha Fin
+											</ui-datepicker>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<div v-if="usuario.rol=='Administrador'"  align="right" class="button-m" style="margin-top: 25px; margin-bottom: 25px; margin-right: 20px;">
+								<ui-button 
+									class="button-texto-blanco"
+									@click="limparFormArchivos"
+									>Restablecer
+								</ui-button>
+					            <ui-button 
+									color="primary" 
+									@click="verMisArchivos"
+									>Confirmar
+								</ui-button>
+							</div>
+							<div class="table-scroll-xl">
+								<div class="table table-1300">
+									<div class="heading">
+										<div class="cell" Style="width: 200px;">
+											<p>Fecha</p>
+										</div>
+										<div class="cell" v-if="usuario.rol=='Administrador'">
+											<p>Edificio</p>
+										</div>
+										<div class="cell">
+											<p>Titulo</p>
+										</div>
+										<div class="cell">
+											<p>Nombre del archivo</p>
+										</div>
+										<div class="cell">
+											<p>Descripción</p>
+										</div>
+										<div class="cell" style="width: 6%;">
+											<p>&nbsp;</p>
+										</div>
+									</div>
+									<div class="row-cebra" v-for="(archivo, index) in listadoArchivos"  style="cursor: pointer;">
+										<div class="cell border-button">
+											<p>{{archivo.fecha}}</p>
+										</div>
+										<div class="cell border-button" v-if="usuario.rol=='Administrador'">
+											<p>{{archivo.nombreEdificio}}</p>
+										</div>
+										<div class="cell border-button">
+											<p>{{archivo.titulo}}</p>
+										</div>
+										<div class="cell border-button">
+											<p>{{archivo.nombre}}</p>
+										</div>
+										<div class="cell border-button">
+											<p class="text-susp">{{archivo.descripcion}}</p>
+										</div>
+										<div class="cell border-button btn-trans align-v" align="center">
+											<ui-button 
+							                	icon="vertical_align_bottom"
+							                	icon-position="left"
+							                	@click="descargarArchivo(archivo)" 
+							                	>Descargar
+							              </ui-button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="configuracion-page" class="mui-page mui-scrollable">
+							<div class="list-card-option">
+								<div class="card-option-aux">
+									<div class="div-title-card-aux align-v">
+										<h4 class="title-card-aux">Añadir Edificio</h4>
+									</div>	
+									<div class=card-contenido>
+										<p style="min-height: 43%;">Ingreso de un nuevo edificio en el sistema</p>
+									</div>	
+									<div class="button-card" style="cursor: pointer;">
+										<ui-button 
+											color="primary" 
+											@click="verFormularioNuevoEdificio"
+											>Ingresar
+										</ui-button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="formulario-nuevo-edificio-page" class="mui-page mui-scrollable">
+							<fieldset class="fieldset-form-ingreso">
+								<div class="form-dos">
+									<ui-textbox
+										class="col-md-6"
+										label="Nombre"
+										v-model="formEdificio.nombre"
+									></ui-textbox>
+									<ui-textbox
+										class="col-md-6"
+										label="Dirección"
+										v-model="formEdificio.direccion"
+									></ui-textbox>
+								</div>
+								<div style="background-color: #eeeeee; color: #2196f3; text-align: center; margin-bottom: 10px;">
+									<h4>Elegir tipos de pago:</h4>
+								</div>
+								<div class="form-dos">
+									<div class="col-md-6">
+										<ui-checkbox 
+											box-position="right"
+											v-model="formEdificio.pagaGc">
+											Gastos comunes
+										</ui-checkbox>
+									</div>
+									<div class="col-md-6">													
+								    	<ui-select
+								    		:disabeld="!formEdificio.pagaGc"
+								     		label="Tipo de pago"
+						                	:options="tiposPagos"
+						               	 	v-model="formEdificio.tipoPagoGc"  
+						            	></ui-select>
+					            	</div>
+								</div>
+								<div class="form-dos">
+									<div class="col-md-6">
+										<ui-checkbox 
+											box-position="right"
+											v-model="formEdificio.pagaFr">
+											Fondo de reserva
+										</ui-checkbox>
+									</div>
+									<div class="col-md-6">													
+								    	<ui-select
+								    		:disabeld="!formEdificio.pagaFr"
+								     		label="Tipo de pago"
+						                	:options="tiposPagos"
+						               	 	v-model="formEdificio.tipoPagoFr"  
+						            	></ui-select>
+					            	</div>
+								</div>
+								<div class="form-dos">
+									<div class="col-md-6">
+										<ui-checkbox 
+											box-position="right"
+											v-model="formEdificio.pagaFc">
+											Fondo de calefacción
+										</ui-checkbox>
+									</div>
+									<div class="col-md-6">													
+								    	<ui-select
+								    		:disabeld="!formEdificio.pagaFc"
+								     		label="Tipo de pago"
+						                	:options="tiposPagos"
+						               	 	v-model="formEdificio.tipoPagoGc"  
+						            	></ui-select>
+					            	</div>
+								</div>
+								<div class="form-dos">
+									<div class="col-md-6">
+										<ui-checkbox 
+											box-position="right"
+											v-model="formEdificio.pagaFc">
+											Fondo de obras
+										</ui-checkbox>
+									</div>
+									<div class="col-md-6">													
+								    	<ui-select
+								    		:disabeld="!formEdificio.pagaFc"
+								     		label="Tipo de pago"
+						                	:options="tiposPagos"
+						               	 	v-model="formEdificio.tipoPagoFo"  
+						            	></ui-select>
+					            	</div>
+								</div>
+							</fieldset>
+							<div v-if="usuario.rol=='Administrador'"  align="right" class="button-m" style="margin-top: 25px; margin-bottom: 25px; margin-right: 20px;">
+								<ui-button 
+									class="button-texto-blanco"
+									@click=""
+									>Restablecer
+								</ui-button>
+					            <ui-button 
+									color="primary" 
+									@click=""
+									>Confirmar
+								</ui-button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<ui-modal ref="detalle-copropietario" :title="titulos.detalleCop" align-top>
+				<div class="table">
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Nombre</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{detalleCop.nombre}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Apellido</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{detalleCop.apellido}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Usuario</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{detalleCop.usuario}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Apto.</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{detalleCop.nroApto}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Telefono</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{detalleCop.telefono}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Mail (Alternativo)</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{detalleCop.email}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Observaciones</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{detalleCop.observaciones}}</span>
+	             		</div>
+	             	</div>
+	         	</div>
+	         	<div slot="footer" class="button-m" align="right">
+	               <ui-button 
+		               	color="primary"
+		               	@click="closeModal('detalle-copropietario')"
+		               	>Cerrar
+	               </ui-button>
+				</div>
+	        </ui-modal>
+			<ui-modal ref="detalle-mensaje" :title="titulos.detalleMsj" align-top>
+				<div class="table">
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Edificio</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{mensaje.nomEdificio}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Apartamento</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{mensaje.nroApto}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Fecha</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{mensaje.fecha}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Usuario</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{mensaje.nombreUsuario}}</span>
+	             		</div>
+	             	</div>
+	             	<div class="row row-m">
+	             		<div class="cell cell-title-v border-btn-blanco">
+	             			<span>Mensaje</span>
+	             		</div>
+	             		<div class="cell border-btn-cel">
+	             			<span>{{mensaje.texto}}</span>
+	             		</div>
+	             	</div>
+	         	</div>
+	         	<div slot="footer" class="button-m" align="right">
+	               <ui-button 
+		               	color="primary"
+		               	@click="closeModal('detalle-mensaje')"
+		               	>Cerrar
+	               </ui-button>
+				</div>
+	        </ui-modal>
+	        <ui-modal ref="confirmar-modal" title="Administracón Juncal" align-top>
+	        	<p style="text-align: center;">{{confirmacionModal.mensaje}}</p>
+	        	<div slot="footer" class="button-m" align="right">
+	               <ui-button 
+		               	class="button-texto-blanco"
+		               	@click="closeModal('confirmar-modal')"
+		               	>Cancelar
+	               </ui-button>
+	                <ui-button 
+	                	v-if="confirmacionModal.comando=='eliminarUsuario'"
+	                	@click="eliminarUsuario" 
+	                	color="primary"
+	                	>Confirmar
+	                </ui-button>
+				</div>
+	        </ui-modal>
+	        <ui-modal ref="mensaje-modal" :title="mensajeModal.title" align-top>
+				<p style="text-align: center;">{{mensajeModal.mensaje}}</p>
+	           	<div slot="footer" class="button-m" align="right">
+	           		 <ui-button 
+		           		v-if="!mensajeModal.confirm && !mensajeModal.accept && !mensajeModal.cancelar" 
+		           		color="primary" 
+		           		@click="closeModal('mensaje-modal')">Cerrar
+		           	</ui-button>
+	               <ui-button 
+	               		v-if="mensajeModal.cancelar"
+		               	class="button-texto-blanco"
+		               	@click="closeModal('mesaje-modal')"
+		               	>Cancelar
+	               </ui-button>
+	                <ui-button 
+	                	v-if="mensajeModal.confirm"
+	                	@click="generarLiquidacion" 
+	                	color="primary"
+	                	>Confirmar
+	                </ui-button>
+	                 <ui-button 
+	                	v-if="mensajeModal.accept"
+	                	@click="closeModal('mesaje-modal')"
+	                	color="primary"
+	                	>Aceptar
+	                </ui-button>
+	           </div>
+	     	</ui-modal>
+			<ui-modal ref="mesaje-modal" :title="mensajeModal.title" align-top>
+				<p style="text-align: center;">{{mensajeModal.mensaje}}</p>
+	           <div slot="footer" class="button-m" align="right">
+	               <ui-button 
+		               	class="button-texto-blanco"
+		               	@click="closeModal('mesaje-modal')"
+		               	>Cancelar
+	               </ui-button>
+	                <ui-button 
+	                	v-if="mensajeModal.confirm"
+	                	@click="generarLiquidacion" 
+	                	color="primary"
+	                	>Confirmar
+	                </ui-button>
+	                 <ui-button 
+	                	v-if="mensajeModal.accept"
+	                	@click="closeModal('mesaje-modal')"
+	                	color="primary"
+	                	>Aceptar
+	                </ui-button>
+	           </div>
+	     	</ui-modal>
+	     	<ui-modal ref="formulario-cerrar-liquidacion" title="Realizar liquidacion del mes" align-top>
+	     		<p style="text-align: center;"><strong style="color: #2196f3;">Importante: </strong>Al cerrar el mes no se podra modificar la información del mes seleccionado. En caso de exisitr unidades que no abonaron en el tiempo reglametario y que poseen un saldo favorable, se imputara automaticamente el saldo a pagar por la unidad. Luego de este proceso se generaran los pagos a realizar el mes siguiente.</p>
+              	 <ui-select
+			         label="Seleccionr mes"
+			         :options="mesesLiquidacion"
+			         v-model="mesCerrado.mesLiquidacion"
+			     ></ui-select>
+	           <div slot="footer" class="button-m" align="right">
+	               <ui-button 
+		               	class="button-texto-blanco"
+		               	@click="closeModal('formulario-cerrar-liquidacion')"
+		               	>Cancelar
+	               </ui-button>
+	               <ui-button 
+	                	@click="cerrarLiquidacion" 
+	                	color="primary"
+	                	>Confirmar
+	               </ui-button>
+	           </div>
+	     	</ui-modal>
+			<ui-modal ref="formulario-generar-liquidacion" title="Realizar cierre del mes" align-top>
+				<p style="text-align: center;">Seleccione el mes sobre el cual calcular la liquidacion, en la misma se cargaran los importes a pagar por los copropietarios, el detalle de pagos a proveedores y el detalle de las cajas del edificio</p>
+	            <ui-select
+			         label="Seleccionr mes"
+			         :options="mesesLiquidacion"
+			         v-model="nuevaLiquidacion.mesLiquidacion"
+			     ></ui-select>
+	           <div slot="footer" class="button-m" align="right">
+	               <ui-button 
+		               	class="button-texto-blanco"
+		               	@click="closeModal('formulario-generar-liquidacion')"
+		               	>Cancelar
+	               </ui-button>
+	               <ui-button 
+	                	@click="generarLiquidacion" 
+	                	color="primary"
+	                	>Generar
+	               </ui-button>
+	           </div>
+	     	</ui-modal>
+			<ui-modal ref="formulario-nuevo-proveedor" size="normal" title="Ingreso de nuevo Proveedor" align-top> 
+					<p style="text-align: center;"><strong style="color: #2196f3;">Importante: </strong>El proveedor ingresado se guardar en la lista de proveedores, quedando disponible para ser seleccionado la proxima vez.</p>
+              		<ui-textbox
+              			label="Nombre del proveedor *"
+              			v-model="nuevoProveedor.nombre"
+              		></ui-textbox>
+              		<ui-textbox
+              			label="Descripción"
+              			v-model="nuevoProveedor.descripcion"
+              		></ui-textbox>
+              		<ui-textbox
+              			label="Número de RUT"
+              			v-model="nuevoProveedor.rut"
+              		></ui-textbox>
+              		<div slot="footer" class="button-m" align="right">
+                        <ui-button 
+                        	class="button-texto-blanco"
+                        	@click="closeModal('formulario-nuevo-proveedor')"
+                        	>Cancelar
+                        </ui-button>
+                        <ui-button 
+                        	@click="guardarNuevoProveedor" 
+                        	color="primary">
+                        	Confirmar
+                        </ui-button>
+                    </div>
+              </ui-modal>
+              <ui-modal ref="opciones-documentos" title="Documentos" align-top>
+              	<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+	              	<div class="button-login"> 
+	              		<ui-button 
+	              			class="button-texto-blanco"
+		                	icon="add"
+		                	icon-position="left"
+		                	@click="" 
+		                	>Subir archivo
+		              </ui-button>
+		              <ui-button 
+		              		class="button-texto-blanco"
+		                	icon="edit"
+		                	icon-position="left"
+		                	icon="edit" 
+		                	@click="" 
+		                	>Modificar archivo
+		              </ui-button>
+		              <ui-button 
+		              		class="button-texto-blanco"
+		                	icon="remove"
+		                	icon-position="left"
+		                	icon="remove"
+		                	@click="" 
+		                	>Eliminar archivo
+		              </ui-button>
+	              	</div>
+              	</fieldset>
+              	
+              </ui-modal>
+<!--               <ui-modal ref="nuevo-monto-fijo" title="Ingreso de Gastos comunes" align-top> -->
+<!--               		<p style="text-align: center;"><strong style="color: #2196f3;">Importante: </strong>El monto ingresado quedara como monto fijo por el tiempo establecido como pago de gastos comunes.</p> -->
+<!-- 					<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;"> -->
+<!-- 						 <ui-select -->
+<!-- 			                label="Seleccione un año" -->
+<!-- 			                :options="anios" -->
+<!-- 			                v-model="nuevoAnioMonto.anio" -->
+<!-- 			            ></ui-select> -->
+<!-- 						<ui-textbox -->
+<!-- 							v-if="tipoFormMontoFijo=='gc'" -->
+<!-- 							label="Ingrese un monto de Gastos Comunes" -->
+<!-- 							v-model="nuevoAnioMonto.monto" -->
+<!-- 						></ui-textbox> -->
+<!-- 						<ui-textbox -->
+<!-- 							v-if="tipoFormMontoFijo=='fr'" -->
+<!-- 							label="Ingrese un Fondo de Reserva" -->
+<!-- 							v-model="nuevoAnioMonto.monto" -->
+<!-- 						></ui-textbox> -->
+<!-- 						<ui-textbox -->
+<!-- 							v-if="tipoFormMontoFijo=='fc'" -->
+<!-- 							label="Ingrese un Fondo de Calefaccion" -->
+<!-- 							v-model="nuevoAnioMonto.monto" -->
+<!-- 						></ui-textbox> -->
+<!-- 						<ui-textbox -->
+<!-- 							v-if="tipoFormMontoFijo=='fo'" -->
+<!-- 							label="Ingrese un Fondo de obras" -->
+<!-- 							v-model="nuevoAnioMonto.monto" -->
+<!-- 						></ui-textbox> -->
+<!-- 					</fieldset> -->
+<!-- 					<div align="right" style="margin-top: 25px; margin-bottom: 25px;"> -->
+<!-- 						<ui-button  -->
+<!-- 							class="button-texto-blanco" -->
+<!-- 							@click="" -->
+<!-- 							>Restablecer -->
+<!-- 						</ui-button> -->
+<!-- 			            <ui-button  -->
+<!-- 							color="primary"  -->
+<!-- 							@click="ingresarNuevoMontoFijo" -->
+<!-- 							>Confirmar -->
+<!-- 						</ui-button> -->
+<!-- 					</div> -->
+<!--               </ui-modal> -->
+				<ui-modal ref="form-info-edificio" size="normal" :title="titulos.detalleEdificio" align-top> 
+					<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+						<ui-textbox
+							label="Nombre"
+							v-model="edificio.nombre"
+						></ui-textbox>
+						<ui-textbox
+							label="Direccion"
+							v-model="edificio.direccion"
+						></ui-textbox>
+						<ui-textbox
+							label="Barrio"
+							v-model="edificio.barrio"
+						></ui-textbox>
+						<ui-textbox
+							label="Año de construccion"
+							v-model="edificio.anioConstruccion"
+						></ui-textbox>
+						<ui-textbox
+							label="Cantidad metros construidos"
+							v-model="edificio.metrosConstruidos"
+						></ui-textbox>
+						<ui-textbox
+							label="Cantidad metros totales"
+							v-model="edificio.metrosTotales"
+						></ui-textbox>
+					</fieldset>
+					<div align="right" style="margin-top: 25px; margin-bottom: 25px;">
+						 <ui-button 
+			               	class="button-texto-blanco"
+			               	@click="closeModal('form-info-edificio')"
+			               	>Cancelar
+		               	</ui-button>
+		               	<ui-button 
+							color="primary" 
+							@click="modificarInfoEdificio"
+							>Confirmar
+						</ui-button>
+					</div>
+				</ui-modal>
+              <ui-modal ref="detalle-unidad" size="normal" :title="titulos.detalleUnidad" align-top> 
+              		<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+              			<ui-textbox
+							label="Referencia"
+							v-model="unidad.id"
+						></ui-textbox>
+						<ui-textbox
+							label="Apto."
+							v-model="unidad.nroApartamento"
+						></ui-textbox>
+              			<ui-textbox
+							label="Coeficiente"
+							v-model="unidad.coeficiente"
+						></ui-textbox>
+						<ui-textbox
+							label="Metraje"
+							v-model="unidad.metraje"
+						></ui-textbox>
+              			<ui-select
+			                label="Tipo de unidad"
+			                :options="tiposUnidades"
+			                v-model="unidad.tipoUnidadTxt"
+			            ></ui-select>
+			            <ui-select
+			            	v-if="edificio.pagaCochera==1"
+			                label="Cantidad de cocheras"
+			                :options="cantCocheras"
+			                v-model="unidad.cantidadCocheras"
+			            ></ui-select>
+			            <ui-select
+			                label="Habilitado para pago"
+			                :options="opcionesBasicas"
+			                v-model="unidad.habilitadoTxt"
+			            ></ui-select>
+              		</fieldset>
+              		<div align="right" style="margin-top: 25px; margin-bottom: 25px;">
+						 <ui-button 
+			               	class="button-texto-blanco"
+			               	@click="closeModal('detalle-unidad')"
+			               	>Cancelar
+		               	</ui-button>
+		               	<ui-button 
+			            	v-if="comandoUnidad=='nuevo'"
+							color="primary" 
+							@click="agregarNuevaUnidad"
+							>Confirmar
+						</ui-button>
+			            <ui-button 
+			            	v-if="comandoUnidad=='editar'"
+							color="primary" 
+							@click="editarUnidad"
+							>Confirmar
+						</ui-button>
+					</div>
+              </ui-modal>
+              <ui-modal ref="detalle-usuario" size="normal" :title="titulos.detalleUsuario" align-top> 
+              		<p style="text-align: center;">Para editar o elimnar la información del usuario presione el boton <strong style="color: #2196f3;">modificar</strong> y luego de editar los campos disponibles presione el boton <strong style="color: #2196f3;">confirmar</strong>.</p>
+              		<div align="right" style="margin-top: 25px; margin-bottom: 25px;">
+						 <ui-button 
+			               	class="button-texto-blanco"
+			               	@click="habilitarEdicionUsuario"
+			               	>Modificar
+		               	</ui-button>
+					</div>
+              		<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+              			<ui-textbox
+							label="Tipo de usuario"
+							disabled
+							v-model="detalleUsuario.tipo"
+						></ui-textbox>
+              			<ui-textbox
+							label="Nombre"
+							:disabled="!editorUsuario"
+							v-model="detalleUsuario.nombre"
+						></ui-textbox>
+						<ui-textbox	
+							label="Apellido"
+							:disabled="!editorUsuario"
+							v-model="detalleUsuario.apellido"
+						></ui-textbox>
+						<ui-textbox
+							v-if="detalleUsuario.tipo=='C'"
+							disabled
+							label="Edificio"
+							v-model="detalleUsuario.nombreEdificio"
+						></ui-textbox>
+						<ui-textbox
+							v-if="detalleUsuario.tipo=='C'"
+							disabled
+							label="Unidad"
+							v-model="detalleUsuario.nroApto"
+						></ui-textbox>
+						<ui-textbox
+							label="Telefono"
+							:disabled="!editorUsuario"
+							v-model="detalleUsuario.telefono"
+						></ui-textbox>
+						<ui-textbox
+							label="Mail de contacto"
+							:disabled="!editorUsuario"
+							v-model="detalleUsuario.email"
+						></ui-textbox>
+						<ui-textbox
+							label="Observaciones"
+							:disabled="!editorUsuario"
+							v-model="detalleUsuario.observaciones"
+						></ui-textbox>
+					</fieldset>	
+					<div align="right" class="button-m" style="margin-top: 25px; margin-bottom: 25px;">
+						 <ui-button 
+			               	class="button-texto-blanco"
+			               	@click="closeModal('detalle-usuario')"
+			               	>Cancelar
+		               	</ui-button>
+		               	 <ui-button 
+			               	class="button-texto-blanco"
+			               	:disabled="!editorUsuario"
+			               	@click="verModalConfirmacion('eliminarUsuario')"
+			               	>Eliminar
+		               	</ui-button>
+			            <ui-button 
+							color="primary" 
+							:disabled="!editorUsuario"
+							@click="editarUsuario"
+							>Confirmar
+						</ui-button>
+					</div>		
+              </ui-modal> 
+              <ui-modal ref="detalle-tipos-pagos" size="normal" title="Tipos de pagos" align-top>
+              		<p style="text-align: center;">Seleccione los tipos de pagos extra que se deben abonar en el edificio</p>
+              		<fieldset class="fieldset-form-ingreso">
+						<ui-checkbox 
+							box-position="right"
+							v-model="tipodePago.pagaFc">
+							Fondo de Calefaccion
+						</ui-checkbox>
+						<ui-checkbox 
+							box-position="right"
+							v-model="tipodePago.pagaCh">
+							Fondo de Cocheras
+						</ui-checkbox>
+						<ui-checkbox 
+							box-position="right"
+							v-model="tipodePago.pagaFo">
+							Fondo de Obras
+						</ui-checkbox>
+              		</fieldset>
+              		<div align="right" style="margin-top: 25px; margin-bottom: 25px;">
+						 <ui-button 
+			               	class="button-texto-blanco"
+			               	@click="closeModal('detalle-tipos-pagos')"
+			               	>Cancelar
+		               	</ui-button>
+			            <ui-button 
+							color="primary" 
+							@click="guardarTiposPago"
+							>Confirmar
+						</ui-button>
+					</div>		
+              </ui-modal>
+              <ui-modal ref="detalle-monto-fijo" size="normal" title="Detalle Montos ingresados" align-top>
+              		<p style="text-align: center;">Ingrese el/los montos mensuales que se deberán cobrar por las distintas cajas pertenecientes al edificio en el año seleccionado.</p>
+              		<fieldset class="fieldset-form-ingreso">
+	              		<ui-textbox
+	              			type="number"
+							label="Gastos comunes"
+							:invalid="detalleMontoFijo.invalidGC && detalleMontoFijo.montoGC < 0"
+							error="El monto ingresado no puede ser menor a 0"
+							v-model="detalleMontoFijo.montoGC"
+						></ui-textbox>
+						<ui-textbox
+							type="number"
+							:invalid="detalleMontoFijo.invalidFR && detalleMontoFijo.montoFR < 0"
+							error="El monto ingresado no puede ser menor a 0"
+							label="Fondo de reserva"
+							v-model="detalleMontoFijo.montoFR"
+						></ui-textbox>
+						<ui-textbox
+							type="number"
+							:invalid="detalleMontoFijo.invalidFC && detalleMontoFijo.montoFC < 0"
+							error="El monto ingresado no puede ser menor a 0"
+							v-if="edificio.pagaCalefaccion==1"
+							label="Fondo de caleffacion"
+							v-model="detalleMontoFijo.montoFC"
+						></ui-textbox>
+						<ui-textbox
+							type="number"
+							:invalid="detalleMontoFijo.invalidFO && detalleMontoFijo.montoFO < 0"
+							error="El monto ingresado no puede ser menor a 0"
+							v-if="edificio.pagaObras==1"
+							label="Fondo de obras"
+							v-model="detalleMontoFijo.montoFO"
+						></ui-textbox>
+						<ui-textbox
+							type="number"
+							:invalid="detalleMontoFijo.invalidCH && detalleMontoFijo.montoCH < 0"
+							error="El monto ingresado no puede ser menor a 0"
+							v-if="edificio.pagaCochera==1"
+							label="Fondo de cocheras"
+							v-model="detalleMontoFijo.montoCH"
+						></ui-textbox>
+					</fieldset>
+					<div align="right" style="margin-top: 25px; margin-bottom: 25px;">
+						 <ui-button 
+			               	class="button-texto-blanco"
+			               	@click="closeModal('detalle-monto-fijo')"
+			               	>Cancelar
+		               	</ui-button>
+			            <ui-button 
+							color="primary" 
+							@click="modificarMontosFijados"
+							>Confirmar
+						</ui-button>
+					</div>		
+              </ui-modal>
+              <ui-modal ref="formulario-nuevo-monto" size="normal" title="Ingreso de nuevos montos fijados" align-top>
+              		<fieldset class="fieldset-form-ingreso">
+              			<ui-select
+              				label="Seleccionar un año"
+              				:options="anios"
+              				v-model="nuevoMontoFijo.anio"
+              			></ui-select>
+              			<ui-textbox
+							label="Gastos comunes"
+							v-model="nuevoMontoFijo.montoGC"
+						></ui-textbox>
+						<ui-textbox
+							label="Fondo de reserva"
+							v-model="nuevoMontoFijo.montoFR"
+						></ui-textbox>
+						<ui-textbox
+							v-if="edificio.pagaCalefaccion==1"
+							label="Fondo de caleffacion"
+							v-model="nuevoMontoFijo.montoFC"
+						></ui-textbox>
+						<ui-textbox
+							v-if="edificio.pagaObras==1"
+							label="Fondo de obras"
+							v-model="nuevoMontoFijo.montoFO"
+						></ui-textbox>
+						<ui-textbox
+							v-if="edificio.pagaCochera==1"
+							label="Fondo de cocheras"
+							v-model="nuevoMontoFijo.montoCH"
+						></ui-textbox>
+					</fieldset>
+					<div align="right" style="margin-top: 25px; margin-bottom: 25px;">
+						 <ui-button 
+			               	class="button-texto-blanco"
+			               	@click="closeModal('formulario-nuevo-monto')"
+			               	>Cancelar
+		               	</ui-button>
+			            <ui-button 
+							color="primary" 
+							@click="guardarNuevoMontoFijo" 
+							>Confirmar
+						</ui-button>
+					</div>		
+              </ui-modal>
+              <ui-modal ref="recuperar-con" size="normal" title="Administracion Juncal" align-top>
+              		<div style="text-align: center; color: #2196f3;">
+              			<h2>Reestablecer contraseña</h2>
+              		</div>
+              		<div class="textbox-login">
+						<ui-textbox 
+			                label="Ingrese su usuario" 
+							v-model="usuarioRes.usuario"
+						></ui-textbox>	
+					</div>
+					<div align="center" style="margin-top: 25px;">
+						<ui-button 
+							color="primary" 
+							@click="reestablecercontrasena"
+							>Enviar contraseña
+						</ui-button>
+					</div>	
+              </ui-modal>
+              <ui-modal ref="form-nuevo-archivo" size="normal" title="Subir nuevo archivo" align-top>
+              		<p v-if="comandoArchivo=='archivoPago'" style="text-align: center;"><strong style="color: #2196f3;">Importante: </strong>Al subir el archivo se procesarn los pagos indicados en el mismo. Por favor controle el documento antes de subirlo en el sistema.</p>
+              		<fieldset class="fieldset-form-ingreso">
+              			<ui-textbox
+              				v-if="comandoArchivo=='documento'"
+              				:invalid="nuevoArchivo.invalidNombre"
+              				error="Debe ingresar un nombre identificatorio del archivo"
+              				error="Debe ingresar un nombre identificatorio para el archivo"
+              				label="Nombre identificatorio del archivo*"
+              				v-model="nuevoArchivo.nombre"
+              			></ui-textbox>
+              			<ui-select
+              				v-if="comandoArchivo=='documento'"
+					     	label="Edificio"
+			                :options="edificios"
+			                v-model="nuevoArchivo.edificio"  
+			            ></ui-select>
+			            <ui-textbox
+			            	v-if="comandoArchivo=='documento'"
+              				label="Descripción"
+              				v-model="nuevoArchivo.descripcion"
+              			></ui-textbox>
+              			<div style="width: 190px; margin: 0px auto;">
+							<ui-fileupload 
+								:invalid="nuevoArchivo.invalidArchivo"
+								error="Debe seleccionar un archivo"
+		       					name="midocumento"
+		       					enctype="multipart/form-data"
+		       					@change="cargarDocumento"
+		       					enctype="multipart/form-data">
+		       				</ui-fileupload>
+	       				</div>
+<!--                					<ui-button -->
+<!--                						@click="onFile11Change" -->
+<!--                						>Ingresar -->
+<!--                					</ui-button>       		 -->
+              		</fieldset>
+              		<div align="right" style="margin-top: 25px; margin-bottom: 25px;">
+						 <ui-button 
+			               	class="button-texto-blanco"
+			               	@click="closeModal('form-nuevo-archivo')"
+			               	>Cancelar
+		               	</ui-button>
+			            <ui-button 
+			           		v-if="comandoArchivo=='documento'"
+							color="primary" 
+							@click="subirDocumento"
+							>Confirmar
+						</ui-button>
+						<ui-button 
+			           		v-if="comandoArchivo=='archivoPago'"
+							color="primary" 
+							@click="subirArchivoPago"
+							>Confirmar
+						</ui-button>
+					</div>		
+              </ui-modal>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="pwa/vue.js"></script>
+	<script src="keen/keen-ui.min.js"></script>
+	<script src="custom/serviceClient.js" type="text/javascript"></script>
+	<script src="custom/data.js"></script>
+	</body>
+</html>
