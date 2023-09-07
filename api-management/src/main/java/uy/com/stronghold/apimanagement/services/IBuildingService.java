@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Building;
+import uy.com.stronghold.apimanagement.models.Unit;
 
 @Service
 public interface IBuildingService {
@@ -15,8 +16,11 @@ public interface IBuildingService {
 	List<Building> getBuildings(String name) throws ValidationException;
 
 	void saveBuilding(Building building) throws ValidationException;
+	
+	void updateBuilding(Building building) throws ValidationException;
 
-	void deleteBuilding(Building building);
+	void deleteBuilding(Building building) throws ValidationException;
 
 	
+
 }

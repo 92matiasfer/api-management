@@ -1,15 +1,15 @@
 package uy.com.stronghold.apimanagement.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-@Entity(name = "settlementMonth")
-@Table(name = "settlementMonth", schema = "juncal_management")
+@Entity(name = "settlement_month")
+@Table(name = "settlement_month", schema = "juncal_management")
 public class SettlementMonth {
 	
 	@Id

@@ -3,15 +3,18 @@ package uy.com.stronghold.apimanagement.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import jakarta.servlet.http.HttpServletRequest;
+import uy.com.stronghold.apimanagement.enums.Errores;
 import uy.com.stronghold.apimanagement.enums.UnitType;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
+import uy.com.stronghold.apimanagement.models.Building;
 import uy.com.stronghold.apimanagement.models.Unit;
 import uy.com.stronghold.apimanagement.resources.ApiManagementImp;
 import uy.com.stronghold.apimanagement.utils.ValidationUtil;
@@ -54,22 +57,42 @@ public class UnitController implements IUnitController {
 	@Override
 	public ResponseEntity<Object> saveUnit(Unit unit, HttpHeaders headers, HttpServletRequest request)
 			throws ValidationException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		validation.validateSaveUnit(unit);
+		
+		apiManagementServiceImp.saveUnit(unit);
+		
+		return new ResponseEntity<Object>("La unidad ha sido creada correctamente", HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<Object> updateUnit(Unit unit, HttpHeaders headers, HttpServletRequest request)
 			throws ValidationException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		validation.validateUpdateUnit(unit);
+		
+		if(apiManagementServiceImp.getUnit(unit.getId()) == null) throw new ValidationException(Errores.UNIT_NOT_FOUND);
+		
+		apiManagementServiceImp.saveUnit(unit);
+		
+		return new ResponseEntity<Object>("La unidad ha sido modificada correctamente", HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<Object> deleteUnit(Optional<String> idParam, HttpHeaders headers, HttpServletRequest request)
 			throws ValidationException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		//Normalizo y valido la entrada de los datos
+		int id = validation.getInteger(idParam);
+		//Obtengo al edificio solicitado
+		Unit unit = apiManagementServiceImp.getUnit(id);
+		//Verifico que exista el edificio
+		if(unit == null) throw new ValidationException(Errores.BUILDING_NOT_FOUND);
+				
+		apiManagementServiceImp.deleteUnit(unit);
+		
+		return new ResponseEntity<Object>("La unidad ha sido eliminada correctamente", HttpStatus.OK);
+
 	}
 
 }

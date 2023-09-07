@@ -1,12 +1,26 @@
 package uy.com.stronghold.apimanagement.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity(name = "supplier")
+@Table(name = "supplier", schema = "juncal_management")
 public class Supplier {
 	
+	@Id
+	@Column(name = "id")
 	private int id;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "description")
 	private String description;
+	@Column(name = "rut")
 	private String rut;
+	@Column(name = "phone")
 	private String phone;
+	@Column(name = "email")
 	private String email;
 	
 	public int getId() {

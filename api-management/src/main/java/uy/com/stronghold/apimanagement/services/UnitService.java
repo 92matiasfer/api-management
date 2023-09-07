@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import uy.com.stronghold.apimanagement.enums.Errores;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Unit;
-import uy.com.stronghold.apimanagement.repositories.UnitRepository;
+import uy.com.stronghold.apimanagement.repositories.IUnitRepository;
 
 @Service
 public class UnitService implements IUnitService {
 
 	@Autowired
-	private UnitRepository unitRepository;
+	private IUnitRepository unitRepository;
 	
 	@Override
 	public Unit getUnit(int id) throws ValidationException {
@@ -32,13 +32,12 @@ public class UnitService implements IUnitService {
 
 	@Override
 	public void saveUnit(Unit unit) throws ValidationException {
-		Unit newUnit = unitRepository.saveUnit(unit);
-		if(newUnit == null) throw new ValidationException(Errores.UNIT_NOT_FOUND);
+		if(unitRepository.save(unit) == null) throw new ValidationException(Errores.UNIT_NOT_FOUND);
 	}
 
 	@Override
 	public void deleteUnit(Unit unit) {
-		unitRepository.deleteUnit(unit);
+		unitRepository.delete(unit);
 	}
 
 }
