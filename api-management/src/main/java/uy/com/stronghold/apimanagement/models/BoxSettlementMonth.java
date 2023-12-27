@@ -7,6 +7,9 @@ public class BoxSettlementMonth {
 	private float currentBalance;
 	private Box box;
 	private SettlementMonth settlementMonth;
+	
+	
+	
 	public int getId() {
 		return id;
 	}
