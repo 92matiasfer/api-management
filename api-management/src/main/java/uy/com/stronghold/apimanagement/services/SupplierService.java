@@ -1,5 +1,6 @@
 package uy.com.stronghold.apimanagement.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class SupplierService implements ISupplierService {
 
 	@Override
 	public List<Supplier> getSuppliers(String name) throws ValidationException {
-		List<Supplier> suppliers = null;
+		List<Supplier> suppliers = new ArrayList<>();
 		suppliers = repository.getSuppliers(name);
-		if(suppliers == null || suppliers.isEmpty()) throw new ValidationException(Errores.SUPPLIER_NOT_FOUND);
+//		if(suppliers == null || suppliers.isEmpty()) throw new ValidationException(Errores.SUPPLIER_NOT_FOUND);
 		return suppliers;
 	}
 

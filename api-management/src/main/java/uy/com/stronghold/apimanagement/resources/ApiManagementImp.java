@@ -11,6 +11,7 @@ import uy.com.stronghold.apimanagement.enums.UnitType;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Box;
 import uy.com.stronghold.apimanagement.models.Building;
+import uy.com.stronghold.apimanagement.models.ItemMenu;
 import uy.com.stronghold.apimanagement.models.Person;
 import uy.com.stronghold.apimanagement.models.SettlementMonth;
 import uy.com.stronghold.apimanagement.models.Supplier;
@@ -20,6 +21,7 @@ import uy.com.stronghold.apimanagement.models.Unit;
 import uy.com.stronghold.apimanagement.models.UnitTransaction;
 import uy.com.stronghold.apimanagement.services.IBoxService;
 import uy.com.stronghold.apimanagement.services.IBuildingService;
+import uy.com.stronghold.apimanagement.services.IItemMenuService;
 import uy.com.stronghold.apimanagement.services.IPersonService;
 import uy.com.stronghold.apimanagement.services.ISettlementMonthService;
 import uy.com.stronghold.apimanagement.services.ISupplierService;
@@ -43,7 +45,13 @@ public class ApiManagementImp implements IApiManagementImp {
 	private IPersonService personService;
 	@Autowired
 	private ISettlementMonthService settlementMonthService;
+	@Autowired
+	private IItemMenuService itemMenuService;
 	
+	
+	public List<ItemMenu> getItemsMenu() throws ValidationException {
+		return itemMenuService.getItemsMenu();
+	}
 
 	public Building getBuilding(int id) throws ValidationException {
 		return buildingService.getBuilding(id);

@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity(name = "box")
 @Table(name = "box", schema = "juncal_management")
@@ -23,18 +24,25 @@ public class Box {
     @JoinColumn(name = "id_building")
 	private Building building;
 	
+	@Transient
+	private int value;
+	@Transient
+	private String label;
+	
 
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+		this.value = id;
 	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+		this.label = name;
 	}
 
 	public CalculationMethod getCalculationMethod() {
@@ -49,6 +57,12 @@ public class Box {
 	public void setBuilding(Building building) {
 		this.building = building;
 	}
+	public int getValue() {
+		return id;
+	}
+	public String getLabel() {
+		return name;
+	}
 	
 
 	public Box() {
@@ -60,6 +74,8 @@ public class Box {
 		this.name = name;
 		this.calculationMethod = calculationMethod;
 		this.building = building;
+		this.value = id;
+		this.label = name;
 	}
 
 	

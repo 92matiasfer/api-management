@@ -696,6 +696,7 @@ mui-page {
 
 .table-emp {
 	width: 100%;
+	line-height: 50px;
 }
 
 /********************** Utilies **************************/
