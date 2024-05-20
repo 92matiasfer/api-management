@@ -12,7 +12,7 @@ public interface IUnitService {
 
 	Unit getUnit(int id) throws ValidationException;
 
-	List<Unit> getUnits(int building, String number, String unitType) throws ValidationException;
+	List<Unit> getUnits(int building, String number) throws ValidationException;
 
 	void saveUnit(Unit unit) throws ValidationException;
 

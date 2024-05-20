@@ -106,11 +106,30 @@ var vm = new Vue({
 //					me.mostrarError('Error al intentar comunicarse con el servidor');
 				}
 			});
-			
 		},
 		gotoUnitsList: function(){
-			vm.units = vm.building.units;
-//			mui.viewport.showPage('fomulario-unidades-page','SLIDE_UP');
+			var me = this;
+			mui.busy(true);
+			mui.ajax({
+				url: serviceURL + '/units?idBuilding' + vm.building.id,
+				type: 'GET',
+				headers: {
+					'Accept':'application/json',
+					'content-type':'application/x-www-form-urlencoded'
+				},
+				data: {},
+				success: function(data){
+					vm.units = data
+					mui.busy(false);
+					mui.viewport.showPage('units-list-page', 'SLIDE_UP');
+				},
+				error: function(err,estado, error){
+					mui.busy(false);
+//					me.mostrarError('Error al intentar comunicarse con el servidor');
+				}
+			});
+//			vm.units = vm.building.units;
+//			mui.viewport.showPage('units-list-page','SLIDE_UP');
 		},
 		volverPagina: function(){
 			mui.history.back();

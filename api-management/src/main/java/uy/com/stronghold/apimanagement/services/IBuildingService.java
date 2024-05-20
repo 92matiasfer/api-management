@@ -21,6 +21,4 @@ public interface IBuildingService {
 
 	void deleteBuilding(Building building) throws ValidationException;
 
-	
-
 }

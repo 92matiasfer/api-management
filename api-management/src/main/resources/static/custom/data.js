@@ -45,6 +45,9 @@ var globalDataVue = {
 			
 		]
 	},
+	units: [
+		
+	],
 	suppliers: [
 		
 	],
