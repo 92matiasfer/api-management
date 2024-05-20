@@ -313,6 +313,64 @@
 								</div>
 							</div>
 							
+							<div id="units-list-page" class="mui-page mui-scrollable">
+								<div slot="header">
+									<h3>Unidades</h3>
+								</div>
+								<div align="right" style="margin-top: 15px; margin-bottom: 15px;">
+									<ui-button 
+										icon="add"
+										icon-position="left"
+										class="button-texto-blanco"
+										@click=""
+										>Nueva unidad
+									</ui-button>
+								</div>
+								
+								<div class="table table-emp">
+									<div class="heading">
+										<div class="cell">
+											<p>Apto.</p>
+										</div>
+										<div class="cell">
+											<p>Tipo unidad</p>
+										</div>
+										<div class="cell" style="width: 6%;">
+											<p>Coeeficiente</p>
+										</div>
+										<div class="cell" style="width: 6%;">
+											<p>Referencia</p>
+										</div>
+										<div class="cell" style="width: 6%;">
+											<p>&nbsp;</p>
+										</div>
+									</div>
+									<div class="row-cebra" v-for="(unit, index) in units" style="cursor: pointer;">
+										<div class="cell border-button">
+											<p>{{unit.number}}</p>
+										</div>
+										<div class="cell border-button">
+											<p>***</p>
+										</div>
+										<div class="cell border-button">
+											<p>{{unit.coefficient}}</p>
+										</div>
+										<div class="cell border-button">
+											<p>{{unit.reference}}</p>
+										</div>
+										<div class="cell border-button align-v">
+											<ui-icon-button 
+											 	icon="edit"
+											 	color="primary"
+											 	type="secondary" 
+											 	@click="">
+											</ui-icon-button>
+										</div>
+									</div>
+								</div>
+							</div>N
+							
+							
 							
 							
 						</div>

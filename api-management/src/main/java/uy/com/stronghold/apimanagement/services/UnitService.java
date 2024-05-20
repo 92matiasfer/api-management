@@ -24,8 +24,8 @@ public class UnitService implements IUnitService {
 	}
 
 	@Override
-	public List<Unit> getUnits(int building, String number, String unitType) throws ValidationException {
-		List<Unit> units = unitRepository.getUnits(building, number, unitType);
+	public List<Unit> getUnits(int building, String number) throws ValidationException {
+		List<Unit> units = unitRepository.getUnits(building, number);
 		if(units == null || units.isEmpty()) throw new ValidationException(Errores.UNIT_NOT_FOUND);
 		return units;
 	}

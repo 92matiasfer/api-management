@@ -19,6 +19,7 @@ import uy.com.stronghold.apimanagement.models.SupplierTransaction;
 import uy.com.stronghold.apimanagement.models.Transaction;
 import uy.com.stronghold.apimanagement.models.Unit;
 import uy.com.stronghold.apimanagement.models.UnitTransaction;
+import uy.com.stronghold.apimanagement.repositories.QueriesRepository;
 import uy.com.stronghold.apimanagement.services.IBoxService;
 import uy.com.stronghold.apimanagement.services.IBuildingService;
 import uy.com.stronghold.apimanagement.services.IItemMenuService;
@@ -31,6 +32,8 @@ import uy.com.stronghold.apimanagement.services.IUnitService;
 @Service
 public class ApiManagementImp implements IApiManagementImp {
 	
+	@Autowired
+	private QueriesRepository repository;
 	@Autowired
 	private IBuildingService buildingService;
 	@Autowired
@@ -60,6 +63,10 @@ public class ApiManagementImp implements IApiManagementImp {
 	public List<Building> getBuildings(String name) throws ValidationException {
 		return buildingService.getBuildings(name);
 	}
+	
+	public List<Building> getInitialBuildings() {
+		return repository.getBuildings();
+	}
 
 	public void saveBuilding(Building building) throws ValidationException {
 		buildingService.saveBuilding(building);
@@ -78,8 +85,8 @@ public class ApiManagementImp implements IApiManagementImp {
 		return unitService.getUnit(id);
 	}
 
-	public List<Unit> getUnits(int idBuilding, String number, UnitType unitType) throws ValidationException {
-		return unitService.getUnits(idBuilding, number, unitType.toString());
+	public List<Unit> getUnits(int idBuilding, String number) throws ValidationException {
+		return unitService.getUnits(idBuilding, number);
 	}
 
 	public void saveUnit(Unit unit) throws ValidationException {
@@ -195,7 +202,4 @@ public class ApiManagementImp implements IApiManagementImp {
 		settlementMonthService.deleteSettlementMonths(settlementMonth);
 	}
 
-	
-	
-	
 }

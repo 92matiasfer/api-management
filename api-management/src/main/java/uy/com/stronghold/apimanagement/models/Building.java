@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,6 +33,7 @@ public class Building {
 	private float metersBuilt;
 	@Column(name = "total_meters")
 	private float totalMeters;
+	@JsonIgnore
 	@OneToMany(mappedBy = "building")
 	private List<Unit> units;
 	@JsonIgnore
@@ -105,6 +107,12 @@ public class Building {
 	
 	public Building() {
 		super();
+	}
+	
+	public Building(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
 	}
 	public Building(int id, String name, String address, int yearBuilt, float metersBuilt, float totalMeters,
 			List<Unit> units, List<SettlementMonth> settlementMonths) {

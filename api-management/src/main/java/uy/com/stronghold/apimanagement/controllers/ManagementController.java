@@ -29,7 +29,7 @@ public class ManagementController implements IManagementController {
 			throws ValidationException {
 		
 		List<ItemMenu> ItemsMenu = apiManagementServiceImp.getItemsMenu();
-		List<Building> buildings = apiManagementServiceImp.getBuildings("");
+		List<Building> buildings = apiManagementServiceImp.getInitialBuildings(); 
 		List<Supplier> suppliers = apiManagementServiceImp.getSuppliers("");
 		
 		Map<String, List<?>> dataMap = new HashMap<>();

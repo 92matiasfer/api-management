@@ -143,15 +143,17 @@ public class ValidationUtil {
 
 
 	private UnitType getUnitType(String unitType) throws ValidationException {
-		if(unitType.equalsIgnoreCase(UnitType.renter.toString())) {
-			return UnitType.renter;
-		} else if(unitType.equalsIgnoreCase(UnitType.owner.toString())) {
-			return UnitType.owner;
-		} else if(unitType.equalsIgnoreCase(UnitType.both.toString())) {
-			return UnitType.both;
-		} else {
-			throw new ValidationException(Errores.UNIT_TYPE_INVALID);
-		}
+		if(!StringUtils.isBlank(unitType)) {
+			if(unitType.equalsIgnoreCase(UnitType.renter.toString())) {
+				return UnitType.renter;
+			} else if(unitType.equalsIgnoreCase(UnitType.owner.toString())) {
+				return UnitType.owner;
+			} else if(unitType.equalsIgnoreCase(UnitType.both.toString())) {
+				return UnitType.both;
+			} else {
+				throw new ValidationException(Errores.UNIT_TYPE_INVALID);
+			}
+		} else return null;
 	}
 
 
