@@ -1,11 +1,17 @@
 package uy.com.stronghold.apimanagement.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "box")
 @Table(name = "box", schema = "juncal_management")
@@ -16,12 +22,21 @@ public class Box {
 	private int id;
 	@Column(name = "name")
 	private String name;
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "id_calculation_method")
 	private CalculationMethod calculationMethod;
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "id_building")
 	private Building building;
+	@OneToMany(mappedBy = "box")
+	private List<BoxSettlementMonth> boxesSettlementMonths;
+	
+	@Transient
+	private int value;
+	@Transient
+	private String label;
 	
 
 	public int getId() {
@@ -29,12 +44,14 @@ public class Box {
 	}
 	public void setId(int id) {
 		this.id = id;
+		this.value = id;
 	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+		this.label = name;
 	}
 
 	public CalculationMethod getCalculationMethod() {
@@ -49,6 +66,12 @@ public class Box {
 	public void setBuilding(Building building) {
 		this.building = building;
 	}
+	public int getValue() {
+		return id;
+	}
+	public String getLabel() {
+		return name;
+	}
 	
 
 	public Box() {
@@ -60,6 +83,8 @@ public class Box {
 		this.name = name;
 		this.calculationMethod = calculationMethod;
 		this.building = building;
+		this.value = id;
+		this.label = name;
 	}
 
 	

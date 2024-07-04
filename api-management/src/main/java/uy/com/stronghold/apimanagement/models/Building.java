@@ -7,12 +7,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity(name = "building")
 @Table(name = "building", schema = "juncal_management")
@@ -35,20 +37,27 @@ public class Building {
 	private List<Unit> units;
 	@JsonIgnore
 	@OneToMany(mappedBy = "building")
-	private List<SettlementMonth> settlementMonths = new ArrayList<>();
-
+	private List<SettlementMonth> settlementMonths;
+	
+	@Transient
+	private int value;
+	@Transient
+	private String label;
+	
 	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+		this.value = id;
 	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+		this.label = name; 
 	}
 	public String getAddress() {
 		return address;
@@ -86,9 +95,23 @@ public class Building {
 	public void setSettlementMonths(List<SettlementMonth> settlementMonths) {
 		this.settlementMonths = settlementMonths;
 	}
+	public int getValue() {
+		return id;
+	}
+	public String getLabel() {
+		return name;
+	}
+	
+	
 	
 	public Building() {
 		super();
+	}
+	
+	public Building(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
 	}
 	public Building(int id, String name, String address, int yearBuilt, float metersBuilt, float totalMeters,
 			List<Unit> units, List<SettlementMonth> settlementMonths) {
@@ -101,6 +124,8 @@ public class Building {
 		this.totalMeters = totalMeters;
 		this.units = units;
 		this.settlementMonths = settlementMonths;
+		this.value = id;
+		this.label = name;
 	}
 
 }

@@ -24,6 +24,8 @@ public enum Errores implements ErroresInterface {
 	ERROR_UPDATE_PERSON(1, "1", "La Persona no se ha podido modificar correctamente", HttpStatus.INTERNAL_SERVER_ERROR),
 	ERROR_UPDATE_SETTLEMENT_MONTH(1, "1", "El Mes Liquidacion no se ha podido modificar correctamente", HttpStatus.INTERNAL_SERVER_ERROR),
 	
+	ERROR_GET_BOX_SETTLEMENT_MONTH(1, "1", "La unidad de la caja del mes liquidación no se pudo cargar correctamente", HttpStatus.INTERNAL_SERVER_ERROR),
+
 	CAMPOS_NULL(2, "2", "Campos nulos o vacíos. Debe ingresar algun valor.", HttpStatus.BAD_REQUEST),
 	TYPE_INVALID(2, "3", "El tipo ingresado no es valido.", HttpStatus.BAD_REQUEST),
 	INTEGER_INVALID(14, "14", "Información ingresada para campo numérico no valido.", HttpStatus.BAD_REQUEST),

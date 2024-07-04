@@ -49,7 +49,7 @@ public class UnitController implements IUnitController {
 		int idBuilding = validation.getInteger(idBuildingParam);
 		UnitType unitType = validation.getUnitType(unitTypeParam);
 		
-		List<Unit> units = apiManagementServiceImp.getUnits(idBuilding, number, unitType);
+		List<Unit> units = apiManagementServiceImp.getUnits(idBuilding, unitType, number);
 		
 		return new ResponseEntity<Object>(units, HttpStatus.OK);
 	}

@@ -4,13 +4,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import uy.com.stronghold.apimanagement.enums.UnitType;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Box;
+import uy.com.stronghold.apimanagement.models.BoxSettlementMonth;
 import uy.com.stronghold.apimanagement.models.Building;
+import uy.com.stronghold.apimanagement.models.ItemMenu;
 import uy.com.stronghold.apimanagement.models.Person;
 import uy.com.stronghold.apimanagement.models.SettlementMonth;
 import uy.com.stronghold.apimanagement.models.Supplier;
@@ -18,8 +21,10 @@ import uy.com.stronghold.apimanagement.models.SupplierTransaction;
 import uy.com.stronghold.apimanagement.models.Transaction;
 import uy.com.stronghold.apimanagement.models.Unit;
 import uy.com.stronghold.apimanagement.models.UnitTransaction;
+import uy.com.stronghold.apimanagement.repositories.QueriesRepository;
 import uy.com.stronghold.apimanagement.services.IBoxService;
 import uy.com.stronghold.apimanagement.services.IBuildingService;
+import uy.com.stronghold.apimanagement.services.IItemMenuService;
 import uy.com.stronghold.apimanagement.services.IPersonService;
 import uy.com.stronghold.apimanagement.services.ISettlementMonthService;
 import uy.com.stronghold.apimanagement.services.ISupplierService;
@@ -29,6 +34,8 @@ import uy.com.stronghold.apimanagement.services.IUnitService;
 @Service
 public class ApiManagementImp implements IApiManagementImp {
 	
+	@Autowired
+	private QueriesRepository repository;
 	@Autowired
 	private IBuildingService buildingService;
 	@Autowired
@@ -43,7 +50,13 @@ public class ApiManagementImp implements IApiManagementImp {
 	private IPersonService personService;
 	@Autowired
 	private ISettlementMonthService settlementMonthService;
+	@Autowired
+	private IItemMenuService itemMenuService;
 	
+	
+	public List<ItemMenu> getItemsMenu() throws ValidationException {
+		return itemMenuService.getItemsMenu();
+	}
 
 	public Building getBuilding(int id) throws ValidationException {
 		return buildingService.getBuilding(id);
@@ -51,6 +64,10 @@ public class ApiManagementImp implements IApiManagementImp {
 	
 	public List<Building> getBuildings(String name) throws ValidationException {
 		return buildingService.getBuildings(name);
+	}
+	
+	public List<Building> getInitialBuildings() {
+		return repository.getBuildings();
 	}
 
 	public void saveBuilding(Building building) throws ValidationException {
@@ -70,8 +87,8 @@ public class ApiManagementImp implements IApiManagementImp {
 		return unitService.getUnit(id);
 	}
 
-	public List<Unit> getUnits(int idBuilding, String number, UnitType unitType) throws ValidationException {
-		return unitService.getUnits(idBuilding, number, unitType.toString());
+	public List<Unit> getUnits(int idBuilding, UnitType unitType,String number) throws ValidationException {
+		return unitService.getUnits(idBuilding, unitType, number);
 	}
 
 	public void saveUnit(Unit unit) throws ValidationException {
@@ -187,7 +204,8 @@ public class ApiManagementImp implements IApiManagementImp {
 		settlementMonthService.deleteSettlementMonths(settlementMonth);
 	}
 
-	
-	
-	
+    public List<BoxSettlementMonth> getBoxesSettlementMonths(int settlementMonth, int box, int unit) throws ValidationException {
+        return repository.getBoxesSettlementMonths(settlementMonth, box, unit);
+    }
+
 }

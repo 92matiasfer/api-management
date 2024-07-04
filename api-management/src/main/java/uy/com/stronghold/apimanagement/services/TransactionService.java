@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import uy.com.stronghold.apimanagement.enums.Errores;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
-import uy.com.stronghold.apimanagement.models.SettlementMonth;
 import uy.com.stronghold.apimanagement.models.SupplierTransaction;
 import uy.com.stronghold.apimanagement.models.Transaction;
 import uy.com.stronghold.apimanagement.models.UnitTransaction;
@@ -64,7 +63,7 @@ public class TransactionService implements ITransactionService {
 
 	@Override
 	public void deleteById(int id) {
-		repository.deleteById(Long.parseLong(id+""));
+		repository.deleteById(id);
 	}
 
 	

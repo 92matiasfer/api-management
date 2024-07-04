@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import uy.com.stronghold.apimanagement.enums.Errores;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
+import uy.com.stronghold.apimanagement.models.BoxSettlementMonth;
 import uy.com.stronghold.apimanagement.models.SettlementMonth;
 import uy.com.stronghold.apimanagement.repositories.ISettlementMonthRepository;
 

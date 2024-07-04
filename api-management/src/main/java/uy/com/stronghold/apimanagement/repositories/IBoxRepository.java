@@ -9,13 +9,13 @@ import org.springframework.stereotype.Repository;
 import uy.com.stronghold.apimanagement.models.Box;
 
 @Repository
-public interface IBoxRepository extends JpaRepository<Box, Long> {
+public interface IBoxRepository extends JpaRepository<Box, Integer> {
 
 	@Query("SELECT b FROM box b WHERE b.id = :id")
 	Box getBox(int id);
 
-	@Query("SELECT b FROM box b WHERE (:name IS NULL OR b.name = :name) AND "
-			+ "(:building IS NULL OR b.building = :building)")
+	@Query("SELECT b FROM box b WHERE (:name IS '' OR b.name = :name) AND "
+			+ "(:building IS 0 OR b.building = :building)")
 	List<Box> getBoxes(String name, int building);
 
 	
