@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import uy.com.stronghold.apimanagement.models.Person;
 
 @Repository
-public interface IPersonRepository extends JpaRepository<Person, Long> {
+public interface IPersonRepository extends JpaRepository<Person, Integer> {
 
 	@Query("SELECT p FROM person p WHERE p.id = :id")
 	Person getPerson(int id);

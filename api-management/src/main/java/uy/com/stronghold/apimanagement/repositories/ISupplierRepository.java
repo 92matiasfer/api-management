@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import uy.com.stronghold.apimanagement.models.Supplier;
 
 @Repository
-public interface ISupplierRepository extends JpaRepository<Supplier, Long>{
+public interface ISupplierRepository extends JpaRepository<Supplier, Integer>{
 
 	@Query("SELECT s FROM supplier s WHERE s.id = :id")
 	Supplier getSupplier(int id);

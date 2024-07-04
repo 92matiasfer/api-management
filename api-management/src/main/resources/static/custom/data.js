@@ -11,7 +11,7 @@ var globalDataVue = {
 	        mostrar: ''
 	    }
 	],
-	calendarioEsp: {
+	calendar: {
 		months:{
 			full: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
 			abbreviated: ['Ene', 'Feb','Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic']
@@ -48,8 +48,50 @@ var globalDataVue = {
 	units: [
 		
 	],
+	transaction: {
+		unit: {
+			
+		}, 
+		supplier: {
+			
+		},
+		observation: '',
+		date: null,
+		amount: 0.0,
+		unitsBoxes: [
+			
+		]
+	},
 	suppliers: [
 		
+	],
+	resultsUnitsBoxesMonthsLiquidation: [
+		{
+			id: 0,
+			previousBalance: 0.0,
+			currentBalance: 0.0,
+			box: {
+
+			},
+			unitsboxesSettlementMonths: [
+				{
+					id: 0,
+					amountSettlementMonth: 0.0,
+					previousBalance: 0.0,
+					currentBalance: 0.0,
+					boxName: ""
+				}
+			]
+		},
+	],
+	amountSettlementMonth: 0.0,
+	unitsBoxesMonthsLiquidation:[
+		{
+			id: 0,
+			name: '',
+			previousBalance: 0.0,
+			currentBalance: 0.0
+		}
 	],
 	diaActual: 0,
 	fechaActual: '',
@@ -79,6 +121,32 @@ var globalDataVue = {
          1: false,
     },
 	usuarios: [],
+	monthsLiquidation: [
+		{
+			id: 0,
+			year: '',
+			month: '',
+			boxesSettlementMonths: [
+				{
+					id: 0,
+					box: {
+						id: 0,
+						name: '',
+						value: 0,
+						name: ''
+					}, 
+					unitsboxesSettlementMonths: [
+						{
+							id: 0,
+							amountSettlementMonth: 0,
+							previousBalance: 0,
+							currentBalance: 0
+						}
+					]
+				}
+			]
+		}
+	],
 	anios: [
 		{
 			label: '2019',

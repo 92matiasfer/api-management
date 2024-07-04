@@ -202,6 +202,7 @@
 										<div class="button-card" style="cursor: pointer;">
 											<ui-button 
 												color="primary" 
+												@click="showNewTransactionForm"
 												>Ingresar
 											</ui-button>
 										</div>
@@ -313,6 +314,170 @@
 								</div>
 							</div>
 							
+							<div id="form-transaction-page" class="mui-page mui-scrollable">
+								<div slot="header">
+									<h3 >{{building.name}}</h3>
+								</div>
+								<ui-tabs fullwidth>
+					                <ui-tab>
+					                    <div slot="header" class="my-custom-tab-header">
+					                       <span>Gastos</span>
+					                    </div>
+										<div>
+											<fieldset class="fieldset-form-ingreso">
+												<ui-select
+									                label="Seleccione una unidad"
+									                :options="building.units"
+													@change="loadUnitBoxSettlementMonth"
+									                v-model="transaction.unit"
+									            ></ui-select>
+									             <ui-select
+									                label="Seleccionar mes"
+									                :options="monthsLiquidation"
+													@change="loadUnitBoxSettlementMonth"
+									                v-model="transaction.monthLiquidation"
+									            ></ui-select>
+									            <div class="form-dos">
+													<ui-textbox
+														class="col-md-6"
+														label="Monto"
+														type="number"
+														@blur="checkAmountTransaction"
+														v-model="transaction.amount"	
+													></ui-textbox>
+													<ui-textbox
+														label="Monto total a pagar"
+														disabled
+														class="col-md-6 textbox-fondo-blue"
+														v-model="amountSettlementMonth">												
+													</ui-textbox>
+												</div>
+												
+												<div v-if="transaction.unitsBoxes.length > 0">
+													<div class="form-dos" v-for="(unitBox, index) in unitsBoxesMonthsLiquidation">
+														<div class="col-md-6">
+															<div style="float: right;">		
+																<ui-icon-button 
+																	 icon="edit"
+																	 color="primary"
+																	 type="secondary">
+																</ui-icon-button>									
+															</div>
+															<ui-textbox
+																:label="unitBox.name"
+																v-model="transaction.unitsBoxes[index].amount"
+															></ui-textbox>
+														</div>
+														<ui-textbox
+															label="Monto a pagar"
+															disabled
+															class="col-md-6 textbox-fondo-blue"
+															v-model="unitBox.amountSettlementMonth">												
+														</ui-textbox>
+													</div>
+												</div>
+												
+									             <ui-datepicker
+									                icon="events"
+									                orientation="landscape"
+									                :lang="calendar"
+									                picker-type="modal"
+									                v-model="transaction.date"
+									            	>Fecha
+												</ui-datepicker>
+												<ui-textbox
+													label="Obsevaciones"
+													v-model="transaction.observation"
+												></ui-textbox>
+											</fieldset>
+											<div align="right" class="button-m" style="margin-top: 25px;">
+												<ui-button 
+													class="button-texto-blanco"
+													
+													>Restablecer
+												</ui-button>
+									            <ui-button 
+													color="primary" 
+													@click="saveTransaction('unit')"
+													>Confirmar
+												</ui-button>
+											</div>
+										</div>
+					                </ui-tab>
+					                <ui-tab>
+<!--					                    <div slot="header" class="my-custom-tab-header">-->
+<!--					                        <span>Proveedores</span>-->
+<!--										</div>-->
+<!--										<div>-->
+<!--											<fieldset class="fieldset-form-ingreso">-->
+<!--											 	<ui-select-->
+<!--									                label="Seleccione el tipo de caja"-->
+<!--									                :options="tiposCajas"-->
+<!--									                :invalid="nuevaTransaccion.invalidCaja && nuevaTransaccion.tipoCaja.value == 0"-->
+<!--									                v-model="nuevaTransaccion.tipoCaja"-->
+<!--									            ></ui-select>-->
+<!--												<div class="align-v" style="float: right; margin-left: 30px; margin-top: 15px;">-->
+<!--													 <ui-icon-button -->
+<!--													 	icon="add"-->
+<!--													 	color="primary"-->
+<!--													 	type="secondary" -->
+<!--													 	@click="verFormularioNuevoProveedor">-->
+<!--													</ui-icon-button>-->
+<!--												</div>-->
+<!--												 <ui-select-->
+<!--									                label="Seleccione un proveedor"-->
+<!--									                has-search-->
+<!--									                :options="proveedores"-->
+<!--									                :invalid="nuevaTransaccion.invalidProveedor && nuevaTransaccion.proveedor.value == 0"-->
+<!--									                v-model="nuevaTransaccion.proveedor"-->
+<!--									            ></ui-select>-->
+<!--												<ui-textbox-->
+<!--													label="Monto"-->
+<!--													type="number"-->
+<!--													:invalid="nuevaTransaccion.invalidMonto && (nuevaTransaccion.monto == 0 ||nuevaTransaccion.monto < 0)"-->
+<!--													v-model="nuevaTransaccion.monto"	-->
+<!--												></ui-textbox>-->
+<!--									            <ui-select-->
+<!--									                label="Seleccionr mes"-->
+<!--									                :invalid="nuevaTransaccion.mesLiquidacion.value == 0 && nuevaTransaccion.invalidMesLiquidacion"-->
+<!--									                :options="mesesLiquidacion"-->
+<!--									                v-model="nuevaTransaccion.mesLiquidacion"-->
+<!--									            ></ui-select>-->
+<!--									            <ui-textbox-->
+<!--													label="Nro. Factura"-->
+<!--													v-model="nuevaTransaccion.nroFactura"	-->
+<!--												></ui-textbox>-->
+<!--									             <ui-datepicker-->
+<!--									                icon="events"-->
+<!--									                picker-type="modal"-->
+<!--									                :invalid="nuevaTransaccion.fecha == null && nuevaTransaccion.invalidFecha"-->
+<!--									                :lang="calendarioEsp"-->
+<!--									                v-model="nuevaTransaccion.fecha"-->
+<!--									            	>Fecha-->
+<!--												</ui-datepicker>-->
+<!--												<ui-textbox-->
+<!--													label="Obsevaciones"-->
+<!--													v-model="nuevaTransaccion.observacion"-->
+<!--												></ui-textbox>-->
+<!--											</fieldset>-->
+<!--											<div align="right" class="button-m" style="margin-top: 25px;">-->
+<!--												<ui-button -->
+<!--													class="button-texto-blanco"-->
+<!--													@click=""-->
+<!--													>Restablecer-->
+<!--												</ui-button>-->
+<!--									            <ui-button -->
+<!--													color="primary" -->
+<!--													@click="guardarTransaccion(2)"-->
+<!--													>Confirmar-->
+<!--												</ui-button>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--					                </ui-tab>-->
+					            </ui-tabs>
+							</div>
+							
+							
 							<div id="units-list-page" class="mui-page mui-scrollable">
 								<div slot="header">
 									<h3>Unidades</h3>
@@ -335,13 +500,16 @@
 										<div class="cell">
 											<p>Tipo unidad</p>
 										</div>
-										<div class="cell" style="width: 6%;">
+										<div class="cell">
 											<p>Coeeficiente</p>
 										</div>
-										<div class="cell" style="width: 6%;">
+										<div class="cell">
 											<p>Referencia</p>
 										</div>
-										<div class="cell" style="width: 6%;">
+										<div class="cell">
+											<p>Contacto</p>
+										</div>
+										<div class="cell">
 											<p>&nbsp;</p>
 										</div>
 									</div>
@@ -350,13 +518,20 @@
 											<p>{{unit.number}}</p>
 										</div>
 										<div class="cell border-button">
-											<p>***</p>
+											<p v-if="unit.unitType== 'renter'">Inquilino</p>
+											<p v-else-if="unit.unitType == 'owner'">Propietario</p>
+										    <p v-else-if="unit.unitType == 'both'">Ambos</p>
+										    <p v-else>S/N</p>
 										</div>
 										<div class="cell border-button">
 											<p>{{unit.coefficient}}</p>
 										</div>
 										<div class="cell border-button">
 											<p>{{unit.reference}}</p>
+										</div>
+										<div class="cell border-button">
+											<p v-if="unit.person">{{unit.person.name}}</p>
+    										<p v-else>S/N</p>
 										</div>
 										<div class="cell border-button align-v">
 											<ui-icon-button 
@@ -368,7 +543,7 @@
 										</div>
 									</div>
 								</div>
-							</div>N
+							</div>
 							
 							
 							

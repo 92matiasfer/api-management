@@ -131,8 +131,117 @@ var vm = new Vue({
 //			vm.units = vm.building.units;
 //			mui.viewport.showPage('units-list-page','SLIDE_UP');
 		},
+		loadUnitBoxSettlementMonth: function(){
+			if(vm.transaction && vm.transaction && vm.transaction.monthLiquidation.value > 0 && vm.transaction.unit.value > 0){
+				var me = this;
+				mui.busy(true);
+				mui.ajax({
+					url: serviceURL + '/boxesSettlementMonths?settlementMonth=' + vm.transaction.monthLiquidation.value + '&unit=' + vm.transaction.unit.value,  
+					type: 'GET',
+					headers: {
+						'Accept':'application/json',
+						'content-type':'application/x-www-form-urlencoded'
+					},
+					data: {},
+					success: function(data){
+						vm.resultsUnitsBoxesMonthsLiquidation = data
+						me.formatDataUnitsBoxesMonthsLiquidation();
+						mui.busy(false);
+					},
+					error: function(err,estado, error){
+						mui.busy(false);
+	//					me.mostrarError('Error al intentar comunicarse con el servidor');
+					}
+				});
+			}
+		},
+		saveTransaction: function(type) {
+			if(vm.transaction.amount > 0){
+				if(vm.transaction.monthLiquidation.value > 0 && vm.transaction.date != null 
+					&& ((type === 'unit' && vm.transaction.unit && vm.transaction.unit.value > 0) || (type === 'supplier'))){
+						//ver que sucede si el monto que se paga es menor al que se debe pagar cuando es de unidad
+						
+						var me = this;
+						mui.busy(true);
+						var date = vm.transaction.date.toISOString().split('T')[0];
+						mui.ajax({
+							url: serviceURL + '/transactions/units',  
+							type: 'POST',
+							headers: {
+								'Accept':'application/json',
+								'content-type':'application/x-www-form-urlencoded'
+							},
+							data: {
+								
+							},
+							success: function(data){
+								
+								mui.busy(false);
+							},
+							error: function(err,estado, error){
+								mui.busy(false);
+			//					me.mostrarError('Error al intentar comunicarse con el servidor');
+							}
+						});
+
+					}
+			}
+		},
 		volverPagina: function(){
 			mui.history.back();
+		},
+		formatDataUnitsBoxesMonthsLiquidation: function(){
+			vm.unitsBoxesMonthsLiquidation = [];
+			vm.transaction.unitsBoxes = [];
+			vm.amountSettlementMonth = 0.0;
+			if(vm.resultsUnitsBoxesMonthsLiquidation && vm.resultsUnitsBoxesMonthsLiquidation.length > 0){
+				for (var i = 0; i < vm.resultsUnitsBoxesMonthsLiquidation.length; i++) {
+					for (var x = 0; x < vm.resultsUnitsBoxesMonthsLiquidation[i].unitsboxesSettlementMonths.length; x++) {
+						var currentItem = vm.resultsUnitsBoxesMonthsLiquidation[i].unitsboxesSettlementMonths[x]; 
+
+						var newObject = {
+							id: currentItem.id,
+							name: currentItem.boxName,
+							previousBalance: currentItem.previousBalance,
+							currentBalance: currentItem.currentBalance,
+							amountSettlementMonth: currentItem.amountSettlementMonth
+						};
+						//vm.transaction.unitsBoxes.push({ id: currentItem.id, amount: currentItem.amountSettlementMonth });
+						vm.transaction.unitsBoxes.push({ id: currentItem.id, amount: 0 });
+						vm.amountSettlementMonth += currentItem.amountSettlementMonth;
+						vm.unitsBoxesMonthsLiquidation.push(newObject);
+					}
+				}
+			}
+		},
+		checkAmountTransaction: function() {
+			if(vm.transaction.amount >= vm.amountSettlementMonth) {
+				for(var x = 0; x < vm.unitsBoxesMonthsLiquidation.length; x++) {
+					vm.transaction.unitsBoxes[x].amount = vm.unitsBoxesMonthsLiquidation[x].amountSettlementMonth;
+				}
+			}
+		},
+		showNewTransactionForm: function(){
+			var me = this;
+			mui.busy(true);
+			mui.ajax({
+				url: serviceURL + '/settlementMonths?idBuilding' + vm.building.id,
+				type: 'GET',
+				headers: {
+					'Accept':'application/json',
+					'content-type':'application/x-www-form-urlencoded'
+				},
+				data: {},
+				success: function(data){
+					vm.monthsLiquidation = data
+					mui.busy(false);
+					mui.viewport.showPage('form-transaction-page', 'SLIDE_UP');
+				},
+				error: function(err,estado, error){
+					mui.busy(false);
+//					me.mostrarError('Error al intentar comunicarse con el servidor');
+				}
+			});
 		},
 		goLogaut: function(){
 

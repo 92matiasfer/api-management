@@ -4,12 +4,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import uy.com.stronghold.apimanagement.enums.UnitType;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Box;
+import uy.com.stronghold.apimanagement.models.BoxSettlementMonth;
 import uy.com.stronghold.apimanagement.models.Building;
 import uy.com.stronghold.apimanagement.models.ItemMenu;
 import uy.com.stronghold.apimanagement.models.Person;
@@ -85,8 +87,8 @@ public class ApiManagementImp implements IApiManagementImp {
 		return unitService.getUnit(id);
 	}
 
-	public List<Unit> getUnits(int idBuilding, String number) throws ValidationException {
-		return unitService.getUnits(idBuilding, number);
+	public List<Unit> getUnits(int idBuilding, UnitType unitType,String number) throws ValidationException {
+		return unitService.getUnits(idBuilding, unitType, number);
 	}
 
 	public void saveUnit(Unit unit) throws ValidationException {
@@ -201,5 +203,9 @@ public class ApiManagementImp implements IApiManagementImp {
 	public void deleteSettlementMonths(SettlementMonth settlementMonth) throws ValidationException {
 		settlementMonthService.deleteSettlementMonths(settlementMonth);
 	}
+
+    public List<BoxSettlementMonth> getBoxesSettlementMonths(int settlementMonth, int box, int unit) throws ValidationException {
+        return repository.getBoxesSettlementMonths(settlementMonth, box, unit);
+    }
 
 }

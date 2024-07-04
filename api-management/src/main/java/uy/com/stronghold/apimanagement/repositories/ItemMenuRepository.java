@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import uy.com.stronghold.apimanagement.models.ItemMenu;
 
 @Repository
-public interface ItemMenuRepository extends JpaRepository<ItemMenu, Long>{
+public interface ItemMenuRepository extends JpaRepository<ItemMenu, Integer>{
 
 	@Query("SELECT m FROM items_menu m")
 	List<ItemMenu> getItemsMenu();

@@ -12,8 +12,7 @@ public interface ISettlementMonthService {
 
 	SettlementMonth getSettlementMonth(int id) throws ValidationException;
 
-	List<SettlementMonth> getSettlementMonths(int year, int month, int idBuilding) 
-			throws ValidationException;
+	List<SettlementMonth> getSettlementMonths(int year, int month, int idBuilding) throws ValidationException;
 
 	void saveSettlementMonths(SettlementMonth settlementMonth) throws ValidationException;
 

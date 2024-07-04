@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 @Entity(name = "transaction")
@@ -18,6 +20,7 @@ public class Transaction {
 	@Column(name = "id")
 	private int id;
 	@Column(name = "date")
+	@Temporal(TemporalType.DATE)
 	private	Date date;
 	@Column(name = "total_amount")
 	private float totalAmount;
