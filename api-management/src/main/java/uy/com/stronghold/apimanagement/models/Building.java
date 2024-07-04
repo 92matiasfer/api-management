@@ -33,12 +33,11 @@ public class Building {
 	private float metersBuilt;
 	@Column(name = "total_meters")
 	private float totalMeters;
-	@JsonIgnore
 	@OneToMany(mappedBy = "building")
 	private List<Unit> units;
 	@JsonIgnore
 	@OneToMany(mappedBy = "building")
-	private List<SettlementMonth> settlementMonths = new ArrayList<>();
+	private List<SettlementMonth> settlementMonths;
 	
 	@Transient
 	private int value;

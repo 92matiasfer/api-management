@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import uy.com.stronghold.apimanagement.models.Building;
 
 @Repository
-public interface IBuildingRepository extends JpaRepository<Building, Long> {
+public interface IBuildingRepository extends JpaRepository<Building, Integer> {
 
 
 	@Query("SELECT b "

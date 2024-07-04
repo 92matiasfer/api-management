@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import uy.com.stronghold.apimanagement.enums.Errores;
+import uy.com.stronghold.apimanagement.enums.UnitType;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Unit;
 import uy.com.stronghold.apimanagement.repositories.IUnitRepository;
@@ -24,8 +25,8 @@ public class UnitService implements IUnitService {
 	}
 
 	@Override
-	public List<Unit> getUnits(int building, String number) throws ValidationException {
-		List<Unit> units = unitRepository.getUnits(building, number);
+	public List<Unit> getUnits(int building, UnitType unitType, String number) throws ValidationException {
+		List<Unit> units = unitRepository.getUnits(building, unitType, number);
 		if(units == null || units.isEmpty()) throw new ValidationException(Errores.UNIT_NOT_FOUND);
 		return units;
 	}
