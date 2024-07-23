@@ -89,8 +89,43 @@ public class ValidationUtil {
 		}
 		return retorno;
 	}
+
+	public double getDouble(Optional<String> optional) throws ValidationException {
+		String param = optional.orElse("");
+		return getDouble(param);
+	}
+
+	public double getDouble(String param) throws ValidationException {
+		double retorno = 0;
+		if(!StringUtils.isBlank(param)){
+			if(isDouble(param)) {
+				retorno = Double.parseDouble(param);
+			} else {
+				throw new ValidationException(Errores.DOUBLE_INVALID);
+			}
+		}
+		return retorno;
+	}
+
+	public float getFloat(Optional<String> optional) throws ValidationException {
+        String param = optional.orElse("");
+        return getFloat(param);
+    } 
 	
 	
+	public float getFloat(String param) throws ValidationException {
+		float retorno = 0;
+		if (!StringUtils.isBlank(param)) {
+			if (isFloat(param)) {
+				retorno = Float.parseFloat(param);
+			} else {
+				throw new ValidationException(Errores.FLOAT_INVALID);
+			}
+		}
+		return retorno;
+	}
+
+
 	/**
 	 * Valida que un String sea Integer
 	 * @param cadena
@@ -113,6 +148,15 @@ public class ValidationUtil {
 	public static boolean isDouble(String cadena){
 		try {
 			Double.parseDouble(cadena);
+			return true;
+		} catch (NumberFormatException nfe){
+			return false;
+		}
+	}
+
+	public static boolean isFloat(String cadena){
+		try {
+			Float.parseFloat(cadena);
 			return true;
 		} catch (NumberFormatException nfe){
 			return false;
@@ -232,7 +276,10 @@ public class ValidationUtil {
 
 	public void validateUpdateSettlementMonths(SettlementMonth settlementMonth) throws ValidationException {
 		if(settlementMonth == null || settlementMonth.getId()  <= 0) throw new ValidationException(Errores.CAMPOS_NULL);
-	} 
+	}
+
+
+    
 
 
 

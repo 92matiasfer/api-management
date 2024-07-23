@@ -32,6 +32,8 @@ public class UnitBoxSettlementMonth {
 	private Unit unit;
 
 	@javax.persistence.Transient
+	private int idBox;
+	@javax.persistence.Transient
 	private String boxName;
 	
 	
@@ -71,6 +73,12 @@ public class UnitBoxSettlementMonth {
 	public void setUnit(Unit unit) {
 		this.unit = unit;
 	}
+	public int getIdBox() {
+		return idBox;
+	}
+	public void setIdBox(int idBox) {
+		this.idBox = idBox;
+	}
 	public String getBoxName() {
 		return boxName;
 	}
@@ -82,13 +90,15 @@ public class UnitBoxSettlementMonth {
 		super();
 	}
 	public UnitBoxSettlementMonth(int id, float amountSettlementMonth, float previousBalance, float currentBalance,
-			BoxSettlementMonth boxSettlementMonth, Unit unit, String boxName) {
+			BoxSettlementMonth boxSettlementMonth, Unit unit, int idBox, String boxName) {
 		this.id = id;
 		this.amountSettlementMonth = amountSettlementMonth;
 		this.previousBalance = previousBalance;
 		this.currentBalance = currentBalance;
 		this.boxSettlementMonth = boxSettlementMonth;
 		this.unit = unit;
+		this.idBox = idBox;
 		this.boxName = boxName;
 	}
+	
 }

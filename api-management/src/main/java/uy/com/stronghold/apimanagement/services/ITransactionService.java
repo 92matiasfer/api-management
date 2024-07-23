@@ -20,9 +20,9 @@ public interface ITransactionService {
 	List<Transaction> getTransactions(int idBuilding, Date dateFrom, Date dateTo, 
 			int settlementMonth, String type) throws ValidationException;
 
-	void saveUnitTransaction(UnitTransaction transaction) throws ValidationException;
+	UnitTransaction saveUnitTransaction(UnitTransaction transaction) throws ValidationException;
 
-	void saveSupplierTransaction(SupplierTransaction transaction) throws ValidationException;
+	SupplierTransaction saveSupplierTransaction(SupplierTransaction transaction) throws ValidationException;
 
 	void updateUnitTransaction(UnitTransaction transaction) throws ValidationException;
 

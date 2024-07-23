@@ -12,6 +12,7 @@ import uy.com.stronghold.apimanagement.enums.UnitType;
 import uy.com.stronghold.apimanagement.exceptions.ValidationException;
 import uy.com.stronghold.apimanagement.models.Box;
 import uy.com.stronghold.apimanagement.models.BoxSettlementMonth;
+import uy.com.stronghold.apimanagement.models.BoxUnitTransaction;
 import uy.com.stronghold.apimanagement.models.Building;
 import uy.com.stronghold.apimanagement.models.ItemMenu;
 import uy.com.stronghold.apimanagement.models.Person;
@@ -22,6 +23,7 @@ import uy.com.stronghold.apimanagement.models.Transaction;
 import uy.com.stronghold.apimanagement.models.Unit;
 import uy.com.stronghold.apimanagement.models.UnitTransaction;
 import uy.com.stronghold.apimanagement.repositories.QueriesRepository;
+import uy.com.stronghold.apimanagement.services.BoxUnitTransactionService;
 import uy.com.stronghold.apimanagement.services.IBoxService;
 import uy.com.stronghold.apimanagement.services.IBuildingService;
 import uy.com.stronghold.apimanagement.services.IItemMenuService;
@@ -52,6 +54,8 @@ public class ApiManagementImp implements IApiManagementImp {
 	private ISettlementMonthService settlementMonthService;
 	@Autowired
 	private IItemMenuService itemMenuService;
+	@Autowired
+	private BoxUnitTransactionService boxUnitTransactionService;
 	
 	
 	public List<ItemMenu> getItemsMenu() throws ValidationException {
@@ -81,7 +85,6 @@ public class ApiManagementImp implements IApiManagementImp {
 	public void deleteBuilding(Building building) throws ValidationException {
 		buildingService.deleteBuilding(building);
 	}
-
 	
 	public Unit getUnit(int id) throws ValidationException {
 		return unitService.getUnit(id);
@@ -109,12 +112,12 @@ public class ApiManagementImp implements IApiManagementImp {
 				settlementMonth, type);
 	}
 
-	public void SaveUnitTransaction(UnitTransaction transaction) throws ValidationException {
-		transactionService.saveUnitTransaction(transaction);
+	public UnitTransaction saveUnitTransaction(UnitTransaction transaction) throws ValidationException {
+		return transactionService.saveUnitTransaction(transaction);
 	}
 
-	public void saveSupplierTransaction(SupplierTransaction transaction) throws ValidationException {
-		transactionService.saveSupplierTransaction(transaction);
+	public SupplierTransaction saveSupplierTransaction(SupplierTransaction transaction) throws ValidationException {
+		return transactionService.saveSupplierTransaction(transaction);
 	}
 
 	public void updateUnitTransaction(UnitTransaction transaction) throws ValidationException {
@@ -207,5 +210,9 @@ public class ApiManagementImp implements IApiManagementImp {
     public List<BoxSettlementMonth> getBoxesSettlementMonths(int settlementMonth, int box, int unit) throws ValidationException {
         return repository.getBoxesSettlementMonths(settlementMonth, box, unit);
     }
+
+	public BoxUnitTransaction saveBoxUnitTransaction(BoxUnitTransaction boxUnitTransaction) throws ValidationException {
+		return boxUnitTransactionService.saveBoxUnitTransaction(boxUnitTransaction);
+	}
 
 }

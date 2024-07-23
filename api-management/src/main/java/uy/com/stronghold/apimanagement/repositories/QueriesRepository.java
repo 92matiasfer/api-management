@@ -33,7 +33,7 @@ public class QueriesRepository {
     public List<BoxSettlementMonth> getBoxesSettlementMonths(int settlementMonth, int box, int unit) throws ValidationException{
 
         try {
-            String jpql = "SELECT bxm.id AS id_box_settlement_month, b.name, ubsm.id AS id_unit_box_settlement_month, ubsm.amount_settlement_month, ubsm.previous_balance, ubsm.current_balance\r\n" + 
+            String jpql = "SELECT bxm.id AS id_box_settlement_month, b.id AS id_box, b.name, ubsm.id AS id_unit_box_settlement_month, ubsm.amount_settlement_month, ubsm.previous_balance, ubsm.current_balance\r\n" + 
                                 "FROM box_settlement_month bxm\r\n" + 
                                 "INNER JOIN box b ON bxm.id_box = b.id\r\n" + 
                                 "INNER JOIN unit_box_settlement_month ubsm ON bxm.id = ubsm.id_box_settlement_month"; 
@@ -68,11 +68,12 @@ public class QueriesRepository {
                     bsm.setId((int)result[0]);
                     
                     UnitBoxSettlementMonth ubsm = new UnitBoxSettlementMonth();
-                    ubsm.setBoxName((String)result[1]);
-                    ubsm.setId((int)result[2]);
-                    ubsm.setAmountSettlementMonth((float)result[3]); 
-                    ubsm.setPreviousBalance((float)result[4]);
-                    ubsm.setCurrentBalance((float)result[5]);
+                    ubsm.setIdBox((int)result[1]);
+                    ubsm.setBoxName((String)result[2]);
+                    ubsm.setId((int)result[3]);
+                    ubsm.setAmountSettlementMonth((float)result[4]); 
+                    ubsm.setPreviousBalance((float)result[5]);
+                    ubsm.setCurrentBalance((float)result[6]);
                     bsm.setUnitsboxesSettlementMonths(new ArrayList<UnitBoxSettlementMonth>() {{add(ubsm);}});
                     results.add(bsm);
                 }

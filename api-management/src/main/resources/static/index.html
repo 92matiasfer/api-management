@@ -405,75 +405,71 @@
 										</div>
 					                </ui-tab>
 					                <ui-tab>
-<!--					                    <div slot="header" class="my-custom-tab-header">-->
-<!--					                        <span>Proveedores</span>-->
-<!--										</div>-->
-<!--										<div>-->
-<!--											<fieldset class="fieldset-form-ingreso">-->
-<!--											 	<ui-select-->
-<!--									                label="Seleccione el tipo de caja"-->
-<!--									                :options="tiposCajas"-->
-<!--									                :invalid="nuevaTransaccion.invalidCaja && nuevaTransaccion.tipoCaja.value == 0"-->
-<!--									                v-model="nuevaTransaccion.tipoCaja"-->
-<!--									            ></ui-select>-->
-<!--												<div class="align-v" style="float: right; margin-left: 30px; margin-top: 15px;">-->
-<!--													 <ui-icon-button -->
-<!--													 	icon="add"-->
-<!--													 	color="primary"-->
-<!--													 	type="secondary" -->
-<!--													 	@click="verFormularioNuevoProveedor">-->
-<!--													</ui-icon-button>-->
-<!--												</div>-->
-<!--												 <ui-select-->
-<!--									                label="Seleccione un proveedor"-->
-<!--									                has-search-->
-<!--									                :options="proveedores"-->
-<!--									                :invalid="nuevaTransaccion.invalidProveedor && nuevaTransaccion.proveedor.value == 0"-->
-<!--									                v-model="nuevaTransaccion.proveedor"-->
-<!--									            ></ui-select>-->
-<!--												<ui-textbox-->
-<!--													label="Monto"-->
-<!--													type="number"-->
-<!--													:invalid="nuevaTransaccion.invalidMonto && (nuevaTransaccion.monto == 0 ||nuevaTransaccion.monto < 0)"-->
-<!--													v-model="nuevaTransaccion.monto"	-->
-<!--												></ui-textbox>-->
-<!--									            <ui-select-->
-<!--									                label="Seleccionr mes"-->
-<!--									                :invalid="nuevaTransaccion.mesLiquidacion.value == 0 && nuevaTransaccion.invalidMesLiquidacion"-->
-<!--									                :options="mesesLiquidacion"-->
-<!--									                v-model="nuevaTransaccion.mesLiquidacion"-->
-<!--									            ></ui-select>-->
-<!--									            <ui-textbox-->
-<!--													label="Nro. Factura"-->
-<!--													v-model="nuevaTransaccion.nroFactura"	-->
-<!--												></ui-textbox>-->
-<!--									             <ui-datepicker-->
-<!--									                icon="events"-->
-<!--									                picker-type="modal"-->
-<!--									                :invalid="nuevaTransaccion.fecha == null && nuevaTransaccion.invalidFecha"-->
-<!--									                :lang="calendarioEsp"-->
-<!--									                v-model="nuevaTransaccion.fecha"-->
-<!--									            	>Fecha-->
-<!--												</ui-datepicker>-->
-<!--												<ui-textbox-->
-<!--													label="Obsevaciones"-->
-<!--													v-model="nuevaTransaccion.observacion"-->
-<!--												></ui-textbox>-->
-<!--											</fieldset>-->
-<!--											<div align="right" class="button-m" style="margin-top: 25px;">-->
-<!--												<ui-button -->
-<!--													class="button-texto-blanco"-->
-<!--													@click=""-->
-<!--													>Restablecer-->
-<!--												</ui-button>-->
-<!--									            <ui-button -->
-<!--													color="primary" -->
-<!--													@click="guardarTransaccion(2)"-->
-<!--													>Confirmar-->
-<!--												</ui-button>-->
-<!--											</div>-->
-<!--										</div>-->
-<!--					                </ui-tab>-->
+										<div slot="header" class="my-custom-tab-header">
+											<span>Proveedores</span>
+										</div>
+										<div>
+											<fieldset class="fieldset-form-ingreso">
+												<ui-select
+													label="Seleccione el tipo de caja"
+													:options="building.boxes"
+													v-model="transaction.box"
+												></ui-select>
+												<div class="align-v" style="float: right; margin-left: 30px; margin-top: 15px;">
+													<ui-icon-button 
+														icon="add"
+														color="primary"
+														type="secondary" 
+														@click="">
+													</ui-icon-button>
+												</div>
+												<ui-select
+													label="Seleccione un proveedor"
+													has-search
+													:options="building.suppliers"
+													v-model="transaction.supplier"
+												></ui-select>
+												<ui-textbox
+													label="Monto"
+													type="number"
+													v-model="transaction.amount" 
+												></ui-textbox>
+												<ui-select
+									                label="Seleccionar mes"
+									                :options="monthsLiquidation"
+									                v-model="transaction.monthLiquidation"
+									            ></ui-select>
+												<ui-textbox
+													label="Nro. Factura"
+													v-model="transaction.invoiceNumber" 
+												></ui-textbox>
+												<ui-datepicker
+									                icon="events"
+									                orientation="landscape"
+									                :lang="calendar"
+									                picker-type="modal"
+									                v-model="transaction.date"
+									            	>Fecha
+												</ui-datepicker>
+												<ui-textbox
+													label="Obsevaciones"
+													v-model="transaction.observation"
+												></ui-textbox>
+											</fieldset>
+											<div align="right" class="button-m" style="margin-top: 25px;">
+												<ui-button 
+													class="button-texto-blanco"
+													@click=""
+													>Restablecer
+												</ui-button>
+												<ui-button 
+													color="primary" 
+													@click="saveTransaction('supplier')"
+													>Confirmar
+												</ui-button>
+											</div>
+										</div>
+					                </ui-tab>
 					            </ui-tabs>
 							</div>
 							

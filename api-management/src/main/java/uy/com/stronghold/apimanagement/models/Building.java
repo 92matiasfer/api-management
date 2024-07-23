@@ -1,7 +1,9 @@
 package uy.com.stronghold.apimanagement.models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -35,9 +39,21 @@ public class Building {
 	private float totalMeters;
 	@OneToMany(mappedBy = "building")
 	private List<Unit> units;
+	@OneToMany(mappedBy = "building")
+	private List<Box> boxes;
 	@JsonIgnore
 	@OneToMany(mappedBy = "building")
 	private List<SettlementMonth> settlementMonths;
+
+	@ManyToMany
+    @JoinTable(
+        name = "building_supplier",
+        joinColumns = @JoinColumn(name = "id_building"),
+        inverseJoinColumns = @JoinColumn(name = "id_supplier")
+    )
+    private Set<Supplier> suppliers = new HashSet<>();
+
+	
 	
 	@Transient
 	private int value;
@@ -101,7 +117,18 @@ public class Building {
 	public String getLabel() {
 		return name;
 	}
-	
+	public List<Box> getBoxes() {
+		return boxes;
+	}
+	public void setBoxes(List<Box> boxes) {
+		this.boxes = boxes;
+	}
+	public Set<Supplier> getSuppliers() {
+		return suppliers;
+	}
+	public void setSuppliers(Set<Supplier> suppliers) {
+		this.suppliers = suppliers;
+	}
 	
 	
 	public Building() {
@@ -114,8 +141,8 @@ public class Building {
 		this.name = name;
 	}
 	public Building(int id, String name, String address, int yearBuilt, float metersBuilt, float totalMeters,
-			List<Unit> units, List<SettlementMonth> settlementMonths) {
-		super();
+			List<Unit> units, List<Box> boxes, List<SettlementMonth> settlementMonths, Set<Supplier> suppliers,
+			int value, String label) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
@@ -123,9 +150,11 @@ public class Building {
 		this.metersBuilt = metersBuilt;
 		this.totalMeters = totalMeters;
 		this.units = units;
+		this.boxes = boxes;
 		this.settlementMonths = settlementMonths;
-		this.value = id;
-		this.label = name;
+		this.suppliers = suppliers;
+		this.value = value;
+		this.label = label;
 	}
-
+	
 }

@@ -37,16 +37,13 @@ public class TransactionService implements ITransactionService {
 	}
 
 	@Override
-	public void saveUnitTransaction(UnitTransaction transaction) throws ValidationException {
-		if(repository.save(transaction) == null)
-			throw new ValidationException(Errores.ERROR_SAVE_TRANSACTION);
+	public UnitTransaction saveUnitTransaction(UnitTransaction transaction) throws ValidationException {
+		return repository.save(transaction);
 	}
 
 	@Override
-	public void saveSupplierTransaction(SupplierTransaction transaction) throws ValidationException {
-		if(repository.save(transaction) == null)
-			throw new ValidationException(Errores.ERROR_SAVE_TRANSACTION);
-		
+	public SupplierTransaction saveSupplierTransaction(SupplierTransaction transaction) throws ValidationException {
+		return repository.save(transaction);
 	}
 
 	@Override

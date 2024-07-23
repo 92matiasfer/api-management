@@ -158,32 +158,55 @@ var vm = new Vue({
 		saveTransaction: function(type) {
 			if(vm.transaction.amount > 0){
 				if(vm.transaction.monthLiquidation.value > 0 && vm.transaction.date != null 
-					&& ((type === 'unit' && vm.transaction.unit && vm.transaction.unit.value > 0) || (type === 'supplier'))){
+					&& ((type === 'unit' && vm.transaction.unit && vm.transaction.unit.value > 0) 
+					|| (type === 'supplier' && vm.transaction.supplier && vm.transaction.supplier.value > 0
+					&& vm.transaction.box && vm.transaction.box.value > 0))){
 						//ver que sucede si el monto que se paga es menor al que se debe pagar cuando es de unidad
 						
 						var me = this;
+						var boxUnitTransactions;
+						var endPoint = type === 'unit' ? 'units' : 'suppliers';
 						mui.busy(true);
 						var date = vm.transaction.date.toISOString().split('T')[0];
+
+						if(type === 'unit') {
+							var boxUnitTransactions = vm.transaction.unitsBoxes.map(boxUnit => ({
+								box: { id: boxUnit.box },
+								amount: boxUnit.amount
+							}));
+						}
+
+						var data = {
+							settlementMonth: { id: vm.transaction.monthLiquidation.value },
+							totalAmount: vm.transaction.amount,
+							description: vm.transaction.observation,
+							unit: type === 'unit' ? { id: vm.transaction.unit.value } : null,
+							transactionType: type,
+							date: date,
+							building: { id: vm.building.value },
+							boxUnitTransactions: boxUnitTransactions,
+							supplier: type === 'supplier' ? { id: vm.transaction.supplier.value } : null,
+							box: type === 'supplier' ? { id: vm.transaction.box.value } : null,
+							invoiceNumber: vm.transaction.invoiceNumber
+						};
+			
 						mui.ajax({
-							url: serviceURL + '/transactions/units',  
+							url: serviceURL + '/transactions/' + endPoint,
 							type: 'POST',
 							headers: {
-								'Accept':'application/json',
-								'content-type':'application/x-www-form-urlencoded'
+								'Accept': 'application/json',
+								'Content-Type': 'application/json'
 							},
-							data: {
+							data: JSON.stringify(data),
+							success: function(data) {
+								mui.busy(false);
 								
 							},
-							success: function(data){
+							error: function(err, estado, error) {
+								mui.busy(false);
 								
-								mui.busy(false);
-							},
-							error: function(err,estado, error){
-								mui.busy(false);
-			//					me.mostrarError('Error al intentar comunicarse con el servidor');
 							}
 						});
-
 					}
 			}
 		},
@@ -207,7 +230,7 @@ var vm = new Vue({
 							amountSettlementMonth: currentItem.amountSettlementMonth
 						};
 						//vm.transaction.unitsBoxes.push({ id: currentItem.id, amount: currentItem.amountSettlementMonth });
-						vm.transaction.unitsBoxes.push({ id: currentItem.id, amount: 0 });
+						vm.transaction.unitsBoxes.push({ id: currentItem.id, box: currentItem.idBox, amount: 0 });
 						vm.amountSettlementMonth += currentItem.amountSettlementMonth;
 						vm.unitsBoxesMonthsLiquidation.push(newObject);
 					}
@@ -246,6 +269,11 @@ var vm = new Vue({
 		goLogaut: function(){
 
 		},
+		/*showMessage: function(message) {
+			vm.messageModal.title = 'Administracion Juncal';
+			vm.messageModal.message = message;
+			this.openModal('message-modal');
+		},*/
 		onAccordionOpen(id) {
             Object.keys(this.accordions).forEach(key => {
                 this.accordions[key] = key == id; // eslint-disable-line eqeqeq

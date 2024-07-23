@@ -1,10 +1,16 @@
 package uy.com.stronghold.apimanagement.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "supplier")
 @Table(name = "supplier", schema = "juncal_management")
@@ -23,6 +29,9 @@ public class Supplier {
 	private String phone;
 	@Column(name = "email")
 	private String email;
+	@ManyToMany(mappedBy = "suppliers")
+	@JsonIgnore
+    private Set<Building> buildings = new HashSet<>();
 	
 	@Transient
 	private int value;
@@ -74,24 +83,29 @@ public class Supplier {
 	public String getLabel() {
 		return name;
 	}
+	public Set<Building> getBuildings() {
+		return buildings;
+	}
+	public void setBuildings(Set<Building> buildings) {
+		this.buildings = buildings;
+	}
 	
 	
 	public Supplier() {
 		super();
 	}
-	public Supplier(int id, String name, String description, String rut, String phone, String email) {
-		super();
+	public Supplier(int id, String name, String description, String rut, String phone, String email,
+			Set<Building> buildings, int value, String label) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.rut = rut;
 		this.phone = phone;
 		this.email = email;
-		this.value = id;
-		this.label = name;
+		this.buildings = buildings;
+		this.value = value;
+		this.label = label;
 	}
 	
 	
-	
-
 }
