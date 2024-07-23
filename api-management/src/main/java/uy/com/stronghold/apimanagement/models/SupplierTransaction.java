@@ -3,21 +3,21 @@ package uy.com.stronghold.apimanagement.models;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import uy.com.stronghold.apimanagement.enums.TransactionType;
 
 @Entity(name = "supplier_transaction")
 @Table(name = "supplier_transaction", schema = "juncal_management")
+@PrimaryKeyJoinColumn(name = "id")
+@DiscriminatorValue("P")
 public class SupplierTransaction extends Transaction {
 	
-	@Id
-	@Column(name = "id")
-	private int id;
+	
 	@Column(name = "invoice_number")
 	private String invoiceNumber;
 	@ManyToOne
@@ -27,12 +27,7 @@ public class SupplierTransaction extends Transaction {
     @JoinColumn(name = "id_box")
 	private Box box;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getInvoiceNumber() {
 		return invoiceNumber;
 	}
@@ -52,15 +47,16 @@ public class SupplierTransaction extends Transaction {
 		this.box = box;
 	}
 	
-	public SupplierTransaction(int id, String invoiceNumber, Supplier supplier, Box box) {
+	
+	public SupplierTransaction() {
 		super();
-		this.id = id;
+	}
+	public SupplierTransaction(int id, Date date, float totalAmount, String description, String transactionType,
+			Building building, SettlementMonth settlementMonth, String invoiceNumber, Supplier supplier, Box box) {
+		super(id, date, totalAmount, description, transactionType, building, settlementMonth);
 		this.invoiceNumber = invoiceNumber;
 		this.supplier = supplier;
 		this.box = box;
-	}
-	public SupplierTransaction() {
-		super();
 	}
 
 	

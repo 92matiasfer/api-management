@@ -60,7 +60,11 @@ var globalDataVue = {
 		amount: 0.0,
 		unitsBoxes: [
 			
-		]
+		],
+		box: {
+
+		},
+		invoiceNumber: ''
 	},
 	suppliers: [
 		

@@ -3,8 +3,14 @@ package uy.com.stronghold.apimanagement.models;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,26 +20,29 @@ import javax.persistence.TemporalType;
 
 @Entity(name = "transaction")
 @Table(name = "transaction", schema = "juncal_management")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
 public class Transaction {
-	
-	@Id
-	@Column(name = "id")
-	private int id;
-	@Column(name = "date")
-	@Temporal(TemporalType.DATE)
-	private	Date date;
-	@Column(name = "total_amount")
-	private float totalAmount;
-	@Column(name = "description")
-	private String description;
-	@Column(name = "transaction_type")
-	private String transactionType;
-	@ManyToOne
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "date")
+    @Temporal(TemporalType.DATE)
+    private Date date;
+    @Column(name = "total_amount")
+    private float totalAmount;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "dtype", insertable = false, updatable = false)
+    private String transactionType;
+    @ManyToOne
     @JoinColumn(name = "id_building")
-	private Building building;
-	@ManyToOne
+    private Building building;
+    @ManyToOne
     @JoinColumn(name = "id_settlement_month")
-	private SettlementMonth settlementMonth;
+    private SettlementMonth settlementMonth;
 	
 	public int getId() {
 		return id;
