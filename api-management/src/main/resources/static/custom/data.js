@@ -151,6 +151,10 @@ var globalDataVue = {
 			]
 		}
 	],
+	messageModal: {
+		title: '',
+		message: ''
+	},
 	anios: [
 		{
 			label: '2019',
