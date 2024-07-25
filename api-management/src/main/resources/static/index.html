@@ -531,7 +531,7 @@
 										</div>
 										<div class="cell border-button align-v">
 											<ui-icon-button 
-											 	icon="edit"
+											 	icon="zoom_in" 
 											 	color="primary"
 											 	type="secondary" 
 											 	@click="">
@@ -548,23 +548,16 @@
 					</div>
 				</div>
 			</div>
-<!--	        <ui-modal ref="confirmar-modal" title="Administracón Juncal" align-top>-->
-<!--	        	<p style="text-align: center;">{{confirmacionModal.mensaje}}</p>-->
-<!--	        	<div slot="footer" class="button-m" align="right">-->
-<!--	               <ui-button -->
-<!--		               	class="button-texto-blanco"-->
-<!--		               	@click="closeModal('confirmar-modal')"-->
-<!--		               	>Cancelar-->
-<!--	               </ui-button>-->
-<!--	                <ui-button -->
-<!--	                	v-if="confirmacionModal.comando=='eliminarUsuario'"-->
-<!--	                	@click="eliminarUsuario" -->
-<!--	                	color="primary"-->
-<!--	                	>Confirmar-->
-<!--	                </ui-button>-->
-<!--				</div>-->
-<!--	        </ui-modal>-->
-	        
+			<ui-modal ref="message-modal" :title="messageModal.title" align-top>
+				<p style="text-align: center;">{{messageModal.message}}</p>
+	           	<div slot="footer" class="button-m" align="right">
+	                <ui-button 
+	                	@click="closeModal('message-modal')"
+	                	color="primary"
+	                	>Cerrar
+	                </ui-button>
+	           </div>
+	     	</ui-modal>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

@@ -43,10 +43,6 @@ public class Unit {
     @Enumerated(EnumType.STRING)
     @Column(name = "unit_type")
 	private UnitType unitType;
-	// @JsonIgnore
-	// @OneToOne
-	// @JoinColumn(name = "id_person")
-	// private Person person;	
 	@JsonIgnore
 	@OneToMany(mappedBy = "boxSettlementMonth")
 	private List<UnitBoxSettlementMonth> unitsboxesSettlementMonths;

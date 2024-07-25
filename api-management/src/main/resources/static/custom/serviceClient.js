@@ -107,30 +107,6 @@ var vm = new Vue({
 				}
 			});
 		},
-		gotoUnitsList: function(){
-			var me = this;
-			mui.busy(true);
-			mui.ajax({
-				url: serviceURL + '/units?idBuilding' + vm.building.id,
-				type: 'GET',
-				headers: {
-					'Accept':'application/json',
-					'content-type':'application/x-www-form-urlencoded'
-				},
-				data: {},
-				success: function(data){
-					vm.units = data
-					mui.busy(false);
-					mui.viewport.showPage('units-list-page', 'SLIDE_UP');
-				},
-				error: function(err,estado, error){
-					mui.busy(false);
-//					me.mostrarError('Error al intentar comunicarse con el servidor');
-				}
-			});
-//			vm.units = vm.building.units;
-//			mui.viewport.showPage('units-list-page','SLIDE_UP');
-		},
 		loadUnitBoxSettlementMonth: function(){
 			if(vm.transaction && vm.transaction && vm.transaction.monthLiquidation.value > 0 && vm.transaction.unit.value > 0){
 				var me = this;
@@ -152,6 +128,38 @@ var vm = new Vue({
 						mui.busy(false);
 	//					me.mostrarError('Error al intentar comunicarse con el servidor');
 					}
+				});
+			}
+		},
+		gotoUnitsList: function() {
+			if (vm.building.value > 0) {
+				var me = this;
+				mui.busy(true);
+		
+				fetch(serviceURL + '/units?idBuilding=' + vm.building.value, {
+					method: 'GET',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				})
+				.then(response => {
+					return response.text().then(text => {
+						return { status: response.status, message: text, data: response.status === 200 ? JSON.parse(text) : null };
+					});
+				})
+				.then(({ status, message, data }) => {
+					mui.busy(false);
+					if (status === 200) {
+						vm.units = data;
+						mui.viewport.showPage('units-list-page', 'SLIDE_UP');
+					} else {
+						me.showMessage(message);
+					}
+				})
+				.catch(error => {
+					mui.busy(false);
+					console.error('Fetch error:', error);
 				});
 			}
 		},
@@ -190,22 +198,29 @@ var vm = new Vue({
 							invoiceNumber: vm.transaction.invoiceNumber
 						};
 			
-						mui.ajax({
-							url: serviceURL + '/transactions/' + endPoint,
-							type: 'POST',
+						fetch(serviceURL + '/transactions/' + endPoint, {
+							method: 'POST',
 							headers: {
 								'Accept': 'application/json',
 								'Content-Type': 'application/json'
 							},
-							data: JSON.stringify(data),
-							success: function(data) {
-								mui.busy(false);
-								
-							},
-							error: function(err, estado, error) {
-								mui.busy(false);
-								
+							body: JSON.stringify(data)
+						})
+						.then(response => {
+							return response.text().then(message => ({ status: response.status, message })); 
+						})
+						.then(({ status, message }) => {
+							mui.busy(false);
+							if (status === 200) {
+								console.log(message);
+								me.showMessage(message);
+							} else {
+								me.showMessage(message);
 							}
+						})
+						.catch(error => {
+							mui.busy(false);
+							
 						});
 					}
 			}
@@ -269,11 +284,11 @@ var vm = new Vue({
 		goLogaut: function(){
 
 		},
-		/*showMessage: function(message) {
+		showMessage: function(message) {
 			vm.messageModal.title = 'Administracion Juncal';
 			vm.messageModal.message = message;
 			this.openModal('message-modal');
-		},*/
+		},
 		onAccordionOpen(id) {
             Object.keys(this.accordions).forEach(key => {
                 this.accordions[key] = key == id; // eslint-disable-line eqeqeq
