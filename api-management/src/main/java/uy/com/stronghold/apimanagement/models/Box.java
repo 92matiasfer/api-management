@@ -1,6 +1,7 @@
 package uy.com.stronghold.apimanagement.models;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +33,13 @@ public class Box {
 	private Building building;
 	@OneToMany(mappedBy = "box")
 	private List<BoxSettlementMonth> boxesSettlementMonths;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "box")
+    private Set<NestedBox> nestedBoxes;
+	@JsonIgnore
+    @OneToMany(mappedBy = "box")
+    private Set<NestedBoxSupplier> nestedSupplierBoxes;
 	
 	@Transient
 	private int value;
@@ -72,21 +80,38 @@ public class Box {
 	public String getLabel() {
 		return name;
 	}
-	
-
+	public List<BoxSettlementMonth> getBoxesSettlementMonths() {
+		return boxesSettlementMonths;
+	}
+	public void setBoxesSettlementMonths(List<BoxSettlementMonth> boxesSettlementMonths) {
+		this.boxesSettlementMonths = boxesSettlementMonths;
+	}
+	public Set<NestedBox> getNestedBoxes() {
+		return nestedBoxes;
+	}
+	public void setNestedBoxes(Set<NestedBox> nestedBoxes) {
+		this.nestedBoxes = nestedBoxes;
+	}
+	public Set<NestedBoxSupplier> getNestedSupplierBoxes() {
+		return nestedSupplierBoxes;
+	}
+	public void setNestedSupplierBoxes(Set<NestedBoxSupplier> nestedSupplierBoxes) {
+		this.nestedSupplierBoxes = nestedSupplierBoxes;
+	}
 	public Box() {
 		super();
 	}
-	public Box(int id, String name, CalculationMethod calculationMethod, Building building) {
+	
+	public Box(int id, String name, CalculationMethod calculationMethod, Building building, 
+			List<BoxSettlementMonth> boxesSettlementMonths, Set<NestedBox> nestedBoxes, Set<NestedBoxSupplier> nestedSupplierBoxes) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.calculationMethod = calculationMethod;
 		this.building = building;
-		this.value = id;
-		this.label = name;
+		this.boxesSettlementMonths = boxesSettlementMonths;
+		this.nestedBoxes = nestedBoxes;
+		this.nestedSupplierBoxes = nestedSupplierBoxes;
 	}
-
-	
-	
+	 
 }

@@ -120,6 +120,14 @@ var globalDataVue = {
 		rol: '',
 		logueado: false
 	},
+	newSupplier: {
+		name: '',
+		phone: '',
+		email: '',
+		address: '',
+		rut: '',
+		observation: ''
+	},
 	 accordions: {
          0: true,
          1: false,

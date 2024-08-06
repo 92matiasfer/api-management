@@ -420,7 +420,7 @@
 														icon="add"
 														color="primary"
 														type="secondary" 
-														@click="">
+														@click="showFormNewSupplier">
 													</ui-icon-button>
 												</div>
 												<ui-select
@@ -558,6 +558,44 @@
 	                </ui-button>
 	           </div>
 	     	</ui-modal>
+			<ui-modal ref="form-new-supplier-modal" size="normal" title="Ingreso de nuevo Proveedor" align-top> 
+				<ui-textbox
+					label="Nombre"
+					v-model="newSupplier.name"
+				></ui-textbox>
+				<ui-textbox
+					label="Dirección"
+					v-model="newSupplier.address"
+				></ui-textbox>
+				<ui-textbox
+					label="Teléfono"
+					v-model="newSupplier.phone"
+				></ui-textbox>
+				<ui-textbox
+					label="RUT"
+					v-model="newSupplier.rut"
+				></ui-textbox>
+				<ui-textbox
+					label="Email"
+					v-model="newSupplier.email"
+				></ui-textbox>
+				<ui-textbox
+					label="Observaciones"
+					v-model="newSupplier.observation"
+				></ui-textbox>
+				<div slot="footer" class="button-m" align="right">
+	                <ui-button 
+	                	@click="saveNewSupplier"
+	                	color="primary"
+	                	>Guardar
+	                </ui-button>
+	                <ui-button 
+	                	@click="closeModal('form-new-supplier-modal')"
+	                	color="primary"
+	                	>Cancelar
+	                </ui-button>
+	           </div>			
+			</ui-modal>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

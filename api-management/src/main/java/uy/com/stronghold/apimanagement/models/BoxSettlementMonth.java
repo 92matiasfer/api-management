@@ -23,6 +23,7 @@ public class BoxSettlementMonth {
 	private float previousBalance;
 	@Column(name = "current_balance")
 	private float currentBalance;
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "id_box")
 	private Box box;
@@ -32,8 +33,6 @@ public class BoxSettlementMonth {
 	private SettlementMonth settlementMonth;
 	@OneToMany(mappedBy = "boxSettlementMonth")
 	private List<UnitBoxSettlementMonth> unitsboxesSettlementMonths;
-	
-	
 	
 	public int getId() {
 		return id;

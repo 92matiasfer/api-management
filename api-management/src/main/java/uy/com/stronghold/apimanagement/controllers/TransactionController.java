@@ -111,7 +111,7 @@ public class TransactionController implements ITransactionController {
 			if(savedTransaction == null) throw new ValidationException(Errores.ERROR_SAVE_TRANSACTION); 
 
 			return new ResponseEntity<Object>("La Transacción ha sido registrada correctamente", HttpStatus.OK);
-		} else throw new ValidationException(Errores.CAMPOS_NULL);
+		}  else throw new ValidationException(Errores.CAMPOS_NULL);
 	}
 
 

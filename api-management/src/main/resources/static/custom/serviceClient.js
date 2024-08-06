@@ -163,6 +163,23 @@ var vm = new Vue({
 				});
 			}
 		},
+		saveNewSupplier: function() {
+			if(vm.newSupplier.name.length > 0 ){
+				var me = this;
+				mui.busy(true);
+				var data = {
+					name: vm.newSupplier.name,
+					address: vm.newSupplier.address,
+					phone: vm.newSupplier.phone,
+					email: vm.newSupplier.email,
+					rut: vm.newSupplier.rut,
+					observation: vm.newSupplier.observation,
+					building: { id: vm.building.value }
+				};
+				
+
+			}	
+		},
 		saveTransaction: function(type) {
 			if(vm.transaction.amount > 0){
 				if(vm.transaction.monthLiquidation.value > 0 && vm.transaction.date != null 
@@ -283,6 +300,9 @@ var vm = new Vue({
 		},
 		goLogaut: function(){
 
+		},
+		showFormNewSupplier: function(){
+			this.openModal('form-new-supplier-modal');
 		},
 		showMessage: function(message) {
 			vm.messageModal.title = 'Administracion Juncal';
