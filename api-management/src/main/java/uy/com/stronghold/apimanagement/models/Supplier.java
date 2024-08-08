@@ -5,32 +5,49 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity(name = "supplier")
 @Table(name = "supplier", schema = "juncal_management")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Supplier {
 	
 	@Id
 	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(name = "name")
 	private String name;
 	@Column(name = "description")
 	private String description;
+	@Column(name = "address")
+	private String address;
 	@Column(name = "rut")
 	private String rut;
 	@Column(name = "phone")
 	private String phone;
 	@Column(name = "email")
 	private String email;
-	@ManyToMany(mappedBy = "suppliers")
-	@JsonIgnore
+	@Column(name = "observation")
+	private String observation;
+
+	@ManyToMany
+    @JoinTable(
+        name = "building_supplier",
+        joinColumns = @JoinColumn(name = "id_supplier"),
+        inverseJoinColumns = @JoinColumn(name = "id_building")
+    )
     private Set<Building> buildings = new HashSet<>();
 	
 	@Transient
@@ -58,6 +75,12 @@ public class Supplier {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public String getObservation() {
+		return observation;
+	}
+	public void setObservation(String observation) {
+		this.observation = observation;
 	}
 	public String getRut() {
 		return rut;
@@ -89,23 +112,36 @@ public class Supplier {
 	public void setBuildings(Set<Building> buildings) {
 		this.buildings = buildings;
 	}
-	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public void setValue(int value) {
+		this.value = value;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
 	
 	public Supplier() {
 		super();
 	}
-	public Supplier(int id, String name, String description, String rut, String phone, String email,
-			Set<Building> buildings, int value, String label) {
+	public Supplier(int id, String name, String description, String observation, String address, String rut, 
+		String phone, String email, Set<Building> buildings) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.observation = observation;
+		this.address = address;
 		this.rut = rut;
 		this.phone = phone;
 		this.email = email;
 		this.buildings = buildings;
-		this.value = value;
-		this.label = label;
 	}
+	
 	
 	
 }

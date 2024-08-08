@@ -25,7 +25,7 @@ var vm = new Vue({
 			if(option.id == 1){
 				mui.viewport.showPage('list-buildings-page','SLIDE_UP');
 			} else if(option.id == 2){
-//				this.verTransacciones();
+				mui.viewport.showPage('list-payment-page', 'SLIDE_UP');
 			}
 		},
 		selectItemUsuario: function(option, item){
@@ -163,6 +163,49 @@ var vm = new Vue({
 				});
 			}
 		},
+		saveNewSupplier: function() {
+			if(vm.newSupplier.name.length > 0 ){
+				var me = this;
+				mui.busy(true);
+				var data = {
+					name: vm.newSupplier.name,
+					description: vm.newSupplier.description,
+					address: vm.newSupplier.address,
+					phone: vm.newSupplier.phone,
+					email: vm.newSupplier.email,
+					rut: vm.newSupplier.rut,
+					observation: vm.newSupplier.observation,
+					buildings: [{ id: vm.building.value }]
+				};
+				fetch(serviceURL + '/suppliers', {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(data)
+				})
+				.then(response => response.json()) 
+				.then(({ status, message, supplier }) => { 
+					mui.busy(false);
+					if (status === 200) {
+						me.closeModal('form-new-supplier-modal');
+						vm.building.suppliers.unshift(supplier);
+						me.showMessage(message);
+					} else if(data.estado == 400){
+						mui.busy(false);
+						//me.goLogaut();
+					} else {
+						me.closeModal('form-new-supplier-modal');
+						me.showMessage(message);
+					}
+				})
+				.catch(error => {
+					me.closeModal('form-new-supplier-modal');
+					mui.busy(false);
+				});
+			}	
+		},
 		saveTransaction: function(type) {
 			if(vm.transaction.amount > 0){
 				if(vm.transaction.monthLiquidation.value > 0 && vm.transaction.date != null 
@@ -171,58 +214,58 @@ var vm = new Vue({
 					&& vm.transaction.box && vm.transaction.box.value > 0))){
 						//ver que sucede si el monto que se paga es menor al que se debe pagar cuando es de unidad
 						
-						var me = this;
-						var boxUnitTransactions;
-						var endPoint = type === 'unit' ? 'units' : 'suppliers';
-						mui.busy(true);
-						var date = vm.transaction.date.toISOString().split('T')[0];
+					var me = this;
+					var boxUnitTransactions;
+					var endPoint = type === 'unit' ? 'units' : 'suppliers';
+					mui.busy(true);
+					var date = vm.transaction.date.toISOString().split('T')[0];
 
-						if(type === 'unit') {
-							var boxUnitTransactions = vm.transaction.unitsBoxes.map(boxUnit => ({
-								box: { id: boxUnit.box },
-								amount: boxUnit.amount
-							}));
-						}
-
-						var data = {
-							settlementMonth: { id: vm.transaction.monthLiquidation.value },
-							totalAmount: vm.transaction.amount,
-							description: vm.transaction.observation,
-							unit: type === 'unit' ? { id: vm.transaction.unit.value } : null,
-							transactionType: type,
-							date: date,
-							building: { id: vm.building.value },
-							boxUnitTransactions: boxUnitTransactions,
-							supplier: type === 'supplier' ? { id: vm.transaction.supplier.value } : null,
-							box: type === 'supplier' ? { id: vm.transaction.box.value } : null,
-							invoiceNumber: vm.transaction.invoiceNumber
-						};
-			
-						fetch(serviceURL + '/transactions/' + endPoint, {
-							method: 'POST',
-							headers: {
-								'Accept': 'application/json',
-								'Content-Type': 'application/json'
-							},
-							body: JSON.stringify(data)
-						})
-						.then(response => {
-							return response.text().then(message => ({ status: response.status, message })); 
-						})
-						.then(({ status, message }) => {
-							mui.busy(false);
-							if (status === 200) {
-								console.log(message);
-								me.showMessage(message);
-							} else {
-								me.showMessage(message);
-							}
-						})
-						.catch(error => {
-							mui.busy(false);
-							
-						});
+					if(type === 'unit') {
+						var boxUnitTransactions = vm.transaction.unitsBoxes.map(boxUnit => ({
+							box: { id: boxUnit.box },
+							amount: boxUnit.amount
+						}));
 					}
+
+					var data = {
+						settlementMonth: { id: vm.transaction.monthLiquidation.value },
+						totalAmount: vm.transaction.amount,
+						description: vm.transaction.observation,
+						unit: type === 'unit' ? { id: vm.transaction.unit.value } : null,
+						transactionType: type,
+						date: date,
+						building: { id: vm.building.value },
+						boxUnitTransactions: boxUnitTransactions,
+						supplier: type === 'supplier' ? { id: vm.transaction.supplier.value } : null,
+						box: type === 'supplier' ? { id: vm.transaction.box.value } : null,
+						invoiceNumber: vm.transaction.invoiceNumber
+					};
+		
+					fetch(serviceURL + '/transactions/' + endPoint, {
+						method: 'POST',
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(data)
+					})
+					.then(response => {
+						return response.text().then(message => ({ status: response.status, message })); 
+					})
+					.then(({ status, message }) => {
+						mui.busy(false);
+						if (status === 200) {
+							console.log(message);
+							me.showMessage(message);
+						} else {
+							me.showMessage(message);
+						}
+					})
+					.catch(error => {
+						mui.busy(false);
+						
+					});
+				}
 			}
 		},
 		volverPagina: function(){
@@ -283,6 +326,9 @@ var vm = new Vue({
 		},
 		goLogaut: function(){
 
+		},
+		showFormNewSupplier: function(){
+			this.openModal('form-new-supplier-modal');
 		},
 		showMessage: function(message) {
 			vm.messageModal.title = 'Administracion Juncal';

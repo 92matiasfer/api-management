@@ -279,6 +279,24 @@
 									<div class="card-option-aux">
 										<div class="div-title-card-aux align-v">
 											<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;">
+												local_shipping
+											</div>
+											<h4 class="title-card">Proveedores</h4>
+										</div>
+										<div class=card-contenido>
+											<p style="min-height: 43%;">Detalle de los proveedores vinculados al Edificio</p>
+										</div>
+										<div class="button-card" style="cursor: pointer;">
+											<ui-button 
+												color="primary" 
+												@click=""
+												>Ingresar
+											</ui-button>
+										</div>
+									</div>
+									<div class="card-option-aux">
+										<div class="div-title-card-aux align-v">
+											<div class="material-icons" style="float: left; color: white; margin-right: 10px; border-radius: 11px;">
 												notification_important
 											</div>
 											<h4 class="title-card">Notificaciones</h4>
@@ -420,7 +438,7 @@
 														icon="add"
 														color="primary"
 														type="secondary" 
-														@click="">
+														@click="showFormNewSupplier">
 													</ui-icon-button>
 												</div>
 												<ui-select
@@ -472,8 +490,6 @@
 					                </ui-tab>
 					            </ui-tabs>
 							</div>
-							
-							
 							<div id="units-list-page" class="mui-page mui-scrollable">
 								<div slot="header">
 									<h3>Unidades</h3>
@@ -540,6 +556,93 @@
 									</div>
 								</div>
 							</div>
+							<div id="list-payment-page" class="mui-page mui-scrollable">
+								<div slot="header">
+									<h3>Pagos</h3>
+								</div>
+								<fieldset class="fieldset-form-ingreso" style="margin-bottom: 20px;">
+									<div style="margin-top: 25px;">
+										<!-- <div v-if="usuario.rol=='Administrador'" class="form-dos"> -->
+										<div class="form-dos">	
+											<div class="col-md-6">													
+												 <ui-select
+													label="Edificio"
+													:options="buildings"
+													@select=""
+													v-model="transactionFilters.building"  
+												></ui-select>
+											</div>
+											<div class="col-md-6">	
+												<ui-select
+													label="Unidad"
+													:disabled="transactionFilters.building.value==0 || transactionFilters.transactionType.value==2"
+													:options="units"
+													v-model="transactionFilters.unit"  
+												></ui-select>
+											</div>
+										</div>
+										<div class="form-dos">	
+											<div class="col-md-6">	
+												<ui-select
+													label="Tipo de pago"
+													:options="transactionTypes"
+													v-model="transactionFilters.transactionType"  
+												></ui-select>
+											</div>
+											<div class="col-md-6">	
+												<ui-select
+													label="Proveedor"
+													:disabled="transactionFilters.transactionType.value==1"
+													:options="suppliers"
+													v-model="transactionFilters.supplier"  
+												></ui-select>
+											</div>
+										</div>
+										<div class="form-dos">	
+											<div class="col-md-6">	
+												 <ui-datepicker
+													orientation="landscape"
+													:lang="calendar"
+													picker-type="modal"
+													v-model="transactionFilters.dateStart"
+													>Fecha Inicio
+												</ui-datepicker>
+											</div>
+											<div class="col-md-6">	
+												 <ui-datepicker
+													orientation="landscape"
+													:lang="calendar"
+													picker-type="modal"
+													v-model="transactionFilters.dateEnd"
+													>Fecha Fin
+												</ui-datepicker>
+											</div>
+										</div>
+										<div v-if="transactionFilters.transactionType.value==1">
+											<ui-checkbox 
+												v-model="transactionFilters.enRedCobranza">
+												Pagos realizados en RedPagos
+											</ui-checkbox>
+											<ui-checkbox 
+												v-model="transactionFilters.enRedCobranza">
+												Pagos realizados en Abitab
+											</ui-checkbox>
+										</div>
+										<div align="right" class="button-m">
+											 <ui-button 
+												class="button-texto-blanco"
+												@click=""
+												>Restablecer
+											</ui-button>
+											 <ui-button 
+												color="primary" 
+												@click=""
+												>Buscar
+											</ui-button>
+										</div>
+									</div>
+								</fieldset>
+							</div>	
 							
 							
 							
@@ -558,6 +661,48 @@
 	                </ui-button>
 	           </div>
 	     	</ui-modal>
+			<ui-modal ref="form-new-supplier-modal" size="normal" title="Ingreso de nuevo Proveedor" align-top> 
+				<ui-textbox
+					label="Nombre"
+					v-model="newSupplier.name"
+				></ui-textbox>
+				<ui-textbox
+					label="Descripción"
+					v-model="newSupplier.description"
+				></ui-textbox>
+				<ui-textbox
+					label="Dirección"
+					v-model="newSupplier.address"
+				></ui-textbox>
+				<ui-textbox
+					label="Teléfono"
+					v-model="newSupplier.phone"
+				></ui-textbox>
+				<ui-textbox
+					label="RUT"
+					v-model="newSupplier.rut"
+				></ui-textbox>
+				<ui-textbox
+					label="Email"
+					v-model="newSupplier.email"
+				></ui-textbox>
+				<ui-textbox
+					label="Observaciones"
+					v-model="newSupplier.observation"
+				></ui-textbox>
+				<div slot="footer" class="button-m" align="right">
+	                <ui-button 
+	                	@click="saveNewSupplier"
+	                	color="primary"
+	                	>Guardar
+	                </ui-button>
+	                <ui-button 
+	                	@click="closeModal('form-new-supplier-modal')"
+	                	color="primary"
+	                	>Cancelar
+	                </ui-button>
+	           </div>			
+			</ui-modal>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

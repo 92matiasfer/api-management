@@ -17,6 +17,8 @@ public enum Errores implements ErroresInterface {
 	ERROR_SAVE_PERSON(1, "1", "La Persona no se ha podido guardar correctamente", HttpStatus.INTERNAL_SERVER_ERROR),
 	ERROR_SAVE_SETTLEMENT_MONTH(1, "1", "El Mes Liquidacion no se ha podido guardar correctamente", HttpStatus.INTERNAL_SERVER_ERROR),
 	
+	SUPPLIER_ALREADY_EXISTS(1, "1", "El Proveedor ya existe", HttpStatus.BAD_REQUEST),
+
 	ERROR_UPDATE_TRANSACTION(1, "1", "La Transaccion no se ha podido modificar correctamente", HttpStatus.INTERNAL_SERVER_ERROR),
 	ERROR_UPDATE_BOX(1, "1", "La Caja no se ha podido modificar correctamente", HttpStatus.INTERNAL_SERVER_ERROR),
 	ERROR_UPDATE_UNIT(1, "1", "La Unidad no se ha podido modificar correctamente", HttpStatus.INTERNAL_SERVER_ERROR),

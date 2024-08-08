@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +24,7 @@ import javax.persistence.Transient;
 
 @Entity(name = "building")
 @Table(name = "building", schema = "juncal_management")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Building {
 
 	@Id
@@ -45,20 +48,14 @@ public class Building {
 	@OneToMany(mappedBy = "building")
 	private List<SettlementMonth> settlementMonths;
 
-	@ManyToMany
-    @JoinTable(
-        name = "building_supplier",
-        joinColumns = @JoinColumn(name = "id_building"),
-        inverseJoinColumns = @JoinColumn(name = "id_supplier")
-    )
+	@ManyToMany(mappedBy = "buildings")
     private Set<Supplier> suppliers = new HashSet<>();
 
-	
-	
 	@Transient
 	private int value;
 	@Transient
 	private String label;
+
 	
 	
 	public int getId() {

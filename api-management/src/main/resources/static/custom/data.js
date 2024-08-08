@@ -120,6 +120,15 @@ var globalDataVue = {
 		rol: '',
 		logueado: false
 	},
+	newSupplier: {
+		name: '',
+		description: '',
+		phone: '',
+		email: '',
+		address: '',
+		rut: '',
+		observation: ''
+	},
 	 accordions: {
          0: true,
          1: false,
@@ -151,10 +160,40 @@ var globalDataVue = {
 			]
 		}
 	],
+	transactionFilters:{
+		building: {
+			id: 0,
+			units: [],
+			value: 0
+		},
+		supplier:{
+			value: 0
+		},
+		transactionType: {
+			label: 'Copropietario',
+			value: 1
+		},
+		dateStart: null,
+		dateEnd: null,
+		unit: {
+			value: 0
+		},
+		enRedCobranza: false
+	},
 	messageModal: {
 		title: '',
 		message: ''
 	},
+	transactionTypes: [
+		{
+			label: 'Copropietario',
+			value: 1,
+		},
+		{
+			label: 'Proveedor',
+			value: 2
+		}
+	],
 	anios: [
 		{
 			label: '2019',
