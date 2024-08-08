@@ -34,8 +34,8 @@ public class SupplierService implements ISupplierService {
 	}
 
 	@Override
-	public void saveSupplier(Supplier supplier) throws ValidationException {
-		if(repository.save(supplier) == null) throw new ValidationException(Errores.ERROR_SAVE_SUPPLIER);
+	public Supplier saveSupplier(Supplier supplier) throws ValidationException {
+		return repository.save(supplier);
 	}
 	
 	@Override

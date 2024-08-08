@@ -53,9 +53,33 @@ public class ValidationUtil {
 		return json.toString();
 	}
 	
-	
+	/**
+	 * Normaliza y retorna el valor ingresado por el usuario
+	 * 
+	 * @param optional
+	 * @return
+	 */
 	public String normalizeInput(Optional<String> optional) {
-		return optional.orElse("");
+		String param = optional.orElse("");
+		return normalizeInput(param);
+	}
+	
+	/**
+	 * Normaliza y retorna el valor ingresado por el usuario
+	 * 
+	 * @param param
+	 * @return
+	 */
+	public String normalizeInput(String param) {
+		if (!StringUtils.isBlank(param)) {
+			param = param.toUpperCase();
+			param = param.replace("Á", "A");
+			param = param.replace("É", "E");
+			param = param.replace("Í", "I");
+			param = param.replace("Ó", "O");
+			param = param.replace("Ú", "U");
+		}
+		return param;
 	}
 
 	

@@ -74,8 +74,8 @@ public class ApiManagementImp implements IApiManagementImp {
 		return repository.getBuildings();
 	}
 
-	public void saveBuilding(Building building) throws ValidationException {
-		buildingService.saveBuilding(building);
+	public Building saveBuilding(Building building) throws ValidationException {
+		return buildingService.saveBuilding(building);
 	}
 	
 	public void updateBuilding(Building building) throws ValidationException {
@@ -156,13 +156,14 @@ public class ApiManagementImp implements IApiManagementImp {
 		return supplierService.getSuppliers(name);
 	}
 
-	public void saveSupplier(Supplier supplier) throws ValidationException {
-		supplierService.saveSupplier(supplier);
+	public Supplier saveSupplier(Supplier supplier) throws ValidationException {
+		return supplierService.saveSupplier(supplier);
 	}
 
 	public void updateSupplier(Supplier supplier) throws ValidationException {
 		supplierService.updateSupplier(supplier);
 	}
+	
 	public void deleteSupplier(Supplier supplier) throws ValidationException {
 		supplierService.deleteSupplier(supplier);
 	}

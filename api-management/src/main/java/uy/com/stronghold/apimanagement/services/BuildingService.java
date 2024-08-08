@@ -32,8 +32,8 @@ public class BuildingService implements IBuildingService {
 	}
 
 	@Override
-	public void saveBuilding(Building building) throws ValidationException {
-		if(repository.save(building) == null) throw new ValidationException(Errores.ERROR_SAVE_BUILDING);
+	public Building saveBuilding(Building building) throws ValidationException {
+		return repository.save(building);
 	}
 	
 	@Override

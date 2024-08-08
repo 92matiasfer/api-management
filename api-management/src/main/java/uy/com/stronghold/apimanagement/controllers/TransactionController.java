@@ -155,6 +155,4 @@ public class TransactionController implements ITransactionController {
 		return new ResponseEntity<Object>("La Transacción ha sido eliminada correctamente", HttpStatus.OK);
 	}
 
-	
-
 }

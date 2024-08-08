@@ -14,7 +14,7 @@ public interface ISupplierService {
 
 	List<Supplier> getSuppliers(String name) throws ValidationException;
 
-	void saveSupplier(Supplier supplier) throws ValidationException;
+	Supplier saveSupplier(Supplier supplier) throws ValidationException;
 
 	void updateSupplier(Supplier supplier) throws ValidationException;
 	
